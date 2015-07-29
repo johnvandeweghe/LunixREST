@@ -1,0 +1,14 @@
+{
+    "name": "john/lunixrest",
+    "description": "A lightweight REST server",
+    "require-dev": {
+        "phpunit/phpunit": "^4.7"
+    },
+    "authors": [
+        {
+            "name": "John VanDeWeghe",
+            "email": "vandeweghe@lunixlabs.com"
+        }
+    ],
+    "require": {}
+}
