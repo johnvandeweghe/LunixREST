@@ -1,6 +1,8 @@
-LunixREST is a lightweight framework for writing REST APIs in PHP.
+LunixREST is an extensible, lightweight framework for writing REST APIs in PHP.
 
-Planned features are:
+Features include:
 - API key access control
 - Routing to endpoints
 - API versioning
+
+See /examples/ folder for some solid examples on how to implement LunixREST
