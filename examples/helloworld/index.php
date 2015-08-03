@@ -12,13 +12,13 @@ try {
 	$router = new \LunixREST\Router\Router($request, $accessControl, $outputConfig, $formatsConfig, "Sample");
 	echo $router->handle();
 } catch(\LunixREST\Exceptions\UnknownEndPointException $e){
-	echo "404";
+	header('404 Not Found', 404);
 } catch(\LunixREST\Exceptions\UnknownResponseFormatException $e){
-	echo "404";
+	header('404 Not Found', 404);
 } catch(\LunixREST\Exceptions\AccessDeniedException $e){
-	echo "403";
+	header('403 Access Denied', 403);
 } catch(\LunixREST\Exceptions\InvalidResponseFormatException $e){
-	echo "500";
+	header('500 Internal Server Error', 500);
 } catch(Exception $e){
-	echo "500";
+	header('500 Internal Server Error', 500);
 }
