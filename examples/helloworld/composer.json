@@ -1,0 +1,15 @@
+{
+    "name": "john/lunixrestsample",
+    "authors": [
+        {
+            "name": "John VanDeWeghe",
+            "email": "vandeweghe@lunixlabs.com"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		"psr-4": {
+			"": "..\\..\\..\\"
+		}
+	}	
+}
