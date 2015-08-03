@@ -3,16 +3,55 @@ namespace LunixREST\EndPoints;
 
 use LunixREST\Request\Request;
 
+/**
+ * Class EndPoint
+ * @package LunixREST\EndPoints
+ */
 abstract class EndPoint {
+    /**
+     * @var Request
+     */
     protected $request;
 
+    /**
+     * @param Request $request
+     */
     public function __construct(Request $request){
         $this->request = $request;
     }
 
-    public abstract function get($instance);
-    public abstract function post($instance);
-    public abstract function put($instance);
-    public abstract function options($instance);
-    public abstract function delete($instance);
+    /**
+     * @param $instance
+     * @param $data
+     * @return array
+     */
+    public abstract function get($instance, $data);
+
+    /**
+     * @param $instance
+     * @param $data
+     * @return array
+     */
+    public abstract function post($instance, $data);
+
+    /**
+     * @param $instance
+     * @param $data
+     * @return array
+     */
+    public abstract function put($instance, $data);
+
+    /**
+     * @param $instance
+     * @param $data
+     * @return array
+     */
+    public abstract function options($instance, $data);
+
+    /**
+     * @param $instance
+     * @param $data
+     * @return array
+     */
+    public abstract function delete($instance, $data);
 }

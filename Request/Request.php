@@ -2,20 +2,55 @@
 namespace LunixREST\Request;
 use LunixREST\Exceptions\InvalidRequestFormatException;
 
+/**
+ * Class Request
+ * @package LunixREST\Request
+ */
 class Request {
+    /**
+     * @var string
+     */
     protected $method;
+    /**
+     * @var array
+     */
     protected $headers;
+    /**
+     * @var string
+     */
     protected $version;
+    /**
+     * @var string
+     */
     protected $apiKey;
+    /**
+     * @var string
+     */
     protected $endPoint;
+    /**
+     * @var string
+     */
     protected $instance;
+    /**
+     * @var string
+     */
     protected $extension;
+    /**
+     * @var array
+     */
     protected $data;
 
-    public function __construct($method, array $headers, $url, $data){
+    /**
+     * @param $method
+     * @param array $headers
+     * @param $url
+     * @param $data
+     * @throws InvalidRequestFormatException
+     */
+    public function __construct($method, array $headers, $url, array $data){
         $this->method = $method;
 
-        $splitURL = explode('/', $url);
+        $splitURL = explode('/', trim($url, '/'));
         if(count($splitURL) < 3){
             throw new InvalidRequestFormatException();
         }
@@ -24,10 +59,13 @@ class Request {
         $this->apiKey = $splitURL[1];
         $this->endPoint = $splitURL[2];
 
+        $splitExtension = explode('.', $splitURL[count($splitURL) - 1]);
+        $this->extension = array_pop($splitExtension);
+
         if(count($splitURL) == 4){
-            $splitExtension = explode('.', $splitURL[count($splitURL) - 1]);
-            $this->extension = array_pop($splitExtension);
             $this->instance = implode('.', $splitExtension);
+        } else {
+            $this->endPoint = implode('.', $splitExtension);
         }
 
         $this->headers = $headers;
@@ -35,7 +73,7 @@ class Request {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getMethod()
     {
@@ -51,7 +89,7 @@ class Request {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getVersion()
     {
@@ -59,7 +97,7 @@ class Request {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getApiKey()
     {
@@ -67,7 +105,7 @@ class Request {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEndPoint()
     {
@@ -83,7 +121,7 @@ class Request {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getExtension()
     {
@@ -91,7 +129,7 @@ class Request {
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getData()
     {

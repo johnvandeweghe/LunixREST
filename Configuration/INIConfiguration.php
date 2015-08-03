@@ -3,30 +3,58 @@ namespace LunixREST\Configuration;
 
 use LunixREST\Exceptions\INIParseException;
 
-abstract class INIConfiguration implements Configuration {
+/**
+ * Class INIConfiguration
+ * @package LunixREST\Configuration
+ */
+class INIConfiguration implements Configuration {
+	/**
+	 * @var null
+     */
 	protected $nameSpace;
+	/**
+	 * @var
+     */
+	protected $filename;
 
-	public function __construct($nameSpace){
+	/**
+	 * @param string $filename
+	 * @param string $nameSpace
+     */
+	public function __construct($filename, $nameSpace = null){
+		$this->filename = $filename;
 		$this->nameSpace = $nameSpace;
 	}
-	
+
+	/**
+	 * @param $key
+	 * @return mixed
+	 * @throws INIParseException
+     */
 	public function get($key){
-		$config = parse_ini_file($this->getFilePath());
+		$config = parse_ini_file($this->filename);
 
 		if(!$config){
-			throw new INIParseException('Could not parse: ' . $this->getFilePath(), true);
+			throw new INIParseException('Could not parse: ' . $this->filename, true);
 		}
 
 		if($this->nameSpace) {
+			if(!isset($config[$this->nameSpace][$key])){
+				return null;
+			}
 			return $config[$this->nameSpace][$key];
 		} else {
+			if(!isset($config[$key])){
+				return null;
+			}
 			return $config[$key];
 		}
 	}
-	
+
+	/**
+	 * @param $key
+     */
 	public function set($key){
 		//TODO write this
 	}
-
-	abstract protected function getFilePath();
 }
