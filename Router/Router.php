@@ -56,8 +56,8 @@ class Router {
 
     private function validateEndpoint()
     {
-        //TODO: Properly check the endpoint is something this version can do
-        return true;
+        $formats = $this->formatsConfig->get('endpoints_' . str_replace('.', '_', $this->request->getVersion()));
+        return $formats && in_array($this->request->getEndpoint(), $formats);
     }
 
     private function APIKeyAccessible($apiKey, $endPoint, $method, $instance){
@@ -67,6 +67,6 @@ class Router {
     private function validateExtension()
     {
         $formats = $this->formatsConfig->get('formats');
-        return in_array($this->request->getExtension(), $formats);
+        return $formats && in_array($this->request->getExtension(), $formats);
     }
 }
