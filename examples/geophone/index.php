@@ -3,13 +3,14 @@ require("vendor/autoload.php");
 
 require("phonenumber.php");
 
-$accessControl = new \LunixREST\AccessControl\PublicAccessControl();
+$accessControl = new \LunixREST\AccessControl\AllAccessINIAccessControl("config/api_keys.ini");
+$throttle = new \LunixREST\Throttle\APIKeySQLLiteThrottle('throttle.sqllite', 3);
 $outputConfig = new \LunixREST\Configuration\INIConfiguration("config/output.ini");
 $formatsConfig = new \LunixREST\Configuration\INIConfiguration("config/formats.ini");
-$router = new \LunixREST\Router\Router($accessControl, $outputConfig, $formatsConfig, "Sample");
+$router = new \LunixREST\Router\Router($accessControl, $throttle, $outputConfig, $formatsConfig, "Sample");
 
 try {
-	$request = new \LunixREST\Request\Request("GET", [], [], "/1.0/public/phonenumber/6517855237.json");//new \LunixREST\Request\Request($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REQUEST_URI']);
+	$request = new \LunixREST\Request\Request("GET", [], [], '127.0.0.1',  "/1.0/123456/phonenumber/6517855237.json");//new \LunixREST\Request\Request($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_URI']);
 
 	try {
 		echo $router->handle($request);
@@ -23,6 +24,8 @@ try {
 		header('404 Not Found', 404);
 	} catch(\LunixREST\Exceptions\AccessDeniedException $e){
 		header('403 Access Denied', 403);
+	} catch(\LunixREST\Exceptions\ThrottleLimitExceededException $e){
+		header('429 Too Many Requests', 429);
 	} catch(\LunixREST\Exceptions\InvalidResponseFormatException $e){
 		header('500 Internal Server Error', 500);
 	} catch(Exception $e){

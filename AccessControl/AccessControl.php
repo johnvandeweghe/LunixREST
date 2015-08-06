@@ -13,5 +13,7 @@ interface AccessControl {
      * @param $instance
      * @return bool
      */
-    public function validate($apiKey, $endPoint, $method, $instance);
+    public function validateAccess($apiKey, $endPoint, $method, $instance);
+
+    public function validateKey($apiKey);
 }

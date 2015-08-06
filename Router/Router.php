@@ -4,25 +4,34 @@ namespace LunixREST\Router;
 use LunixREST\AccessControl\AccessControl;
 use LunixREST\Configuration\Configuration;
 use LunixREST\Exceptions\AccessDeniedException;
+use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\InvalidResponseFormatException;
+use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Exceptions\UnknownEndPointException;
 use LunixREST\Exceptions\UnknownResponseFormatException;
 use LunixREST\Request\Request;
+use LunixREST\Throttle\Throttle;
 
 class Router {
-    protected $endPointNamespace;
     protected $accessControl;
+    protected $throttle;
     protected $outputConfig;
     protected $formatsConfig;
+    protected $endPointNamespace;
 
-    public function __construct(AccessControl $accessControl,  Configuration $outputConfig, Configuration $formatsConfig, $endPointNamespace = ''){
-        $this->endPointNamespace = $endPointNamespace;
+    public function __construct(AccessControl $accessControl, Throttle $throttle, Configuration $outputConfig, Configuration $formatsConfig, $endPointNamespace = ''){
         $this->accessControl = $accessControl;
+        $this->throttle = $throttle;
         $this->outputConfig = $outputConfig;
         $this->formatsConfig = $formatsConfig;
+        $this->endPointNamespace = $endPointNamespace;
     }
 
     public function handle(Request $request){
+        if(!$this->accessControl->validateKey($request->getApiKey())){
+            throw new InvalidAPIKeyException('Invalid API key');
+        }
+
         if(!$this->validateExtension($request)){
             throw new UnknownResponseFormatException('Unknown response format: ' .$request->getExtension());
         }
@@ -36,7 +45,11 @@ class Router {
             throw new UnknownEndPointException("unknown endpoint: " . $fullEndPoint);
         }
 
-        if(!$this->APIKeyAccessible($request->getApiKey(), $request->getEndPoint(), $request->getMethod(), $request->getInstance())){
+        if($this->throttle->throttle($request->getApiKey(), $request->getEndPoint(), $request->getMethod())){
+            throw new ThrottleLimitExceededException('Request limit exceeded');
+        }
+
+        if(!$this->accessControl->validateAccess($request->getApiKey(), $request->getEndPoint(), $request->getMethod(), $request->getInstance())){
             throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
         }
 
@@ -65,10 +78,6 @@ class Router {
     {
         $formats = $this->formatsConfig->get('endpoints_' . str_replace('.', '_', $request->getVersion()));
         return $formats && in_array($request->getEndpoint(), $formats);
-    }
-
-    private function APIKeyAccessible($apiKey, $endPoint, $method, $instance){
-        return $this->accessControl->validate($apiKey, $endPoint, $method, $instance);
     }
 
     private function validateExtension(Request $request)

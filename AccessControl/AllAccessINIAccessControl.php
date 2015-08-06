@@ -28,7 +28,11 @@ class AllAccessINIAccessControl implements AccessControl {
      * @return bool
      * @throws \LunixREST\Exceptions\INIParseException
      */
-    public function validate($apiKey, $endPoint, $method, $instance){
+    public function validateAccess($apiKey, $endPoint, $method, $instance){
+        return $this->validateKey($apiKey);
+    }
+
+    public function validateKey($apiKey){
         $keyConfig = new INIConfiguration($this->filename);
         return in_array($apiKey, $keyConfig->get('keys'));
     }

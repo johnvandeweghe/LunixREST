@@ -6,11 +6,13 @@ namespace LunixREST\AccessControl;
  * @package LunixREST\AccessControl
  */
 class PublicAccessControl implements AccessControl {
+    protected $publicKey;
+
     /**
      *
      */
-    public function __construct(){
-
+    public function __construct($publicKey = 'public'){
+        $this->publicKey = $publicKey;
     }
 
     /**
@@ -20,7 +22,11 @@ class PublicAccessControl implements AccessControl {
      * @param $instance
      * @return bool
      */
-    public function validate($apiKey, $endPoint, $method, $instance){
-        return true;
+    public function validateAccess($apiKey, $endPoint, $method, $instance){
+        return $this->validateKey($apiKey);
+    }
+
+    public function validateKey($apiKey){
+        return $apiKey === $this->publicKey;
     }
 }

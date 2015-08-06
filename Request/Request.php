@@ -46,6 +46,7 @@ class Request {
      * @param $method
      * @param array $headers
      * @param array $data
+     * @param $ip
      * @param string|false $url
      * @param string $version
      * @param string $apiKey
@@ -53,10 +54,11 @@ class Request {
      * @param string $instance
      * @throws InvalidRequestFormatException
      */
-    public function __construct($method, array $headers, array $data, $url, $version = '', $apiKey = '', $endPoint = '', $instance = ''){
+    public function __construct($method, array $headers, array $data, $ip, $url, $version = '', $apiKey = '', $endPoint = '', $instance = ''){
         $this->method = strtolower($method);
         $this->headers = $headers;
         $this->data = $data;
+        $this->ip = $ip;
 
         if($version && $apiKey && $endPoint && $instance){
             $this->version = $version;
