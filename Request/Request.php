@@ -48,7 +48,7 @@ class Request {
      * @throws InvalidRequestFormatException
      */
     public function __construct($method, array $headers, $url, array $data){
-        $this->method = $method;
+        $this->method = strtolower($method);
 
         $splitURL = explode('/', trim($url, '/'));
         if(count($splitURL) < 3){
@@ -66,6 +66,7 @@ class Request {
             $this->instance = implode('.', $splitExtension);
         } else {
             $this->endPoint = implode('.', $splitExtension);
+            $this->method .= 'All';
         }
 
         $this->headers = $headers;

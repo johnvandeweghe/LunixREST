@@ -28,7 +28,7 @@ class Router {
         }
 
         $fullEndPoint = '\\' . $this->endPointNamespace . '\EndPoints\\' . $request->getEndPoint();
-        if(!class_exists($fullEndPoint)){
+        if(!class_exists($fullEndPoint) || !is_subclass_of($fullEndPoint, '\LunixREST\EndPoints\EndPoint')){
             throw new UnknownEndPointException("unknown endpoint: " . $fullEndPoint);
         }
 
@@ -41,7 +41,16 @@ class Router {
         }
 
         $endPoint = new $fullEndPoint($request);
-        $responseData = $endPoint->{$request->getMethod()}($request->getInstance(), $request->getData());
+        if($request->getInstance()) {
+            $args = [$request->getInstance(), $request->getData()];
+        } else {
+            $args = [$request->getData()];
+        }
+        $responseData = call_user_func_array([$endPoint, $request->getMethod()], $args);
+
+        if(!is_array($responseData)){
+            throw new InvalidResponseFormatException('Method output MUST be an array');
+        }
 
         $responseClass = '\\LunixREST\\Response\\' . strtoupper($request->getExtension()) . "Response";
         $format = new $responseClass($responseData);

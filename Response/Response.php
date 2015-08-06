@@ -34,7 +34,7 @@ abstract class Response {
      * @return bool
      */
     public function validate(Configuration $outputConfig, $method, $endPoint, $version){
-        $format = $outputConfig->get(strtolower($method) . '_' . $endPoint . '_' . str_replace(".", "_", $version));
+        $format = $outputConfig->get($method . '_' . $endPoint . '_' . str_replace(".", "_", $version));
 
         if(count($this->data) != count($format)){
             return false;
