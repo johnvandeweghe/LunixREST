@@ -41,36 +41,35 @@ class Request {
     protected $data;
 
     /**
+     * Create a request. Pass Either a URL to parse or the parsed parts.
+     * If both are passed the explicitly stated parts will be used.
      * @param $method
      * @param array $headers
-     * @param $url
-     * @param $data
+     * @param array $data
+     * @param string|false $url
+     * @param string $version
+     * @param string $apiKey
+     * @param string $endPoint
+     * @param string $instance
      * @throws InvalidRequestFormatException
      */
-    public function __construct($method, array $headers, $url, array $data){
+    public function __construct($method, array $headers, array $data, $url, $version = '', $apiKey = '', $endPoint = '', $instance = ''){
         $this->method = strtolower($method);
-
-        $splitURL = explode('/', trim($url, '/'));
-        if(count($splitURL) < 3){
-            throw new InvalidRequestFormatException();
-        }
-        //Find endpoint
-        $this->version = $splitURL[0];
-        $this->apiKey = $splitURL[1];
-        $this->endPoint = $splitURL[2];
-
-        $splitExtension = explode('.', $splitURL[count($splitURL) - 1]);
-        $this->extension = array_pop($splitExtension);
-
-        if(count($splitURL) == 4){
-            $this->instance = implode('.', $splitExtension);
-        } else {
-            $this->endPoint = implode('.', $splitExtension);
-            $this->method .= 'All';
-        }
-
         $this->headers = $headers;
         $this->data = $data;
+
+        if($version && $apiKey && $endPoint && $instance){
+            $this->version = $version;
+            $this->apiKey = $apiKey;
+            $this->endPoint = $endPoint;
+            $this->instance = $instance;
+        } else {
+            if(!$url){
+                throw new InvalidRequestFormatException('Either URL or the rest of the parameters MUST be set');
+            } else {
+                $this->parseURL($url);
+            }
+        }
     }
 
     /**
@@ -135,5 +134,30 @@ class Request {
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @param $url
+     * @throws InvalidRequestFormatException
+     */
+    private function parseURL($url){
+        $splitURL = explode('/', trim($url, '/'));
+        if(count($splitURL) < 3){
+            throw new InvalidRequestFormatException();
+        }
+        //Find endpoint
+        $this->version = $splitURL[0];
+        $this->apiKey = $splitURL[1];
+        $this->endPoint = $splitURL[2];
+
+        $splitExtension = explode('.', $splitURL[count($splitURL) - 1]);
+        $this->extension = array_pop($splitExtension);
+
+        if(count($splitURL) == 4){
+            $this->instance = implode('.', $splitExtension);
+        } else {
+            $this->endPoint = implode('.', $splitExtension);
+            $this->method .= 'All';
+        }
     }
 }

@@ -1,15 +1,15 @@
 <?php
 require("vendor/autoload.php");
 
-require("helloworld.php");
+require("phonenumber.php");
 
-$accessControl = new \LunixREST\AccessControl\AllAccessINIAccessControl("config/api_keys.ini");
+$accessControl = new \LunixREST\AccessControl\PublicAccessControl();
 $outputConfig = new \LunixREST\Configuration\INIConfiguration("config/output.ini");
 $formatsConfig = new \LunixREST\Configuration\INIConfiguration("config/formats.ini");
 $router = new \LunixREST\Router\Router($accessControl, $outputConfig, $formatsConfig, "Sample");
 
 try {
-	$request = new \LunixREST\Request\Request("GET", [], [], "/1.0/123456/helloworld.json");//new \LunixREST\Request\Request($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REQUEST_URI']);
+	$request = new \LunixREST\Request\Request("GET", [], [], "/1.0/public/phonenumber/6517855237.json");//new \LunixREST\Request\Request($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REQUEST_URI']);
 
 	try {
 		echo $router->handle($request);
@@ -18,6 +18,8 @@ try {
 	} catch(\LunixREST\Exceptions\UnknownEndPointException $e){
 		header('404 Not Found', 404);
 	} catch(\LunixREST\Exceptions\UnknownResponseFormatException $e){
+		header('404 Not Found', 404);
+	} catch(\LunixREST\Exceptions\InstanceNotFoundException $e){
 		header('404 Not Found', 404);
 	} catch(\LunixREST\Exceptions\AccessDeniedException $e){
 		header('403 Access Denied', 403);
