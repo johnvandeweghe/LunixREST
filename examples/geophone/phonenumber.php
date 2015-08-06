@@ -1,8 +1,6 @@
 <?php
 namespace Sample\EndPoints;
 
-use LunixREST\Exceptions\InstanceNotFoundException;
-
 class phonenumber extends \LunixREST\EndPoints\EndPoint {
 
     public function get($phoneNumber, $data){
