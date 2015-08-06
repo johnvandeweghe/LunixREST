@@ -4,6 +4,7 @@ Features include:
 - API key access control
 - Routing to endpoints
 - API versioning
+- API Access throttling
 
 See /examples/ folder for some solid examples on how to implement LunixREST
 

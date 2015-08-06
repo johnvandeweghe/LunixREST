@@ -12,13 +12,39 @@ use LunixREST\Exceptions\UnknownResponseFormatException;
 use LunixREST\Request\Request;
 use LunixREST\Throttle\Throttle;
 
+/**
+ * Class Router
+ * @package LunixREST\Router
+ */
 class Router {
+    /**
+     * @var AccessControl
+     */
     protected $accessControl;
+    /**
+     * @var Throttle
+     */
     protected $throttle;
+    /**
+     * @var Configuration
+     */
     protected $outputConfig;
+    /**
+     * @var Configuration
+     */
     protected $formatsConfig;
+    /**
+     * @var string
+     */
     protected $endPointNamespace;
 
+    /**
+     * @param AccessControl $accessControl
+     * @param Throttle $throttle
+     * @param Configuration $outputConfig
+     * @param Configuration $formatsConfig
+     * @param string $endPointNamespace
+     */
     public function __construct(AccessControl $accessControl, Throttle $throttle, Configuration $outputConfig, Configuration $formatsConfig, $endPointNamespace = ''){
         $this->accessControl = $accessControl;
         $this->throttle = $throttle;
@@ -27,6 +53,16 @@ class Router {
         $this->endPointNamespace = $endPointNamespace;
     }
 
+    /**
+     * @param Request $request
+     * @return string
+     * @throws AccessDeniedException
+     * @throws InvalidAPIKeyException
+     * @throws InvalidResponseFormatException
+     * @throws ThrottleLimitExceededException
+     * @throws UnknownEndPointException
+     * @throws UnknownResponseFormatException
+     */
     public function handle(Request $request){
         if(!$this->accessControl->validateKey($request->getApiKey())){
             throw new InvalidAPIKeyException('Invalid API key');
@@ -74,12 +110,20 @@ class Router {
         return $format->output();
     }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
     private function validateEndpoint(Request $request)
     {
         $formats = $this->formatsConfig->get('endpoints_' . str_replace('.', '_', $request->getVersion()));
         return $formats && in_array($request->getEndpoint(), $formats);
     }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
     private function validateExtension(Request $request)
     {
         $formats = $this->formatsConfig->get('formats');
