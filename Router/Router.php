@@ -45,7 +45,7 @@ class Router {
             throw new UnknownEndPointException("unknown endpoint: " . $fullEndPoint);
         }
 
-        if($this->throttle->throttle($request->getApiKey(), $request->getEndPoint(), $request->getMethod())){
+        if($this->throttle->throttle($request->getApiKey(), $request->getEndPoint(), $request->getMethod(), $request->getIp())){
             throw new ThrottleLimitExceededException('Request limit exceeded');
         }
 
@@ -84,5 +84,45 @@ class Router {
     {
         $formats = $this->formatsConfig->get('formats');
         return $formats && in_array($request->getExtension(), $formats);
+    }
+
+    /**
+     * @param AccessControl $accessControl
+     */
+    public function setAccessControl(AccessControl $accessControl)
+    {
+        $this->accessControl = $accessControl;
+    }
+
+    /**
+     * @param Throttle $throttle
+     */
+    public function setThrottle(Throttle $throttle)
+    {
+        $this->throttle = $throttle;
+    }
+
+    /**
+     * @param Configuration $outputConfig
+     */
+    public function setOutputConfig(Configuration $outputConfig)
+    {
+        $this->outputConfig = $outputConfig;
+    }
+
+    /**
+     * @param Configuration $formatsConfig
+     */
+    public function setFormatsConfig(Configuration $formatsConfig)
+    {
+        $this->formatsConfig = $formatsConfig;
+    }
+
+    /**
+     * @param string $endPointNamespace
+     */
+    public function setEndPointNamespace($endPointNamespace)
+    {
+        $this->endPointNamespace = $endPointNamespace;
     }
 }

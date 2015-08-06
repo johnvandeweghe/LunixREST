@@ -10,7 +10,8 @@ interface Throttle {
      * @param $apiKey
      * @param $endPoint
      * @param $method
+     * @param $ip
      * @return bool
      */
-    public function throttle($apiKey, $endPoint, $method);
+    public function throttle($apiKey, $endPoint, $method, $ip);
 }

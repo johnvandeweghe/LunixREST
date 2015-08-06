@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Throttle;
 
-class APIKeySQLLiteThrottle implements Throttle {
+abstract class SQLiteThrottle implements Throttle {
     protected $limit;
     protected $db;
 
@@ -19,23 +19,25 @@ class APIKeySQLLiteThrottle implements Throttle {
      * @param $apiKey
      * @param $endPoint
      * @param $method
+     * @param $ip
      * @return bool
      */
-    public function throttle($apiKey, $endPoint, $method)
-    {
+    public abstract function throttle($apiKey, $endPoint, $method, $ip);
+
+    protected function genericThrottle($key){
         $minute = ceil(time() / 60);
-        if($result = $this->db->querySingle('SELECT apiKey, count, lastMinute FROM throttle WHERE apiKey = ' . \SQLite3::escapeString($apiKey), true)) {
+        if($result = $this->db->querySingle('SELECT key, count, lastMinute FROM throttle WHERE key = ' . \SQLite3::escapeString($key), true)) {
             if($result['lastMinute'] == $minute){
                 if($result['count'] + 1 <= $this->limit){
-                    $this->db->query('UPDATE throttle SET count = ' . ($result['count'] + 1) . ' WHERE apiKey = ' . \SQLite3::escapeString($apiKey));
+                    $this->db->query('UPDATE throttle SET count = ' . ($result['count'] + 1) . ' WHERE apiKey = ' . \SQLite3::escapeString($key));
                 } else {
                     return true;
                 }
             } else {
-                $this->db->query('UPDATE throttle SET lastMinute = ' . $minute . ', count = 1 WHERE apiKey = ' . \SQLite3::escapeString($apiKey));
+                $this->db->query('UPDATE throttle SET lastMinute = ' . $minute . ', count = 1 WHERE apiKey = ' . \SQLite3::escapeString($key));
             }
         } else {
-            $this->db->query('INSERT INTO throttle (apiKey, count, lastMinute) VALUES (' . \SQLite3::escapeString($apiKey) . ', 1, ' . $minute . ')');
+            $this->db->query('INSERT INTO throttle (key, count, lastMinute) VALUES (' . \SQLite3::escapeString($key) . ', 1, ' . $minute . ')');
         }
         return false;
     }

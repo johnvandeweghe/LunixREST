@@ -4,7 +4,7 @@ require("vendor/autoload.php");
 require("phonenumber.php");
 
 $accessControl = new \LunixREST\AccessControl\AllAccessINIAccessControl("config/api_keys.ini");
-$throttle = new \LunixREST\Throttle\APIKeySQLLiteThrottle('throttle.sqllite', 3);
+$throttle = new \LunixREST\Throttle\APIKeySQLiteThrottle('throttle.sqllite', 3);
 $outputConfig = new \LunixREST\Configuration\INIConfiguration("config/output.ini");
 $formatsConfig = new \LunixREST\Configuration\INIConfiguration("config/formats.ini");
 $router = new \LunixREST\Router\Router($accessControl, $throttle, $outputConfig, $formatsConfig, "Sample");

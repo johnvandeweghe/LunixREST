@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Throttle;
 
-class NoThrottle implements Throttle {
+class APIKeySQLiteThrottle extends SQLiteThrottle {
 
     /**
      * @param $apiKey
@@ -12,6 +12,6 @@ class NoThrottle implements Throttle {
      */
     public function throttle($apiKey, $endPoint, $method, $ip)
     {
-        return false;
+        $this->genericThrottle($apiKey);
     }
 }

@@ -75,6 +75,14 @@ class Request {
     }
 
     /**
+     * @return mixed
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
      * @return string
      */
     public function getMethod()
