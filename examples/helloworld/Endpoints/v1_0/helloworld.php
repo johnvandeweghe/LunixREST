@@ -1,7 +1,9 @@
 <?php
 namespace Sample\Endpoints\v1_0;
 
-class helloworld extends \LunixREST\Endpoints\Endpoint {
+use LunixREST\Endpoints\Endpoint;
+
+class helloworld extends Endpoint {
     public function getAll(){
 		return ["helloworld" => "hello world"];
 	}

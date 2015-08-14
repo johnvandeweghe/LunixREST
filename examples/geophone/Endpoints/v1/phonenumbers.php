@@ -1,7 +1,9 @@
 <?php
 namespace Sample\Endpoints\v1;
 
-class phonenumbers extends \LunixREST\Endpoints\Endpoint {
+use LunixREST\Endpoints\Endpoint;
+
+class phonenumbers extends Endpoint {
 
     public function get(){
 		$phoneNumber = preg_replace('/[^0-9]/s', '', $this->request->getInstance());

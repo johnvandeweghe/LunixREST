@@ -2,17 +2,20 @@
 namespace LunixREST\AccessControl;
 
 /**
- * Class PublicAccessControl
+ * Class AllAccessListAccessControl
  * @package LunixREST\AccessControl
  */
-class PublicAccessControl implements AccessControl {
-    protected $publicKey;
+class AllAccessListAccessControl implements AccessControl {
+    /**
+     * @var array
+     */
+    protected $keys;
 
     /**
-     * @param string $publicKey
+     * @param array $keys
      */
-    public function __construct($publicKey = 'public'){
-        $this->publicKey = $publicKey;
+    public function __construct(Array $keys){
+        $this->keys = $keys;
     }
 
     /**
@@ -27,6 +30,6 @@ class PublicAccessControl implements AccessControl {
     }
 
     public function validateKey($apiKey){
-        return $apiKey === $this->publicKey;
+        return in_array($apiKey, $this->keys);
     }
 }

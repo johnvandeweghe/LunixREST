@@ -3,7 +3,7 @@ require("vendor/autoload.php");
 
 require("Endpoints/v1/phonenumbers.php");
 
-$accessControl = new \LunixREST\AccessControl\AllAccessINIAccessControl("config/api_keys.ini");
+$accessControl = new \LunixREST\AccessControl\AllAccessListAccessControl("config/api_keys.ini");
 $throttle = new \LunixREST\Throttle\APIKeySQLiteThrottle('throttle.sqllite', 3);
 $formatsConfig = new \LunixREST\Configuration\INIConfiguration("config/formats.ini");
 $router = new \LunixREST\Router\Router($accessControl, $throttle, $formatsConfig, "Sample");
