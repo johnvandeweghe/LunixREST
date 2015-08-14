@@ -18,4 +18,4 @@ install:
   - travis_retry composer install --prefer-dist --no-interaction
 
 script:
-  - phpunit --bootstrap="vender/autoload.php"
+  - phpunit --bootstrap="vendor/autoload.php"
