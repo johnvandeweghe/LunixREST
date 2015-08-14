@@ -1,14 +1,14 @@
 <?php
-namespace LunixREST\EndPoints;
+namespace LunixREST\Endpoints;
 
-use LunixREST\Exceptions\UnknownEndPointException;
+use LunixREST\Exceptions\UnknownEndpointException;
 use LunixREST\Request\Request;
 
 /**
- * Class EndPoint
- * @package LunixREST\EndPoints
+ * Class Endpoint
+ * @package LunixREST\Endpoints
  */
-abstract class EndPoint {
+abstract class Endpoint {
     /**
      * @var Request
      */
@@ -22,92 +22,77 @@ abstract class EndPoint {
     }
 
     /**
-     * @param $instance
-     * @param $data
      * @return array
      */
-    public function get($instance, $data){
+    public function get(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $data
      * @return array
      */
-    public function getAll($data){
+    public function getAll(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $instance
-     * @param $data
      * @return array
      */
-    public function post($instance, $data){
+    public function post(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $data
      * @return array
      */
-    public function postAll($data){
+    public function postAll(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $instance
-     * @param $data
      * @return array
      */
-    public function put($instance, $data){
+    public function put(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $data
      * @return array
      */
-    public function putAll($data){
+    public function putAll(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $instance
-     * @param $data
      * @return array
      */
-    public function options($instance, $data){
+    public function options(){
         $this->unsupportedMethod();
     }
 
 
     /**
-     * @param $data
      * @return array
      */
-    public function optionsAll( $data){
+    public function optionsAll(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $instance
-     * @param $data
      * @return array
      */
-    public function delete($instance, $data){
+    public function delete(){
         $this->unsupportedMethod();
     }
 
     /**
-     * @param $data
      * @return array
      */
-    public function deleteAll($data){
+    public function deleteAll(){
         $this->unsupportedMethod();
     }
 
     private function unsupportedMethod(){
-        throw new UnknownEndPointException('Method not supported');
+        throw new UnknownEndpointException('Method not supported');
     }
 }

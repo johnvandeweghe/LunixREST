@@ -7,7 +7,7 @@ use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\InvalidResponseFormatException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
-use LunixREST\Exceptions\UnknownEndPointException;
+use LunixREST\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\UnknownResponseFormatException;
 use LunixREST\Request\Request;
 use LunixREST\Throttle\Throttle;
@@ -36,21 +36,19 @@ class Router {
     /**
      * @var string
      */
-    protected $endPointNamespace;
+    protected $endpointNamespace;
 
     /**
      * @param AccessControl $accessControl
      * @param Throttle $throttle
-     * @param Configuration $outputConfig
      * @param Configuration $formatsConfig
-     * @param string $endPointNamespace
+     * @param string $endpointNamespace
      */
-    public function __construct(AccessControl $accessControl, Throttle $throttle, Configuration $outputConfig, Configuration $formatsConfig, $endPointNamespace = ''){
+    public function __construct(AccessControl $accessControl, Throttle $throttle, Configuration $formatsConfig, $endpointNamespace = ''){
         $this->accessControl = $accessControl;
         $this->throttle = $throttle;
-        $this->outputConfig = $outputConfig;
         $this->formatsConfig = $formatsConfig;
-        $this->endPointNamespace = $endPointNamespace;
+        $this->endpointNamespace = $endpointNamespace;
     }
 
     /**
@@ -60,7 +58,7 @@ class Router {
      * @throws InvalidAPIKeyException
      * @throws InvalidResponseFormatException
      * @throws ThrottleLimitExceededException
-     * @throws UnknownEndPointException
+     * @throws UnknownEndpointException
      * @throws UnknownResponseFormatException
      */
     public function handle(Request $request){
@@ -72,20 +70,16 @@ class Router {
             throw new UnknownResponseFormatException('Unknown response format: ' .$request->getExtension());
         }
 
-        $fullEndPoint = '\\' . $this->endPointNamespace . '\EndPoints\\' . $request->getEndPoint();
-        if(!class_exists($fullEndPoint) || !is_subclass_of($fullEndPoint, '\LunixREST\EndPoints\EndPoint')){
-            throw new UnknownEndPointException("unknown endpoint: " . $fullEndPoint);
+        $fullEndPoint = $this->endpointClass($request);
+        if(!class_exists($fullEndPoint) || !is_subclass_of($fullEndPoint, '\LunixREST\Endpoints\Endpoint')){
+            throw new UnknownEndpointException("unknown endpoint: " . $fullEndPoint);
         }
 
-        if(!$this->validateEndpoint($request)){
-            throw new UnknownEndPointException("unknown endpoint: " . $fullEndPoint);
-        }
-
-        if($this->throttle->throttle($request->getApiKey(), $request->getEndPoint(), $request->getMethod(), $request->getIp())){
+        if($this->throttle->throttle($request->getApiKey(), $request->getEndpoint(), $request->getMethod(), $request->getIp())){
             throw new ThrottleLimitExceededException('Request limit exceeded');
         }
 
-        if(!$this->accessControl->validateAccess($request->getApiKey(), $request->getEndPoint(), $request->getMethod(), $request->getInstance())){
+        if(!$this->accessControl->validateAccess($request->getApiKey(), $request->getEndpoint(), $request->getMethod(), $request->getInstance())){
             throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
         }
 
@@ -103,21 +97,12 @@ class Router {
 
         $responseClass = '\\LunixREST\\Response\\' . strtoupper($request->getExtension()) . "Response";
         $format = new $responseClass($responseData);
-        if(!$format->validate($this->outputConfig, $request->getMethod(), $request->getEndPoint(), $request->getVersion())){
-            throw new InvalidResponseFormatException('Method output did not match defined output format');
-        }
 
         return $format->output();
     }
 
-    /**
-     * @param Request $request
-     * @return bool
-     */
-    private function validateEndpoint(Request $request)
-    {
-        $formats = $this->formatsConfig->get('endpoints_' . str_replace('.', '_', $request->getVersion()));
-        return $formats && in_array($request->getEndpoint(), $formats);
+    private function endpointClass(Request $request){
+        return '\\' . $this->endpointNamespace . '\Endpoints\v' . str_replace('.', '_', $request->getVersion()) . '\\' . $request->getEndpoint();
     }
 
     /**
@@ -147,14 +132,6 @@ class Router {
     }
 
     /**
-     * @param Configuration $outputConfig
-     */
-    public function setOutputConfig(Configuration $outputConfig)
-    {
-        $this->outputConfig = $outputConfig;
-    }
-
-    /**
      * @param Configuration $formatsConfig
      */
     public function setFormatsConfig(Configuration $formatsConfig)
@@ -163,10 +140,10 @@ class Router {
     }
 
     /**
-     * @param string $endPointNamespace
+     * @param string $endpointNamespace
      */
-    public function setEndPointNamespace($endPointNamespace)
+    public function setEndpointNamespace($endpointNamespace)
     {
-        $this->endPointNamespace = $endPointNamespace;
+        $this->endpointNamespace = $endpointNamespace;
     }
 }

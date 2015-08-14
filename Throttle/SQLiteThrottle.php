@@ -10,7 +10,7 @@ abstract class SQLiteThrottle implements Throttle {
 
         $result = $this->db->query('SELECT name FROM sqlite_master');
         if(!($row = $result->fetchArray()) || $row['name'] != 'throttle'){
-            $this->db->exec('CREATE TABLE throttle (apiKey STRING, count NUMBER, lastMinute NUMBER)');
+            $this->db->exec('CREATE TABLE throttle (key STRING, count NUMBER, lastMinute NUMBER)');
         }
         $this->limit = $limitPerMinute;
     }
@@ -29,12 +29,12 @@ abstract class SQLiteThrottle implements Throttle {
         if($result = $this->db->querySingle('SELECT key, count, lastMinute FROM throttle WHERE key = ' . \SQLite3::escapeString($key), true)) {
             if($result['lastMinute'] == $minute){
                 if($result['count'] + 1 <= $this->limit){
-                    $this->db->query('UPDATE throttle SET count = ' . ($result['count'] + 1) . ' WHERE apiKey = ' . \SQLite3::escapeString($key));
+                    $this->db->query('UPDATE throttle SET count = ' . ($result['count'] + 1) . ' WHERE key = ' . \SQLite3::escapeString($key));
                 } else {
                     return true;
                 }
             } else {
-                $this->db->query('UPDATE throttle SET lastMinute = ' . $minute . ', count = 1 WHERE apiKey = ' . \SQLite3::escapeString($key));
+                $this->db->query('UPDATE throttle SET lastMinute = ' . $minute . ', count = 1 WHERE key = ' . \SQLite3::escapeString($key));
             }
         } else {
             $this->db->query('INSERT INTO throttle (key, count, lastMinute) VALUES (' . \SQLite3::escapeString($key) . ', 1, ' . $minute . ')');

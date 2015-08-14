@@ -10,5 +10,10 @@
             "email": "vandeweghe@lunixlabs.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "LunixREST\\": ""
+        }
+    }
 }

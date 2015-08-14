@@ -26,7 +26,7 @@ class Request {
     /**
      * @var string
      */
-    protected $endPoint;
+    protected $endpoint;
     /**
      * @var string
      */
@@ -50,20 +50,20 @@ class Request {
      * @param string|false $url
      * @param string $version
      * @param string $apiKey
-     * @param string $endPoint
+     * @param string $endpoint
      * @param string $instance
      * @throws InvalidRequestFormatException
      */
-    public function __construct($method, array $headers, array $data, $ip, $url, $version = '', $apiKey = '', $endPoint = '', $instance = ''){
+    public function __construct($method, array $headers, array $data, $ip, $url, $version = '', $apiKey = '', $endpoint = '', $instance = ''){
         $this->method = strtolower($method);
         $this->headers = $headers;
         $this->data = $data;
         $this->ip = $ip;
 
-        if($version && $apiKey && $endPoint && $instance){
+        if($version && $apiKey && $endpoint && $instance){
             $this->version = $version;
             $this->apiKey = $apiKey;
-            $this->endPoint = $endPoint;
+            $this->endpoint = $endpoint;
             $this->instance = $instance;
         } else {
             if(!$url){
@@ -117,9 +117,9 @@ class Request {
     /**
      * @return string
      */
-    public function getEndPoint()
+    public function getEndpoint()
     {
-        return $this->endPoint;
+        return $this->endpoint;
     }
 
     /**
@@ -158,7 +158,7 @@ class Request {
         //Find endpoint
         $this->version = $splitURL[0];
         $this->apiKey = $splitURL[1];
-        $this->endPoint = $splitURL[2];
+        $this->endpoint = $splitURL[2];
 
         $splitExtension = explode('.', $splitURL[count($splitURL) - 1]);
         $this->extension = array_pop($splitExtension);
@@ -166,7 +166,7 @@ class Request {
         if(count($splitURL) == 4){
             $this->instance = implode('.', $splitExtension);
         } else {
-            $this->endPoint = implode('.', $splitExtension);
+            $this->endpoint = implode('.', $splitExtension);
             $this->method .= 'All';
         }
     }

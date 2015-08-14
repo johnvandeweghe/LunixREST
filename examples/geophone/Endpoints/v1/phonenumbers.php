@@ -1,10 +1,10 @@
 <?php
-namespace Sample\EndPoints;
+namespace Sample\Endpoints\v1;
 
-class phonenumber extends \LunixREST\EndPoints\EndPoint {
+class phonenumbers extends \LunixREST\Endpoints\Endpoint {
 
-    public function get($phoneNumber, $data){
-		$phoneNumber = preg_replace('/[^0-9]/s', '', $phoneNumber);
+    public function get(){
+		$phoneNumber = preg_replace('/[^0-9]/s', '', $this->request->getInstance());
 		$areaCode = substr($phoneNumber, 0, 3);
 		$nextThree = substr($phoneNumber, 3, 3);
 		$file = fopen('data.csv', 'r');

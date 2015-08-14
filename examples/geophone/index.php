@@ -1,22 +1,21 @@
 <?php
 require("vendor/autoload.php");
 
-require("phonenumber.php");
+require("Endpoints/v1/phonenumbers.php");
 
 $accessControl = new \LunixREST\AccessControl\AllAccessINIAccessControl("config/api_keys.ini");
 $throttle = new \LunixREST\Throttle\APIKeySQLiteThrottle('throttle.sqllite', 3);
-$outputConfig = new \LunixREST\Configuration\INIConfiguration("config/output.ini");
 $formatsConfig = new \LunixREST\Configuration\INIConfiguration("config/formats.ini");
-$router = new \LunixREST\Router\Router($accessControl, $throttle, $outputConfig, $formatsConfig, "Sample");
+$router = new \LunixREST\Router\Router($accessControl, $throttle, $formatsConfig, "Sample");
 
 try {
-	$request = new \LunixREST\Request\Request("GET", [], [], '127.0.0.1',  "/1.0/123456/phonenumber/6517855237.json");//new \LunixREST\Request\Request($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_URI']);
+	$request = new \LunixREST\Request\Request("GET", [], [], '127.0.0.1',  "/1/123456/phonenumbers/6517855237.json");//new \LunixREST\Request\Request($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_URI']);
 
 	try {
 		echo $router->handle($request);
 	} catch(\LunixREST\Exceptions\InvalidRequestFormatException $e){
 		header('400 Bad Request', 400);
-	} catch(\LunixREST\Exceptions\UnknownEndPointException $e){
+	} catch(\LunixREST\Exceptions\UnknownEndpointException $e){
 		header('404 Not Found', 404);
 	} catch(\LunixREST\Exceptions\UnknownResponseFormatException $e){
 		header('404 Not Found', 404);
