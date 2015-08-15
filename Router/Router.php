@@ -63,9 +63,7 @@ class Router {
      * @throws UnknownResponseFormatException
      */
     public function handle(Request $request){
-        if(!$this->accessControl->validateKey($request->getApiKey())){
-            throw new InvalidAPIKeyException('Invalid API key');
-        }
+        $this->validateKey($request);
 
         $this->validateExtension($request);
 
@@ -82,14 +80,36 @@ class Router {
 
         $this->validateResponse($responseData);
 
-        $responseClass = '\\LunixREST\\Response\\' . strtoupper($request->getExtension()) . "Response";
+        $responseClass = $this->responseClass($request);
         $format = new $responseClass($responseData);
 
         return $format->output();
     }
 
+    /**
+     * @param Request $request
+     * @return string
+     */
     private function endpointClass(Request $request){
         return '\\' . $this->endpointNamespace . '\Endpoints\v' . str_replace('.', '_', $request->getVersion()) . '\\' . $request->getEndpoint();
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    private function responseClass(Request $request){
+        return '\\LunixREST\\Response\\' . strtoupper($request->getExtension()) . "Response";
+    }
+
+    /**
+     * @param Request $request
+     * @throws InvalidAPIKeyException
+     */
+    private function validateKey(Request $request){
+        if(!$this->accessControl->validateKey($request->getApiKey())){
+            throw new InvalidAPIKeyException('Invalid API key');
+        }
     }
 
     /**
@@ -105,6 +125,10 @@ class Router {
         }
     }
 
+    /**
+     * @param $fullEndpoint
+     * @throws UnknownEndpointException
+     */
     private function validateEndpoint($fullEndpoint){
         $endpointReflection = new \ReflectionClass($fullEndpoint);
         if(!class_exists($fullEndpoint) || !$endpointReflection->isSubclassOf('\LunixREST\Endpoints\Endpoint')){
@@ -112,18 +136,30 @@ class Router {
         }
     }
 
+    /**
+     * @param Request $request
+     * @throws ThrottleLimitExceededException
+     */
     private function throttle(Request $request){
         if($this->throttle->throttle($request)){
             throw new ThrottleLimitExceededException('Request limit exceeded');
         }
     }
 
+    /**
+     * @param Request $request
+     * @throws AccessDeniedException
+     */
     private function validateAccess(Request $request){
         if(!$this->accessControl->validateAccess($request)){
             throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
         }
     }
 
+    /**
+     * @param $responseData
+     * @throws InvalidResponseFormatException
+     */
     private function validateResponse($responseData){
         if(!is_array($responseData)){
             throw new InvalidResponseFormatException('Method output MUST be an array');

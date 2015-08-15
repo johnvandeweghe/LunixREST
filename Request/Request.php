@@ -79,7 +79,7 @@ class Request {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getIp()
     {
@@ -151,7 +151,7 @@ class Request {
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @throws InvalidRequestFormatException
      */
     private function parseURL($url){
