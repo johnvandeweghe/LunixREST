@@ -10,17 +10,17 @@ use LunixREST\Exceptions\INIParseException;
 class INIConfiguration implements Configuration {
 	/**
 	 * @var null
-     */
+	 */
 	protected $nameSpace;
 	/**
 	 * @var
-     */
+	 */
 	protected $filename;
 
 	/**
 	 * @param string $filename
 	 * @param string $nameSpace
-     */
+	 */
 	public function __construct($filename, $nameSpace = null){
 		$this->filename = $filename;
 		$this->nameSpace = $nameSpace;
@@ -30,7 +30,7 @@ class INIConfiguration implements Configuration {
 	 * @param $key
 	 * @return mixed
 	 * @throws INIParseException
-     */
+	 */
 	public function get($key){
 		$config = parse_ini_file($this->filename);
 
@@ -49,7 +49,7 @@ class INIConfiguration implements Configuration {
 
 	/**
 	 * @param $key
-     */
+	 */
 	public function set($key){
 		//TODO write this
 	}
