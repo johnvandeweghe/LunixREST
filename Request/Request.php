@@ -69,7 +69,7 @@ class Request {
             $this->apiKey = $apiKey;
             $this->endpoint = $endpoint;
             $this->instance = $instance;
-        } elseif($url) {
+        } elseif($url !== false) {
             $this->parseURL($url);
         } else {
             throw new InvalidRequestFormatException('Either URL or the rest of the parameters MUST be set');
