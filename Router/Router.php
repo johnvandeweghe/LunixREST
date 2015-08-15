@@ -11,6 +11,7 @@ use LunixREST\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\UnknownResponseFormatException;
 use LunixREST\Request\Request;
 use LunixREST\Throttle\Throttle;
+use ReflectionClass;
 
 /**
  * Class Router
@@ -66,34 +67,20 @@ class Router {
             throw new InvalidAPIKeyException('Invalid API key');
         }
 
-        if(!$this->validateExtension($request)){
-            throw new UnknownResponseFormatException('Unknown response format: ' .$request->getExtension());
-        }
+        $this->validateExtension($request);
 
-        $fullEndPoint = $this->endpointClass($request);
-        if(!class_exists($fullEndPoint) || !is_subclass_of($fullEndPoint, '\LunixREST\Endpoints\Endpoint')){
-            throw new UnknownEndpointException("unknown endpoint: " . $fullEndPoint);
-        }
+        $fullEndpoint = $this->endpointClass($request);
 
-        if($this->throttle->throttle($request)){
-            throw new ThrottleLimitExceededException('Request limit exceeded');
-        }
+        $this->validateEndpoint($fullEndpoint);
 
-        if(!$this->accessControl->validateAccess($request)){
-            throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
-        }
+        $this->throttle($request);
 
-        $endPoint = new $fullEndPoint($request);
-        if($request->getInstance()) {
-            $args = [$request->getInstance(), $request->getData()];
-        } else {
-            $args = [$request->getData()];
-        }
-        $responseData = call_user_func_array([$endPoint, $request->getMethod()], $args);
+        $this->validateAccess($request);
 
-        if(!is_array($responseData)){
-            throw new InvalidResponseFormatException('Method output MUST be an array');
-        }
+        $endPoint = new $fullEndpoint($request);
+        $responseData = call_user_func([$endPoint, $request->getMethod()]);
+
+        $this->validateResponse($responseData);
 
         $responseClass = '\\LunixREST\\Response\\' . strtoupper($request->getExtension()) . "Response";
         $format = new $responseClass($responseData);
@@ -108,11 +95,39 @@ class Router {
     /**
      * @param Request $request
      * @return bool
+     * @throws UnknownResponseFormatException
      */
     private function validateExtension(Request $request)
     {
         $formats = $this->formatsConfig->get('formats');
-        return $formats && in_array($request->getExtension(), $formats);
+        if(!($formats && in_array($request->getExtension(), $formats))){
+            throw new UnknownResponseFormatException('Unknown response format: ' .$request->getExtension());
+        }
+    }
+
+    private function validateEndpoint($fullEndpoint){
+        $endpointReflection = new \ReflectionClass($fullEndpoint);
+        if(!class_exists($fullEndpoint) || !$endpointReflection->isSubclassOf('\LunixREST\Endpoints\Endpoint')){
+            throw new UnknownEndpointException("unknown endpoint: " . $fullEndpoint);
+        }
+    }
+
+    private function throttle(Request $request){
+        if($this->throttle->throttle($request)){
+            throw new ThrottleLimitExceededException('Request limit exceeded');
+        }
+    }
+
+    private function validateAccess(Request $request){
+        if(!$this->accessControl->validateAccess($request)){
+            throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
+        }
+    }
+
+    private function validateResponse($responseData){
+        if(!is_array($responseData)){
+            throw new InvalidResponseFormatException('Method output MUST be an array');
+        }
     }
 
     /**
