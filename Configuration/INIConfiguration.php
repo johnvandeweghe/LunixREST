@@ -34,20 +34,16 @@ class INIConfiguration implements Configuration {
 	public function get($key){
 		$config = parse_ini_file($this->filename);
 
-		if(!$config){
+		if($config === false){
 			throw new INIParseException('Could not parse: ' . $this->filename, true);
 		}
 
-		if($this->nameSpace) {
-			if(!isset($config[$this->nameSpace][$key])){
-				return null;
-			}
+		if($this->nameSpace && isset($config[$this->nameSpace]) && isset($config[$this->nameSpace][$key])) {
 			return $config[$this->nameSpace][$key];
-		} else {
-			if(!isset($config[$key])){
-				return null;
-			}
+		} elseif(isset($config[$key])) {
 			return $config[$key];
+		} else {
+			return null;
 		}
 	}
 
