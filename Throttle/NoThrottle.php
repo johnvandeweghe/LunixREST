@@ -1,16 +1,15 @@
 <?php
 namespace LunixREST\Throttle;
 
+use LunixREST\Request\Request;
+
 class NoThrottle implements Throttle {
 
     /**
-     * @param $apiKey
-     * @param $endPoint
-     * @param $method
-     * @param $ip
+     * @param \LunixREST\Request\Request $request
      * @return bool
      */
-    public function throttle($apiKey, $endPoint, $method, $ip)
+    public function throttle(Request $request)
     {
         return false;
     }

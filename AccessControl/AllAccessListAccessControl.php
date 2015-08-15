@@ -1,5 +1,6 @@
 <?php
 namespace LunixREST\AccessControl;
+use LunixREST\Request\Request;
 
 /**
  * Class AllAccessListAccessControl
@@ -19,14 +20,11 @@ class AllAccessListAccessControl implements AccessControl {
     }
 
     /**
-     * @param $apiKey
-     * @param $endPoint
-     * @param $method
-     * @param $instance
+     * @param \LunixREST\Request\Request $request
      * @return bool
      */
-    public function validateAccess($apiKey, $endPoint, $method, $instance){
-        return $this->validateKey($apiKey);
+    public function validateAccess(Request $request){
+        return $this->validateKey($request->getApiKey());
     }
 
     public function validateKey($apiKey){

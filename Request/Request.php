@@ -39,6 +39,10 @@ class Request {
      * @var array
      */
     protected $data;
+    /**
+     * @var string
+     */
+    protected $ip;
 
     /**
      * Create a request. Pass Either a URL to parse or the parsed parts.

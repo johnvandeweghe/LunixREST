@@ -1,17 +1,16 @@
 <?php
 namespace LunixREST\Throttle;
 
+use LunixREST\Request\Request;
+
 class IPSQLiteThrottle extends SQLiteThrottle {
 
     /**
-     * @param $apiKey
-     * @param $endPoint
-     * @param $method
-     * @param $ip
+     * @param \LunixREST\Request\Request $request
      * @return bool
      */
-    public function throttle($apiKey, $endPoint, $method, $ip)
+    public function throttle(Request $request)
     {
-        $this->genericThrottle(str_replace('.', '_', $ip));
+        $this->genericThrottle(str_replace('.', '_', $request->getIp()));
     }
 }

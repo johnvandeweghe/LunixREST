@@ -22,7 +22,18 @@ class PublicAccessControlTest extends \PHPUnit_Framework_TestCase  {
 
         $publicAccess = new PublicAccessControl($accessKey);
 
-        $this->assertTrue($publicAccess->validateAccess($accessKey, md5(rand()), md5(rand()), md5(rand())), 'None of the parameters except the access key should matter');
-        $this->assertFalse($publicAccess->validateAccess(md5(rand()), md5(rand()), md5(rand()), md5(rand())), 'None of the parameters except the access key should matter');
+        $validRequest = $this->getMockBuilder('\LunixREST\Request\Request')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $validRequest->method('getApiKey')->willReturn($accessKey);
+
+
+        $arbitraryRequest = $this->getMockBuilder('\LunixREST\Request\Request')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $arbitraryRequest->method('getApiKey')->willReturn(md5(rand()));
+
+        $this->assertTrue($publicAccess->validateAccess($validRequest), 'None of the parameters except the access key should matter');
+        $this->assertFalse($publicAccess->validateAccess($arbitraryRequest), 'None of the parameters except the access key should matter');
     }
 }

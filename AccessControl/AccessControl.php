@@ -1,5 +1,6 @@
 <?php
 namespace LunixREST\AccessControl;
+use LunixREST\Request\Request;
 
 /**
  * Interface AccessControl
@@ -7,13 +8,10 @@ namespace LunixREST\AccessControl;
  */
 interface AccessControl {
     /**
-     * @param $apiKey
-     * @param $endPoint
-     * @param $method
-     * @param $instance
+     * @param $request
      * @return bool
      */
-    public function validateAccess($apiKey, $endPoint, $method, $instance);
+    public function validateAccess(Request $request);
 
     public function validateKey($apiKey);
 }

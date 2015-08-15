@@ -1,6 +1,8 @@
 <?php
 namespace LunixREST\Throttle;
 
+use LunixREST\Request\Request;
+
 abstract class SQLiteThrottle implements Throttle {
     protected $limit;
     protected $db;
@@ -16,13 +18,10 @@ abstract class SQLiteThrottle implements Throttle {
     }
 
     /**
-     * @param $apiKey
-     * @param $endPoint
-     * @param $method
-     * @param $ip
+     * @param \LunixREST\Request\Request $request
      * @return bool
      */
-    public abstract function throttle($apiKey, $endPoint, $method, $ip);
+    public abstract function throttle(Request $request);
 
     protected function genericThrottle($key){
         $minute = ceil(time() / 60);

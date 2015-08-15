@@ -75,11 +75,11 @@ class Router {
             throw new UnknownEndpointException("unknown endpoint: " . $fullEndPoint);
         }
 
-        if($this->throttle->throttle($request->getApiKey(), $request->getEndpoint(), $request->getMethod(), $request->getIp())){
+        if($this->throttle->throttle($request)){
             throw new ThrottleLimitExceededException('Request limit exceeded');
         }
 
-        if(!$this->accessControl->validateAccess($request->getApiKey(), $request->getEndpoint(), $request->getMethod(), $request->getInstance())){
+        if(!$this->accessControl->validateAccess($request)){
             throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
         }
 
