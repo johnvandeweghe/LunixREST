@@ -55,19 +55,21 @@ class Request {
      * @param string $version
      * @param string $apiKey
      * @param string $endpoint
+     * @param string $extension
      * @param string $instance
      * @throws InvalidRequestFormatException
      */
-    public function __construct($method, array $headers, array $data, $ip, $url, $version = '', $apiKey = '', $endpoint = '', $instance = ''){
+    public function __construct($method, array $headers, array $data, $ip, $url, $version = '', $apiKey = '', $endpoint = '', $extension = '', $instance = ''){
         $this->method = strtolower($method);
         $this->headers = $headers;
         $this->data = $data;
         $this->ip = $ip;
 
-        if($version && $apiKey && $endpoint && $instance){
+        if($version && $apiKey && $endpoint && $extension){
             $this->version = $version;
             $this->apiKey = $apiKey;
             $this->endpoint = $endpoint;
+            $this->extension = $extension;
             $this->instance = $instance;
         } elseif($url !== false) {
             $this->parseURL($url);
@@ -89,7 +91,7 @@ class Request {
      */
     public function getMethod()
     {
-        return $this->method;
+        return $this->method . ($this->instance ? '' : 'All');
     }
 
     /**
@@ -169,7 +171,6 @@ class Request {
             $this->instance = implode('.', $splitExtension);
         } else {
             $this->endpoint = implode('.', $splitExtension);
-            $this->method .= 'All';
         }
     }
 }

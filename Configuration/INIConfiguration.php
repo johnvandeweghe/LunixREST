@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Configuration;
 
+use LunixREST\Exceptions\INIKeyNotFoundException;
 use LunixREST\Exceptions\INIParseException;
 
 /**
@@ -29,22 +30,25 @@ class INIConfiguration implements Configuration {
 	/**
 	 * @param $key
 	 * @return mixed
+	 * @throws INIKeyNotFoundException
 	 * @throws INIParseException
 	 */
 	public function get($key){
-		$config = parse_ini_file($this->filename);
+		$config = parse_ini_file($this->filename, (bool)$this->nameSpace);
 
 		if($config === false){
 			throw new INIParseException('Could not parse: ' . $this->filename, true);
 		}
 
-		if($this->nameSpace && isset($config[$this->nameSpace]) && isset($config[$this->nameSpace][$key])) {
-			return $config[$this->nameSpace][$key];
-		} elseif(isset($config[$key])) {
-			return $config[$key];
-		} else {
-			return null;
+		if($this->nameSpace) {
+			if(isset($config[$this->nameSpace])) {
+				$config = $config[$this->nameSpace];
+			} else {
+				throw new INIKeyNotFoundException();
+			}
 		}
+
+		return isset($config[$key]) ? $config[$key] : null;
 	}
 
 	/**
