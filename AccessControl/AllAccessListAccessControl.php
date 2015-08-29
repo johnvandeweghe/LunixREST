@@ -21,12 +21,16 @@ class AllAccessListAccessControl implements AccessControl {
 
     /**
      * @param \LunixREST\Request\Request $request
-     * @return bool
+     * @return bool true if key is valid
      */
     public function validateAccess(Request $request){
         return $this->validateKey($request->getApiKey());
     }
 
+    /**
+     * @param $apiKey
+     * @return bool true if key is in the array passed to this object in it's construction
+     */
     public function validateKey($apiKey){
         return in_array($apiKey, $this->keys);
     }

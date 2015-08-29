@@ -8,6 +8,7 @@ use LunixREST\Request\Request;
  */
 interface Throttle {
     /**
+     * Returns true if the given request should be throttled in our implementation
      * @param \LunixREST\Request\Request $request
      * @return bool
      */

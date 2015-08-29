@@ -2,11 +2,12 @@
 require("vendor/autoload.php");
 
 require("Endpoints/v1/phonenumbers.php");
+require("Models/GeoPhone.php");
 
 $accessControl = new \LunixREST\AccessControl\AllAccessConfigurationListAccessControl(new \LunixREST\Configuration\INIConfiguration("config/api_keys.ini"), 'keys');
 $throttle = new \LunixREST\Throttle\APIKeySQLiteThrottle('throttle.sqlite', 3);
 $formatsConfig = new \LunixREST\Configuration\INIConfiguration("config/formats.ini");
-$router = new \LunixREST\Router\Router($accessControl, $throttle, $formatsConfig, "Sample");
+$router = new \LunixREST\Router\Router($accessControl, $throttle, $formatsConfig, "GeoPhone");
 
 try {
 	$request = new \LunixREST\Request\Request("GET", [], [], '127.0.0.1',  "/1/123456/phonenumbers/6517855237.json");//new \LunixREST\Request\Request($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_URI']);

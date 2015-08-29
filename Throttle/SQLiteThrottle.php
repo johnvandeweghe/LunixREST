@@ -3,10 +3,25 @@ namespace LunixREST\Throttle;
 
 use LunixREST\Request\Request;
 
+/**
+ * Use SQLite as a backend for throttling requests
+ * Class SQLiteThrottle
+ * @package LunixREST\Throttle
+ */
 abstract class SQLiteThrottle implements Throttle {
+    /**
+     * @var
+     */
     protected $limit;
+    /**
+     * @var \SQLite3
+     */
     protected $db;
 
+    /**
+     * @param $file
+     * @param $limitPerMinute
+     */
     public function __construct($file, $limitPerMinute){
         $this->db = new \SQLite3($file);
 
@@ -23,6 +38,10 @@ abstract class SQLiteThrottle implements Throttle {
      */
     public abstract function throttle(Request $request);
 
+    /**
+     * @param $key
+     * @return bool
+     */
     protected function genericThrottle($key){
         $minute = ceil(time() / 60);
         if($result = $this->db->querySingle('SELECT key, count, lastMinute FROM throttle WHERE key = ' . \SQLite3::escapeString($key), true)) {

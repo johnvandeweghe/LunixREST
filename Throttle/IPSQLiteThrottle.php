@@ -6,6 +6,7 @@ use LunixREST\Request\Request;
 class IPSQLiteThrottle extends SQLiteThrottle {
 
     /**
+     * Throttle using SQLite based on the request's IP address
      * @param \LunixREST\Request\Request $request
      * @return bool
      */
