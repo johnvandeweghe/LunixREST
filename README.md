@@ -11,6 +11,6 @@ Features include:
 
 See /examples/ folder for some solid examples on how to implement LunixREST
 
-TODO: Write PHPUnit tests
-TODO: Add HTTP-ACCEPT support (to be used when .FORMAT isn't used)
-TODO: Add more examples (a login example, a put/post example, etc)
+- TODO: Write PHPUnit tests
+- TODO: Add HTTP-ACCEPT support (to be used when .FORMAT isn't used)
+- TODO: Add more examples (a login example, a put/post example, etc)

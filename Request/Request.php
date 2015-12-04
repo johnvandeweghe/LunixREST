@@ -51,31 +51,22 @@ class Request {
      * @param array $headers
      * @param array $data
      * @param $ip
-     * @param string|false $url
      * @param string $version
      * @param string $apiKey
      * @param string $endpoint
      * @param string $extension
      * @param string $instance
-     * @throws InvalidRequestFormatException
      */
-    public function __construct($method, array $headers, array $data, $ip, $url, $version = '', $apiKey = '', $endpoint = '', $extension = '', $instance = ''){
+    public function __construct($method, array $headers, array $data, $ip, $version, $apiKey, $endpoint, $extension, $instance = null){
         $this->method = strtolower($method);
         $this->headers = $headers;
         $this->data = $data;
         $this->ip = $ip;
-
-        if($version && $apiKey && $endpoint && $extension){
-            $this->version = $version;
-            $this->apiKey = $apiKey;
-            $this->endpoint = $endpoint;
-            $this->extension = $extension;
-            $this->instance = $instance;
-        } elseif($url !== false) {
-            $this->parseURL($url);
-        } else {
-            throw new InvalidRequestFormatException('Either URL or the rest of the parameters MUST be set');
-        }
+        $this->version = $version;
+        $this->apiKey = $apiKey;
+        $this->endpoint = $endpoint;
+        $this->extension = $extension;
+        $this->instance = $instance;
     }
 
     /**
@@ -151,26 +142,36 @@ class Request {
     }
 
     /**
+     * @param $method
+     * @param array $headers
+     * @param array $data
+     * @param $ip
      * @param string $url
+     * @return Request
      * @throws InvalidRequestFormatException
      */
-    private function parseURL($url){
+    public static function createFromURL($method, array $headers, array $data, $ip, $url){
         $splitURL = explode('/', trim($url, '/'));
         if(count($splitURL) < 3){
             throw new InvalidRequestFormatException();
         }
         //Find endpoint
-        $this->version = $splitURL[0];
-        $this->apiKey = $splitURL[1];
-        $this->endpoint = $splitURL[2];
+        $version = $splitURL[0];
+        $apiKey = $splitURL[1];
+        $endpoint = $splitURL[2];
 
         $splitExtension = explode('.', $splitURL[count($splitURL) - 1]);
-        $this->extension = array_pop($splitExtension);
+        $extension = array_pop($splitExtension);
+
+        $instance = null;
 
         if(count($splitURL) == 4){
-            $this->instance = implode('.', $splitExtension);
+            $instance = implode('.', $splitExtension);
         } else {
-            $this->endpoint = implode('.', $splitExtension);
+            $endpoint = implode('.', $splitExtension);
         }
+
+
+        return new Request($method, $headers, $data, $ip, $version, $apiKey, $endpoint, $extension, $instance);
     }
 }
