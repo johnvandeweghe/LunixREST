@@ -10,7 +10,7 @@ use LunixREST\Request\Request;
  * @package LunixREST\Router
  */
 class DoctrineRouter extends Router {
-    private $entitiyManager;
+    private $entityManager;
     public function __construct(AccessControl $accessControl, Throttle $throttle, Configuration $formatsConfig, $endpointNamespace = '', EntityManager $entityManager){
         parent::__construct($accessControl, $throttle, $formatsConfig, $endpointNamespace);
         $this->entityManager = $entityManager;
@@ -19,7 +19,7 @@ class DoctrineRouter extends Router {
         $endPoint = new $fullEndpoint($request);
 
         if($endPoint instanceof DoctrineEndpoint){
-            $endPoint->setEntityManager($this->entitiyManager);
+            $endPoint->setEntityManager($this->entityManager);
         }
 
         return call_user_func([$endPoint, $request->getMethod()]);
