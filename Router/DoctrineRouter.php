@@ -15,7 +15,7 @@ class DoctrineRouter extends Router {
         parent::__construct($accessControl, $throttle, $formatsConfig, $endpointNamespace);
         $this->entityManager = $entityManager;
     }
-    private function executeEndpoint($fullEndpoint, Request $request){
+    protected function executeEndpoint($fullEndpoint, Request $request){
         $endPoint = new $fullEndpoint($request);
 
         if($endPoint instanceof DoctrineEndpoint){
