@@ -1,5 +1,6 @@
 <?php
 namespace LunixREST\Endpoints;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class DoctrineEndpoint

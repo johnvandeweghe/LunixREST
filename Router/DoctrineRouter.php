@@ -4,6 +4,7 @@ use LunixREST\AccessControl\AccessControl;
 use LunixREST\Throttle\Throttle;
 use LunixREST\Configuration\Configuration;
 use LunixREST\Request\Request;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class DoctrineRouter
