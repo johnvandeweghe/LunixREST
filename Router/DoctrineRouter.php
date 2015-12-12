@@ -12,7 +12,7 @@ use LunixREST\Request\Request;
 class DoctrineRouter extends Router {
     private $entitiyManager;
     public function __construct(AccessControl $accessControl, Throttle $throttle, Configuration $formatsConfig, $endpointNamespace = '', EntityManager $entityManager){
-        super($accessControl, $throttle, $formatsConfig, $endpointNamespace);
+        parent::__construct($accessControl, $throttle, $formatsConfig, $endpointNamespace);
         $this->entityManager = $entityManager;
     }
     private function executeEndpoint($fullEndpoint, Request $request){
