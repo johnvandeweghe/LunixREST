@@ -75,8 +75,7 @@ class Router {
 
         $this->validateAccess($request);
 
-        $endPoint = new $fullEndpoint($request);
-        $responseData = call_user_func([$endPoint, $request->getMethod()]);
+        $responseData = $this->executeEndpoint($fullEndpoint, $request);
 
         $this->validateResponse($responseData);
 
@@ -164,6 +163,11 @@ class Router {
         if(!is_array($responseData)){
             throw new InvalidResponseFormatException('Method output MUST be an array');
         }
+    }
+
+    private function executeEndpoint($fullEndpoint, Request $request){
+        $endPoint = new $fullEndpoint($request);
+        return call_user_func([$endPoint, $request->getMethod()]);
     }
 
     /**
