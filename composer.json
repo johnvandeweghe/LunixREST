@@ -15,10 +15,10 @@
     },
     "autoload": {
         "psr-4": {
-            "\LunixREST\\": "src"
+            "LunixREST\\": "src/"
         }
     },
     "suggest": {
-        "doctrine/doctrine": "Required for implementations that use DoctrineRouter and DoctrineEndpoint"
+        "doctrine/doctrine": "Required for implementations that use DoctrineEndpointFactory and DoctrineEndpoint"
     }
 }
