@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LunixREST\\": "src"
+            "\LunixREST\\": "src"
         }
     },
     "suggest": {
