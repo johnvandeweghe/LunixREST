@@ -103,6 +103,6 @@ class Router {
     }
 
     protected function executeEndpoint(Endpoint $endpoint, Request $request): ResponseData {
-        return call_user_func([$endpoint, $request->getMethod()], [$request]);
+        return call_user_func([$endpoint, $request->getMethod()], $request);
     }
 }
