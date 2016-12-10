@@ -7,7 +7,7 @@ require("src/Endpoints/v1_0/helloworld.php");
 $accessControl = new \LunixREST\AccessControl\PublicAccessControl("public");
 $throttle = new \LunixREST\Throttle\NoThrottle();
 $responseFactory = new \LunixREST\Response\DefaultResponseFactory();
-$endpointFactory = new \LunixREST\Endpoint\NamespaceEndpointFactory("\\HelloWorld");
+$endpointFactory = new \LunixREST\Endpoint\NamespaceEndpointFactory("\\HelloWorld\\Endpoints");
 $router = new \LunixREST\Router\Router($accessControl, $throttle, $responseFactory, $endpointFactory);
 
 try {

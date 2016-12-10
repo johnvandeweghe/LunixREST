@@ -45,6 +45,6 @@ class NamespaceEndpointFactory implements EndpointFactory {
     }
 
     protected function buildVersionedEndpointNamespace(string $version): string {
-        return $this->endpointNamespace . '\Endpoints\v' . str_replace('.', '_', $version) . '\\';
+        return $this->endpointNamespace . '\v' . str_replace('.', '_', $version) . '\\';
     }
 }
