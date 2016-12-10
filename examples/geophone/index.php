@@ -1,12 +1,11 @@
 <?php
 require("vendor/autoload.php");
 
-require("src/Endpoints/v1/phonenumbers.php");
-
 $accessControl = new \LunixREST\AccessControl\AllAccessConfigurationListAccessControl(new \LunixREST\Configuration\INIConfiguration("config/api_keys.ini"), 'keys');
 $throttle = new \LunixREST\Throttle\NoThrottle();
 $responseFactory = new \LunixREST\Response\DefaultResponseFactory();
-$endpointFactory = new \LunixREST\Endpoint\NamespaceEndpointFactory("\\GeoPhone");
+$geoPhone = new \GeoPhone\Models\GeoPhone("data.csv");
+$endpointFactory = new \GeoPhone\EndpointFactory\EndpointFactory($geoPhone);
 $router = new \LunixREST\Router\Router($accessControl, $throttle, $responseFactory, $endpointFactory);
 
 try {
@@ -25,11 +24,11 @@ try {
         header('403 Access Denied', true, 403);
     }  catch(\LunixREST\Exceptions\ThrottleLimitExceededException $e){
         header('429 Too Many Requests', true, 429);
-    } catch(Exception|Error $e){
+    } catch(Exception $e){
         header('500 Internal Server Error', true, 500);
     }
 } catch(\LunixREST\Exceptions\InvalidRequestFormatException $e){
 	header('400 Bad Request', 400);
-} catch(Exception|Error $e){
+} catch(Exception $e){
 	header('500 Internal Server Error', true, 500);
 }
