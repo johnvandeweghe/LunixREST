@@ -6,10 +6,10 @@ use Doctrine\ORM\EntityManager;
  * Class DoctrineEndpoint
  * @package LunixREST\Endpoints
  */
-abstract class DoctrineEndpoint extends Endpoint {
+class DoctrineEndpoint extends DefaultEndpoint {
     protected $entityManager;
 
-    public function setEntityManager(EntityManager $em){
+    public function __construct(EntityManager $em){
         $this->entityManager = $em;
     }
 }

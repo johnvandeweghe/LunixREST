@@ -6,10 +6,12 @@
             "email": "vandeweghe@lunixlabs.com"
         }
     ],
-    "require": {},
-	"autoload": {
-		"psr-4": {
-			"": "..\\..\\..\\"
-		}
-	}	
+    "require": {
+      "johnvandeweghe/lunixrest": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "GeoPhone\\": "src"
+        }
+    }
 }

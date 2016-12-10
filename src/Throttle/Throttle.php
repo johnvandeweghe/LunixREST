@@ -12,5 +12,11 @@ interface Throttle {
      * @param \LunixREST\Request\Request $request
      * @return bool
      */
-    public function throttle(Request $request);
+    public function shouldThrottle(Request $request): bool;
+
+    /**
+     * Log that a request took place
+     * @param \LunixREST\Request\Request $request
+     */
+    public function logRequest(Request $request);
 }

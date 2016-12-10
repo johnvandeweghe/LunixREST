@@ -2,16 +2,18 @@
 namespace LunixREST\Router;
 
 use LunixREST\AccessControl\AccessControl;
-use LunixREST\Configuration\Configuration;
+use LunixREST\Endpoint\Endpoint;
+use LunixREST\Endpoint\EndpointFactory;
+use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
-use LunixREST\Exceptions\InvalidResponseFormatException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
-use LunixREST\Exceptions\UnknownEndpointException;
-use LunixREST\Exceptions\UnknownResponseFormatException;
 use LunixREST\Request\Request;
+use LunixREST\Response\Exceptions\UnknownResponseTypeException;
+use LunixREST\Response\Response;
+use LunixREST\Response\ResponseData;
+use LunixREST\Response\ResponseFactory;
 use LunixREST\Throttle\Throttle;
-use ReflectionClass;
 
 /**
  * Class Router
@@ -27,78 +29,56 @@ class Router {
      */
     protected $throttle;
     /**
-     * @var Configuration
+     * @var ResponseFactory
      */
-    protected $outputConfig;
+    protected $responseFactory;
     /**
-     * @var Configuration
+     * @var EndpointFactory
      */
-    protected $formatsConfig;
-    /**
-     * @var string
-     */
-    protected $endpointNamespace;
+    private $endpointFactory;
 
     /**
      * @param AccessControl $accessControl
      * @param Throttle $throttle
-     * @param Configuration $formatsConfig
-     * @param string $endpointNamespace
+     * @param ResponseFactory $responseFactory
+     * @param EndpointFactory $endpointFactory
      */
-    public function __construct(AccessControl $accessControl, Throttle $throttle, Configuration $formatsConfig, $endpointNamespace = ''){
+    public function __construct(AccessControl $accessControl, Throttle $throttle, ResponseFactory $responseFactory, EndpointFactory $endpointFactory){
         $this->accessControl = $accessControl;
         $this->throttle = $throttle;
-        $this->formatsConfig = $formatsConfig;
-        $this->endpointNamespace = $endpointNamespace;
+        $this->responseFactory = $responseFactory;
+        $this->endpointFactory = $endpointFactory;
     }
 
     /**
      * @param Request $request
-     * @return string
+     * @return Response
      * @throws AccessDeniedException
      * @throws InvalidAPIKeyException
-     * @throws InvalidResponseFormatException
      * @throws ThrottleLimitExceededException
      * @throws UnknownEndpointException
-     * @throws UnknownResponseFormatException
+     * @throws UnknownResponseTypeException
      */
-    public function handle(Request $request){
+    public function route(Request $request): Response{
         $this->validateKey($request);
 
         $this->validateExtension($request);
 
-        $fullEndpoint = $this->endpointClass($request);
+        $endpoint = $this->endpointFactory->getEndpoint($request->getEndpoint(), $request->getVersion());
 
-        $this->validateEndpoint($fullEndpoint);
+        if($this->throttle->shouldThrottle($request)) {
+            throw new ThrottleLimitExceededException('Request limit exceeded');
+        }
 
-        $this->throttle($request);
+        if(!$this->accessControl->validateAccess($request)) {
+            throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
+        }
 
-        $this->validateAccess($request);
+        $this->throttle->logRequest($request);
 
-        $responseData = $this->executeEndpoint($fullEndpoint, $request);
+        $responseData = $this->executeEndpoint($endpoint, $request);
 
-        $this->validateResponse($responseData);
-
-        $responseClass = $this->responseClass($request);
-        $format = new $responseClass($responseData);
-
-        return $format->output();
-    }
-
-    /**
-     * @param Request $request
-     * @return string
-     */
-    protected function endpointClass(Request $request){
-        return '\\' . $this->endpointNamespace . '\Endpoints\v' . str_replace('.', '_', $request->getVersion()) . '\\' . $request->getEndpoint();
-    }
-
-    /**
-     * @param Request $request
-     * @return string
-     */
-    protected function responseClass(Request $request){
-        return '\\LunixREST\\Response\\' . strtoupper($request->getExtension()) . "Response";
+        return $this->responseFactory->getResponse($responseData, $request->getExtension());
     }
 
     /**
@@ -113,25 +93,12 @@ class Router {
 
     /**
      * @param Request $request
-     * @return bool
-     * @throws UnknownResponseFormatException
+     * @throws UnknownResponseTypeException
      */
-    protected function validateExtension(Request $request)
-    {
-        $formats = $this->formatsConfig->get('formats');
-        if(!($formats && in_array($request->getExtension(), $formats))){
-            throw new UnknownResponseFormatException('Unknown response format: ' .$request->getExtension());
-        }
-    }
-
-    /**
-     * @param $fullEndpoint
-     * @throws UnknownEndpointException
-     */
-    protected function validateEndpoint($fullEndpoint){
-        $endpointReflection = new \ReflectionClass($fullEndpoint);
-        if(!class_exists($fullEndpoint) || !$endpointReflection->isSubclassOf('\LunixREST\Endpoints\Endpoint')){
-            throw new UnknownEndpointException("unknown endpoint: " . $fullEndpoint);
+    protected function validateExtension(Request $request) {
+        $formats = $this->responseFactory->getSupportedTypes();
+        if(!$formats || !in_array($request->getExtension(), $formats)){
+            throw new UnknownResponseTypeException('Unknown response format: ' . $request->getExtension());
         }
     }
 
@@ -139,66 +106,17 @@ class Router {
      * @param Request $request
      * @throws ThrottleLimitExceededException
      */
-    protected function throttle(Request $request){
-        if($this->throttle->throttle($request)){
-            throw new ThrottleLimitExceededException('Request limit exceeded');
-        }
+    protected function throttle(Request $request) {
     }
 
     /**
      * @param Request $request
      * @throws AccessDeniedException
      */
-    protected function validateAccess(Request $request){
-        if(!$this->accessControl->validateAccess($request)){
-            throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
-        }
+    protected function validateAccess(Request $request) {
     }
 
-    /**
-     * @param $responseData
-     * @throws InvalidResponseFormatException
-     */
-    protected function validateResponse($responseData){
-        if(!is_array($responseData)){
-            throw new InvalidResponseFormatException('Method output MUST be an array');
-        }
-    }
-
-    protected function executeEndpoint($fullEndpoint, Request $request){
-        $endPoint = new $fullEndpoint($request);
-        return call_user_func([$endPoint, $request->getMethod()]);
-    }
-
-    /**
-     * @param AccessControl $accessControl
-     */
-    public function setAccessControl(AccessControl $accessControl)
-    {
-        $this->accessControl = $accessControl;
-    }
-
-    /**
-     * @param Throttle $throttle
-     */
-    public function setThrottle(Throttle $throttle)
-    {
-        $this->throttle = $throttle;
-    }
-
-    /**
-     * @param Configuration $formatsConfig
-     */
-    public function setFormatsConfig(Configuration $formatsConfig)
-    {
-        $this->formatsConfig = $formatsConfig;
-    }
-
-    /**
-     * @param string $endpointNamespace
-     */
-    public function setEndpointNamespace($endpointNamespace)
-    {
-        $this->endpointNamespace = $endpointNamespace;
+    protected function executeEndpoint(Endpoint $endpoint, Request $request): ResponseData {
+        return call_user_func([$endpoint, $request->getMethod()], [$request]);
     }
 }

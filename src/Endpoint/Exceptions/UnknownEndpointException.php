@@ -1,5 +1,5 @@
 <?php
-namespace LunixREST\Exceptions;
+namespace LunixREST\Endpoint\Exceptions;
 
 class UnknownEndpointException extends \Exception {
 

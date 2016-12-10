@@ -10,10 +10,15 @@
             "email": "vandeweghe@lunixlabs.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php" : "^7.0"
+    },
     "autoload": {
         "psr-4": {
             "LunixREST\\": "src"
         }
+    },
+    "suggest": {
+        "doctrine/doctrine": "Required for implementations that use DoctrineRouter and DoctrineEndpoint"
     }
 }

@@ -5,22 +5,15 @@ namespace LunixREST\Response;
  * Class Response
  * @package LunixREST\Response
  */
-abstract class Response {
+interface Response {
     /**
-     * @var array
+     * @return ResponseData
      */
-    protected $data;
+    public function getResponseData(): ResponseData;
 
     /**
-     * @param array $data
+     * @return string
      */
-    public function __construct(array $data){
-        $this->data = $data;
-    }
-
-    /**
-     * @return mixed
-     */
-    public abstract function output();
+    public function getAsString(): string;
 
 }
