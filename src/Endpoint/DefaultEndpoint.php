@@ -1,7 +1,6 @@
 <?php
-namespace LunixREST\Endpoints;
+namespace LunixREST\Endpoint;
 
-use LunixREST\Endpoint\Endpoint;
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\Request\Request;
 use LunixREST\Response\ResponseData;
