@@ -2,3 +2,5 @@
 /LunixREST.iml
 vendor/
 *.sqlite
+composer.phar
+composer.lock
