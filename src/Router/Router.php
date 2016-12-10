@@ -102,20 +102,6 @@ class Router {
         }
     }
 
-    /**
-     * @param Request $request
-     * @throws ThrottleLimitExceededException
-     */
-    protected function throttle(Request $request) {
-    }
-
-    /**
-     * @param Request $request
-     * @throws AccessDeniedException
-     */
-    protected function validateAccess(Request $request) {
-    }
-
     protected function executeEndpoint(Endpoint $endpoint, Request $request): ResponseData {
         return call_user_func([$endpoint, $request->getMethod()], [$request]);
     }
