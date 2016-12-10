@@ -22,7 +22,8 @@ class NamespaceEndpointFactory implements EndpointFactory {
      * @throws UnknownEndpointException
      */
     public function getEndpoint(string $name, string $version): Endpoint {
-        return new ($this->buildVersionedEndpointNamespace($version) . $name);
+        $className = $this->buildVersionedEndpointNamespace($version) . $name;
+        return new $className();
     }
 
     /**

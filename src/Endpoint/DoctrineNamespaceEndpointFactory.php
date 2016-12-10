@@ -20,6 +20,7 @@ class DoctrineNamespaceEndpointFactory extends NamespaceEndpointFactory {
      * @throws UnknownEndpointException
      */
     public function getEndpoint(string $name, string $version): Endpoint {
-        return new ($this->buildVersionedEndpointNamespace($version) . $name)($this->entityManager);
+        $className = $this->buildVersionedEndpointNamespace($version) . $name;
+        return new $className($this->entityManager);
     }
 }
