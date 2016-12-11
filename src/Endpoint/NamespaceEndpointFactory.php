@@ -23,6 +23,10 @@ class NamespaceEndpointFactory implements EndpointFactory {
      */
     public function getEndpoint(string $name, string $version): Endpoint {
         $className = $this->buildVersionedEndpointNamespace($version) . $name;
+        if(!class_exists($className)){
+            throw new UnknownEndpointException("Could not find $className");
+        }
+
         return new $className();
     }
 

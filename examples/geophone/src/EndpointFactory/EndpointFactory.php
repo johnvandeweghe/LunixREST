@@ -26,7 +26,6 @@ class EndpointFactory implements \LunixREST\Endpoint\EndpointFactory {
                 switch (strtolower($name)) {
                     case "phonenumbers":
                         return new PhoneNumbers($this->geoPhone);
-                        break;
                     default:
                         throw new UnknownEndpointException("Endpoint: $name not supported");
                 }
