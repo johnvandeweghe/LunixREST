@@ -29,7 +29,6 @@ class EndpointFactory implements \LunixREST\Endpoint\EndpointFactory {
                     default:
                         throw new UnknownEndpointException("Endpoint: $name not supported");
                 }
-                break;
             default:
                 throw new UnknownEndpointException("Version: $version not support");
         }
