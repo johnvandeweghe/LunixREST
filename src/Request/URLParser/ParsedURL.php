@@ -62,9 +62,9 @@ class ParsedURL {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getApiKey(): string {
+    public function getApiKey() {
         return $this->apiKey;
     }
 
@@ -76,9 +76,9 @@ class ParsedURL {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getExtension(): string {
+    public function getExtension() {
         return $this->extension;
     }
 

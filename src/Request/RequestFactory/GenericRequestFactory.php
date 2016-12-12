@@ -41,6 +41,8 @@ class GenericRequestFactory implements RequestFactory {
         $parsedURL = $this->URLParser->parse($url);
         $parsedData = $this->bodyParser->parse($data);
 
+        //TODO: check headers for X-API-KEY and possibly use it instead of the parsedURL api key
+
         return new Request($method, $headers, $parsedData, $parsedURL->getRequestData(), $ip, $parsedURL->getVersion(),
             $parsedURL->getApiKey(), $parsedURL->getEndpoint(), $parsedURL->getExtension(), $parsedURL->getInstance());
     }

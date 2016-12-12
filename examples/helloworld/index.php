@@ -11,17 +11,24 @@ use LunixREST\Server\HTTPServer;
 use LunixREST\Server\Server;
 use LunixREST\Throttle\NoThrottle;
 
+//The public key "public" gives access to everything
 $accessControl = new PublicAccessControl("public");
+
+//Don't throttle requests
 $throttle = new NoThrottle();
+
+//Lets support the default response types (JSON)
 $responseFactory = new DefaultResponseFactory();
+
+//Load any endpoints from the namespace listed
 $endpointFactory = new NamespaceEndpointFactory("\\HelloWorld\\Endpoints");
 
 $server = new Server($accessControl, $throttle, $responseFactory, $endpointFactory);
 
+//Build a basic url decoding body handler, which includes the basic url parser (which determines the url format)
 $requestFactory = new BasicURLEncodedRequestFactory();
 
 $httpServer = new HTTPServer($server, $requestFactory);
 
-// Run to test: GET /1.0/public/helloworld.json
-
+//Run to test: GET /1.0/public/helloworld.json
 $httpServer->handleSAPIRequest();

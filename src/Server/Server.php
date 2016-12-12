@@ -14,6 +14,7 @@ use LunixREST\Response\Response;
 use LunixREST\Response\ResponseFactory;
 use LunixREST\Throttle\Throttle;
 
+//TODO: Unit test
 class Server {
     /**
      * @var AccessControl
@@ -70,6 +71,7 @@ class Server {
 
         $responseData = $this->router->route($request);
 
+        //TODO: Support http accept headers in addition to the extension
         return $this->responseFactory->getResponse($responseData, $request->getExtension());
     }
 

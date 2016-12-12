@@ -62,6 +62,8 @@ class Request {
      * @param string $extension
      * @param string $instance
      */
+
+    //TODO: Rename extension to type, as it could come from headers
     public function __construct($method, array $headers, RequestData $body, RequestData $urlData, $ip, $version, $apiKey, $endpoint, $extension, $instance = null){
         $this->method = strtolower($method);
         $this->headers = $headers;

@@ -9,6 +9,7 @@ use LunixREST\Request\RequestFactory\RequestFactory;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Response\Exceptions\UnknownResponseTypeException;
 
+//TODO: Unit test? Might be impossible (this is a weird global class, and hopefully the ONLY weird global class)
 class HTTPServer {
     /**
      * @var Server
@@ -24,6 +25,7 @@ class HTTPServer {
      * @param Server $server
      * @param RequestFactory $requestFactory
      */
+    //TODO: Add logging that we can pass through to log requests
     public function __construct(Server $server, RequestFactory $requestFactory) {
         $this->server = $server;
         $this->requestFactory = $requestFactory;
