@@ -89,7 +89,7 @@ class Server {
      */
     protected function validateExtension(Request $request) {
         $formats = $this->responseFactory->getSupportedTypes();
-        if(!$formats || !in_array($request->getExtension(), $formats)){
+        if(empty($formats) || !in_array($request->getExtension(), $formats)){
             throw new UnknownResponseTypeException('Unknown response format: ' . $request->getExtension());
         }
     }
