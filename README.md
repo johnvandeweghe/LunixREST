@@ -8,5 +8,9 @@ Features include:
 - Routing to endpoints
 - API versioning
 - API Access throttling
+- Versatile request data parsing
+- Versatile output formatting
 
-See /examples/ folder for some solid examples on how to implement LunixREST
+See /examples/ folder for some examples on how to implement LunixREST
+
+As per composer.json: This project requires PHP 7.0+ to run. 
