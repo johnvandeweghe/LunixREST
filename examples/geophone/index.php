@@ -1,34 +1,26 @@
 <?php
+use GeoPhone\EndpointFactory\EndpointFactory;
+use GeoPhone\Models\GeoPhone;
+use LunixREST\AccessControl\AllAccessConfigurationListAccessControl;
+use LunixREST\Configuration\INIConfiguration;
+use LunixREST\Request\RequestFactory\BasicURLEncodedRequestFactory;
+use LunixREST\Response\DefaultResponseFactory;
+use LunixREST\Server\HTTPServer;
+use LunixREST\Server\Server;
+use LunixREST\Throttle\NoThrottle;
+
 require("vendor/autoload.php");
 
-$accessControl = new \LunixREST\AccessControl\AllAccessConfigurationListAccessControl(new \LunixREST\Configuration\INIConfiguration("config/api_keys.ini"), 'keys');
-$throttle = new \LunixREST\Throttle\NoThrottle();
-$responseFactory = new \LunixREST\Response\DefaultResponseFactory();
-$geoPhone = new \GeoPhone\Models\GeoPhone("data.csv");
-$endpointFactory = new \GeoPhone\EndpointFactory\EndpointFactory($geoPhone);
-$router = new \LunixREST\Router\Router($accessControl, $throttle, $responseFactory, $endpointFactory);
+$accessControl = new AllAccessConfigurationListAccessControl(new INIConfiguration("config/api_keys.ini"), 'keys');
+$throttle = new NoThrottle();
+$responseFactory = new DefaultResponseFactory();
+$geoPhone = new GeoPhone("data.csv");
+$endpointFactory = new EndpointFactory($geoPhone);
+$server = new Server($accessControl, $throttle, $responseFactory, $endpointFactory);
 
-try {
-	$request = \LunixREST\Request\Request::createFromURL("GET", [], [], '127.0.0.1',  "/1/123456/phonenumbers/6517855237.json");// \LunixREST\Request\Request::createFromURL($_SERVER['REQUEST_METHOD'], getallheaders(), $_REQUEST, $_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_URI']);
+$requestFactory = new BasicURLEncodedRequestFactory();
 
-    try {
-        $response = $router->route($request);
-        echo $response->getAsString();
-    } catch(\LunixREST\Exceptions\InvalidAPIKeyException $e){
-        header('400 Bad Request', true, 400);
-    } catch(\LunixREST\Endpoint\Exceptions\UnknownEndpointException $e){
-        header('404 Not Found', true, 404);
-    } catch(\LunixREST\Response\Exceptions\UnknownResponseTypeException $e){
-        header('404 Not Found', true, 404);
-    } catch(\LunixREST\Exceptions\AccessDeniedException $e){
-        header('403 Access Denied', true, 403);
-    }  catch(\LunixREST\Exceptions\ThrottleLimitExceededException $e){
-        header('429 Too Many Requests', true, 429);
-    } catch(Exception $e){
-        header('500 Internal Server Error', true, 500);
-    }
-} catch(\LunixREST\Exceptions\InvalidRequestFormatException $e){
-	header('400 Bad Request', 400);
-} catch(Exception $e){
-	header('500 Internal Server Error', true, 500);
-}
+$httpServer = new HTTPServer($server, $requestFactory);
+
+// Run to test: GET /1/123456/phonenumbers/6517855237.json
+$httpServer->handleSAPIRequest();
