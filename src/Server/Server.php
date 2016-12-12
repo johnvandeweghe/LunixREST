@@ -1,25 +1,20 @@
 <?php
-namespace LunixREST\Router;
+namespace LunixREST\Server;
 
 use LunixREST\AccessControl\AccessControl;
-use LunixREST\Endpoint\Endpoint;
 use LunixREST\Endpoint\EndpointFactory;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
+use LunixREST\Exceptions\MethodNotFoundException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Request\Request;
 use LunixREST\Response\Exceptions\UnknownResponseTypeException;
 use LunixREST\Response\Response;
-use LunixREST\Response\ResponseData;
 use LunixREST\Response\ResponseFactory;
 use LunixREST\Throttle\Throttle;
 
-/**
- * Class Router
- * @package LunixREST\Router
- */
-class Router {
+class Server {
     /**
      * @var AccessControl
      */
@@ -33,9 +28,9 @@ class Router {
      */
     protected $responseFactory;
     /**
-     * @var EndpointFactory
+     * @var Router
      */
-    private $endpointFactory;
+    private $router;
 
     /**
      * @param AccessControl $accessControl
@@ -47,24 +42,21 @@ class Router {
         $this->accessControl = $accessControl;
         $this->throttle = $throttle;
         $this->responseFactory = $responseFactory;
-        $this->endpointFactory = $endpointFactory;
+        $this->router = new Router($endpointFactory);
     }
 
     /**
      * @param Request $request
      * @return Response
      * @throws AccessDeniedException
-     * @throws InvalidAPIKeyException
      * @throws ThrottleLimitExceededException
      * @throws UnknownEndpointException
-     * @throws UnknownResponseTypeException
+     * @throws MethodNotFoundException
      */
-    public function route(Request $request): Response{
+    public function handleRequest(Request $request): Response {
         $this->validateKey($request);
 
         $this->validateExtension($request);
-
-        $endpoint = $this->endpointFactory->getEndpoint($request->getEndpoint(), $request->getVersion());
 
         if($this->throttle->shouldThrottle($request)) {
             throw new ThrottleLimitExceededException('Request limit exceeded');
@@ -76,7 +68,7 @@ class Router {
 
         $this->throttle->logRequest($request);
 
-        $responseData = $this->executeEndpoint($endpoint, $request);
+        $responseData = $this->router->route($request);
 
         return $this->responseFactory->getResponse($responseData, $request->getExtension());
     }
@@ -100,9 +92,5 @@ class Router {
         if(!$formats || !in_array($request->getExtension(), $formats)){
             throw new UnknownResponseTypeException('Unknown response format: ' . $request->getExtension());
         }
-    }
-
-    protected function executeEndpoint(Endpoint $endpoint, Request $request): ResponseData {
-        return call_user_func([$endpoint, $request->getMethod()], $request);
     }
 }
