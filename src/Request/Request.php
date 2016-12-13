@@ -47,10 +47,15 @@ class Request {
      * @var RequestData
      */
     private $urlData;
+    /**
+     * @var MIMEProvider
+     */
+    private $MIMEProvider;
 
     /**
      * Create a request. Pass Either a URL to parse or the parsed parts.
      * If both are passed the explicitly stated parts will be used.
+     * @param MIMEProvider $MIMEProvider
      * @param $method
      * @param array $headers
      * @param RequestData $body
@@ -63,8 +68,8 @@ class Request {
      * @param string $instance
      */
 
-    //TODO: Rename extension to type, as it could come from headers
-    public function __construct($method, array $headers, RequestData $body, RequestData $urlData, $ip, $version, $apiKey, $endpoint, $extension, $instance = null){
+    public function __construct(MIMEProvider $MIMEProvider, $method, array $headers, RequestData $body, RequestData $urlData, $ip, $version, $apiKey, $endpoint, $extension, $instance = null){
+        $this->MIMEProvider = $MIMEProvider;
         $this->method = strtolower($method);
         $this->headers = $headers;
         $this->body = $body;
@@ -145,6 +150,33 @@ class Request {
      */
     public function getUrlData(): RequestData {
         return $this->urlData;
+    }
+
+    //TODO: Unit test
+    public function getAcceptableMIMETypes(): array {
+        $acceptedMIMETypes = [];
+        if($this->extension) {
+            //extension to mime type conversion
+            $acceptedMIMETypes[] = $this->MIMEProvider->getByFileExtension($this->extension);
+        } else {
+            //TODO: follow RFC2616 order
+            $headerAccepts = [];
+            foreach($this->headers as $key => $value) {
+                if(strtolower($key) == 'http_accept'){
+                    $values = explode(',', $value);
+                    foreach($values as $acceptedType) {
+                        $typeParts = explode(';', $acceptedType);
+                        if(count($typeParts) > 0 ){
+                            $headerAccepts[] = trim($typeParts);
+                        }
+                    }
+                    break;
+                }
+            }
+            $acceptedMIMETypes = array_merge($acceptedMIMETypes, $headerAccepts);
+        }
+
+        return $acceptedMIMETypes;
     }
 
 }

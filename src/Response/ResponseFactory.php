@@ -1,18 +1,18 @@
 <?php
 namespace LunixREST\Response;
 
-use LunixREST\Response\Exceptions\UnknownResponseTypeException;
+use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
 
 interface ResponseFactory {
     /**
      * @param ResponseData $data
-     * @param string $type
+     * @param array $acceptedMIMETypes - acceptable MIME types in order of preference
      * @return Response
-     * @throws UnknownResponseTypeException
+     * @throws NotAcceptableResponseTypeException
      */
-    public function getResponse(ResponseData $data, string $type): Response;
+    public function getResponse(ResponseData $data, array $acceptedMIMETypes): Response;
     /**
      * @return string[]
      */
-    public function getSupportedTypes(): array;
+    public function getSupportedMIMETypes(): array;
 }

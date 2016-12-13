@@ -33,7 +33,9 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         $mockedBodyParser = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParser')->getMock();
         $mockedBodyParser->method('parse')->willReturn($mockedRequestData);
 
-        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedBodyParser);
+        $mockedMIMEProvider = $this->getMockBuilder('\LunixREST\Request\MIMEProvider')->getMock();
+
+        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedBodyParser, $mockedMIMEProvider);
 
         $request = $requestFactory->create($method, $headers, $data, $ip, $url);
 

@@ -22,6 +22,10 @@ class JSONResponse implements Response {
         return json_encode($this->data->getAsAssociativeArray());
     }
 
+    public function getMIMEType(): string {
+        return 'application/json';
+    }
+
     /**
      * @return ResponseData
      */

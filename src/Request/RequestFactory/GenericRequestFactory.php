@@ -2,6 +2,7 @@
 namespace LunixREST\Request\RequestFactory;
 
 use LunixREST\Request\BodyParser\BodyParser;
+use LunixREST\Request\MIMEProvider;
 use LunixREST\Request\Request;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Request\URLParser\URLParser;
@@ -16,15 +17,21 @@ class GenericRequestFactory implements RequestFactory {
      * @var BodyParser
      */
     private $bodyParser;
+    /**
+     * @var MIMEProvider
+     */
+    private $MIMEProvider;
 
     /**
      * BasicRequestFactory constructor.
      * @param URLParser $URLParser
      * @param BodyParser $bodyParser
+     * @param MIMEProvider $MIMEProvider
      */
-    public function __construct(URLParser $URLParser, BodyParser $bodyParser) {
+    public function __construct(URLParser $URLParser, BodyParser $bodyParser, MIMEProvider $MIMEProvider) {
         $this->URLParser = $URLParser;
         $this->bodyParser = $bodyParser;
+        $this->MIMEProvider = $MIMEProvider;
     }
 
     /**
@@ -43,7 +50,7 @@ class GenericRequestFactory implements RequestFactory {
 
         //TODO: check headers for X-API-KEY and possibly use it instead of the parsedURL api key
 
-        return new Request($method, $headers, $parsedData, $parsedURL->getRequestData(), $ip, $parsedURL->getVersion(),
+        return new Request($this->MIMEProvider, $method, $headers, $parsedData, $parsedURL->getRequestData(), $ip, $parsedURL->getVersion(),
             $parsedURL->getApiKey(), $parsedURL->getEndpoint(), $parsedURL->getExtension(), $parsedURL->getInstance());
     }
 }

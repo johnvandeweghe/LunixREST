@@ -9,7 +9,7 @@ use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\MethodNotFoundException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Request\Request;
-use LunixREST\Response\Exceptions\UnknownResponseTypeException;
+use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Response\Response;
 use LunixREST\Response\ResponseFactory;
 use LunixREST\Throttle\Throttle;
@@ -53,6 +53,7 @@ class Server {
      * @throws ThrottleLimitExceededException
      * @throws UnknownEndpointException
      * @throws MethodNotFoundException
+     * @throws NotAcceptableResponseTypeException
      */
     public function handleRequest(Request $request): Response {
         $this->validateKey($request);
@@ -71,8 +72,7 @@ class Server {
 
         $responseData = $this->router->route($request);
 
-        //TODO: Support http accept headers in addition to the extension
-        return $this->responseFactory->getResponse($responseData, $request->getExtension());
+        return $this->responseFactory->getResponse($responseData, $request->getAcceptableMIMETypes());
     }
 
     /**
@@ -87,12 +87,14 @@ class Server {
 
     /**
      * @param Request $request
-     * @throws UnknownResponseTypeException
+     * @throws NotAcceptableResponseTypeException
      */
     protected function validateExtension(Request $request) {
-        $formats = $this->responseFactory->getSupportedTypes();
-        if(empty($formats) || !in_array($request->getExtension(), $formats)){
-            throw new UnknownResponseTypeException('Unknown response format: ' . $request->getExtension());
+        $formats = $this->responseFactory->getSupportedMIMETypes();
+        if(empty($formats) || (
+            !empty($request->getAcceptableMIMETypes()) && empty(array_intersect($request->getAcceptableMIMETypes(), $formats))
+            )) {
+            throw new NotAcceptableResponseTypeException('None of the requests acceptable response types are valid');
         }
     }
 }

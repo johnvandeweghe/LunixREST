@@ -15,8 +15,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
         $requestHeaders = [];
         $requestDataMock = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
         $urlRequestDataMock = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
+        $mockedMIMEProvider = $this->getMockBuilder('\LunixREST\Request\MIMEProvider')->getMock();
 
-        $request = new Request($requestMethod, $requestHeaders, $requestDataMock, $urlRequestDataMock, $requestIP,
+        $request = new Request($mockedMIMEProvider, $requestMethod, $requestHeaders, $requestDataMock, $urlRequestDataMock, $requestIP,
             $requestVersion, $requestAPIKey, $requestEndpoint, $requestExtension, $requestInstance);
 
         $this->assertEquals($requestVersion, $request->getVersion(), 'version should be set without a URL');
@@ -44,8 +45,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
         $requestHeaders = [];
         $requestDataMock = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
         $urlRequestDataMock = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
+        $mockedMIMEProvider = $this->getMockBuilder('\LunixREST\Request\MIMEProvider')->getMock();
 
-        $request = new Request($requestMethod, $requestHeaders, $requestDataMock, $urlRequestDataMock, $requestIP,
+        $request = new Request($mockedMIMEProvider, $requestMethod, $requestHeaders, $requestDataMock, $urlRequestDataMock, $requestIP,
             $requestVersion, $requestAPIKey, $requestEndpoint, $requestExtension, $requestInstance);
 
         $this->assertEquals($requestVersion, $request->getVersion(), 'version should be set without a URL');

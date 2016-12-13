@@ -1,31 +1,36 @@
 <?php
 namespace LunixREST\Response;
 
-use LunixREST\Response\Exceptions\UnknownResponseTypeException;
+use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
 
 class DefaultResponseFactory implements ResponseFactory {
     /**
      * @param ResponseData $data
-     * @param string $type
+     * @param array $acceptedMIMETypes
      * @return Response
-     * @throws UnknownResponseTypeException
+     * @throws NotAcceptableResponseTypeException
      */
-    public function getResponse(ResponseData $data, string $type): Response {
-        switch(strtolower($type)) {
-            case "json":
-                return new JSONResponse($data);
-            default:
-                throw new UnknownResponseTypeException("Unknown response type: $type");
+    public function getResponse(ResponseData $data, array $acceptedMIMETypes): Response {
+        if(empty($acceptedMIMETypes)){
+            $acceptedMIMETypes = $this->getSupportedMIMETypes();
         }
+
+        foreach($acceptedMIMETypes as $acceptedMIMEType) {
+            switch (strtolower($acceptedMIMEType)) {
+                case "application/json":
+                    return new JSONResponse($data);
+            }
+        }
+
+        throw new NotAcceptableResponseTypeException("None of the accepted types are supported");
     }
 
     /**
      * @return string[]
-     * @throws UnknownResponseTypeException
      */
-    public function getSupportedTypes(): array {
+    public function getSupportedMIMETypes(): array {
         return [
-            "json"
+            "application/json"
         ];
     }
 }

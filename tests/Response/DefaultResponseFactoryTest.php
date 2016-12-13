@@ -9,7 +9,18 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
 
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $defaultResponseFactory->getResponse($responseDataMock, 'json'));
+        $response = $defaultResponseFactory->getResponse($responseDataMock, ['application/json']);
+
+        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
+    }
+    public function testGetResponseOfTypesNotAnJSONReturnsJSONResponse(){
+        $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
+
+        $defaultResponseFactory = new DefaultResponseFactory();
+
+        $response = $defaultResponseFactory->getResponse($responseDataMock, ['notJSON', 'application/json']);
+
+        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
     }
 
     public function testGetResponseOfTypeJSONWithWeirdCaseReturnsJSONResponse(){
@@ -17,7 +28,9 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
 
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $defaultResponseFactory->getResponse($responseDataMock, 'JsON'));
+        $response = $defaultResponseFactory->getResponse($responseDataMock, ['application/jSoN']);
+
+        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
     }
 
     public function testGetResponseOfInvalidTypeThrowsException(){
@@ -25,14 +38,14 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
 
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $this->expectException('\LunixREST\Response\Exceptions\UnknownResponseTypeException');
-        $defaultResponseFactory->getResponse($responseDataMock, 'notJSON');
+        $this->expectException('\LunixREST\Response\Exceptions\NotAcceptableResponseTypeException');
+        $defaultResponseFactory->getResponse($responseDataMock, ['notJSON']);
     }
 
-    public function testGetSupportedTypesReturnsJSON(){
-        $expected = ["json"];
+    public function testGetSupportedMIMETypesReturnsJSON(){
+        $expected = ["application/json"];
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $this->assertEquals($expected, $defaultResponseFactory->getSupportedTypes());
+        $this->assertEquals($expected, $defaultResponseFactory->getSupportedMIMETypes());
     }
 }

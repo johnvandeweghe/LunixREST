@@ -11,6 +11,8 @@ interface Response {
      */
     public function getResponseData(): ResponseData;
 
+    public function getMIMEType(): string;
+
     /**
      * @return string
      */
