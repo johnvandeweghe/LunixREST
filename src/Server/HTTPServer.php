@@ -7,6 +7,7 @@ use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Request\RequestFactory\RequestFactory;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
+use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Response\Exceptions\UnknownResponseTypeException;
 
 //TODO: Unit test? Might be impossible (this is a weird global class, and hopefully the ONLY weird global class)
@@ -38,13 +39,14 @@ class HTTPServer {
 
             try {
                 $response = $this->server->handleRequest($request);
+                header("Content-Type: " . $response->getMIMEType());
                 echo $response->getAsString();
             } catch(InvalidAPIKeyException $e){
                 header('400 Bad Request', true, 400);
             } catch(UnknownEndpointException $e){
                 header('404 Not Found', true, 404);
-            } catch(UnknownResponseTypeException $e){
-                header('404 Not Found', true, 404);
+            } catch(NotAcceptableResponseTypeException $e){
+                header('406 Not Acceptable', true, 406);
             } catch(AccessDeniedException $e){
                 header('403 Access Denied', true, 403);
             } catch(ThrottleLimitExceededException $e){
