@@ -5,7 +5,7 @@ require("src/Endpoints/v1_0/helloworld.php");
 
 use LunixREST\AccessControl\PublicAccessControl;
 use LunixREST\Endpoint\NamespaceEndpointFactory;
-use LunixREST\Request\RequestFactory\BasicURLEncodedRequestFactory;
+use LunixREST\Request\RequestFactory\BasicRequestFactory;
 use LunixREST\Response\DefaultResponseFactory;
 use LunixREST\Server\HTTPServer;
 use LunixREST\Server\Server;
@@ -26,7 +26,7 @@ $endpointFactory = new NamespaceEndpointFactory("\\HelloWorld\\Endpoints");
 $server = new Server($accessControl, $throttle, $responseFactory, $endpointFactory);
 
 //Build a basic url decoding body handler, which includes the basic url parser (which determines the url format)
-$requestFactory = new BasicURLEncodedRequestFactory();
+$requestFactory = new BasicRequestFactory();
 
 $httpServer = new HTTPServer($server, $requestFactory);
 

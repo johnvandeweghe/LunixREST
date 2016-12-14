@@ -1,15 +1,15 @@
 <?php
+require("vendor/autoload.php");
+
 use GeoPhone\EndpointFactory\EndpointFactory;
 use GeoPhone\Models\GeoPhone;
 use LunixREST\AccessControl\AllAccessConfigurationListAccessControl;
 use LunixREST\Configuration\INIConfiguration;
-use LunixREST\Request\RequestFactory\BasicURLEncodedRequestFactory;
+use LunixREST\Request\RequestFactory\BasicRequestFactory;
 use LunixREST\Response\DefaultResponseFactory;
 use LunixREST\Server\HTTPServer;
 use LunixREST\Server\Server;
 use LunixREST\Throttle\NoThrottle;
-
-require("vendor/autoload.php");
 
 //Load an access control that gives full access to every key in config/api_keys.ini
 $accessControl = new AllAccessConfigurationListAccessControl(new INIConfiguration("config/api_keys.ini"), 'keys');
@@ -29,7 +29,7 @@ $endpointFactory = new EndpointFactory($geoPhone);
 $server = new Server($accessControl, $throttle, $responseFactory, $endpointFactory);
 
 //Build a basic url decoding body handler, which includes the basic url parser (which determines the url format)
-$requestFactory = new BasicURLEncodedRequestFactory();
+$requestFactory = new BasicRequestFactory();
 
 $httpServer = new HTTPServer($server, $requestFactory);
 

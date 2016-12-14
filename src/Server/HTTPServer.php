@@ -8,7 +8,6 @@ use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Request\RequestFactory\RequestFactory;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
-use LunixREST\Response\Exceptions\UnknownResponseTypeException;
 
 //TODO: Unit test? Might be impossible (this is a weird global class, and hopefully the ONLY weird global class)
 class HTTPServer {
