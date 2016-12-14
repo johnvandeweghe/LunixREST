@@ -33,10 +33,10 @@ class ParsedURL {
      * ParsedURL constructor.
      * @param RequestData $requestData
      * @param string $version
-     * @param string $apiKey
+     * @param string|null $apiKey
      * @param string $endpoint
      * @param array $acceptableMIMETypes
-     * @param string $instance
+     * @param string|null $instance
      */
     public function __construct(RequestData $requestData, $version, $apiKey, $endpoint, $acceptableMIMETypes, $instance) {
         $this->requestData = $requestData;

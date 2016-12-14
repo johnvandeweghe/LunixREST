@@ -9,11 +9,11 @@ class BasicBodyParserFactory implements BodyParserFactory {
      */
     public function create(string $contentType): BodyParser {
         switch($contentType) {
+            case 'application/json':
+                return new JSONBodyParser();
             case 'application/x-www-form-urlencoded':
             default:
                 return new URLEncodedBodyParser();
-            case 'application/json':
-                return new JSONBodyParser();
         }
     }
 }

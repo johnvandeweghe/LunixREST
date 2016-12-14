@@ -145,30 +145,4 @@ class Request {
     public function getUrlData(): RequestData {
         return $this->urlData;
     }
-
-    /*
-     *
-        $acceptedMIMETypes = [];
-        if($this->extension) {
-            //extension to mime type conversion
-            $acceptedMIMETypes[] = $this->MIMEProvider->getByFileExtension($this->extension);
-        } else {
-            $headerAccepts = [];
-            foreach($this->headers as $key => $value) {
-                if(strtolower($key) == 'http-accept'){
-                    $values = explode(',', $value);
-                    foreach($values as $acceptedType) {
-                        $typeParts = explode(';', $acceptedType);
-                        if(count($typeParts) > 0 ){
-                            $headerAccepts[] = trim($typeParts);
-                        }
-                    }
-                    break;
-                }
-            }
-            $acceptedMIMETypes = array_merge($acceptedMIMETypes, $headerAccepts);
-        }
-
-        return $acceptedMIMETypes;
-     */
 }

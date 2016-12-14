@@ -57,7 +57,7 @@ class GenericRequestFactory implements RequestFactory {
         $parsedData = $bodyParser->parse($data);
 
         $apiKey = $parsedURL->getAPIKey();
-        if(!$apiKey) {
+        if($apiKey === null) {
             $apiKey = $parsedHeaders->getAPIKey();
         }
 
