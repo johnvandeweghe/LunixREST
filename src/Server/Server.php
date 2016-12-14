@@ -15,6 +15,7 @@ use LunixREST\Response\ResponseFactory;
 use LunixREST\Throttle\Throttle;
 
 //TODO: Unit test
+//TODO: Implementation documentation to describe built options (Basic*)
 class Server {
     /**
      * @var AccessControl

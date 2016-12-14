@@ -16,3 +16,4 @@ Features include:
 See /examples/ folder for some examples on how to implement LunixREST
 
 As per composer.json: This project requires PHP 7.0+ to run. 
+

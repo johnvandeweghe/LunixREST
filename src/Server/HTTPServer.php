@@ -5,6 +5,8 @@ use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
+use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
+use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\RequestFactory\RequestFactory;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
@@ -54,6 +56,10 @@ class HTTPServer {
                 header('500 Internal Server Error', true, 500);
             }
         } catch(InvalidRequestURLException $e){
+            header('400 Bad Request', true, 400);
+        } catch(UnknownContentTypeException $e){
+            header('400 Bad Request', true, 400);
+        } catch(InvalidRequestDataException $e){
             header('400 Bad Request', true, 400);
         } catch(\Exception $e){
             header('500 Internal Server Error', true, 500);
