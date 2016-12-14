@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Request\RequestFactory;
 
-use LunixREST\Request\BodyParser\BodyParser;
-use LunixREST\Request\MIMEProvider;
+use LunixREST\Request\BodyParser\BodyParserFactory;
+use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
+use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
+use LunixREST\Request\HeaderParser\HeaderParser;
 use LunixREST\Request\Request;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Request\URLParser\URLParser;
@@ -14,24 +16,24 @@ class GenericRequestFactory implements RequestFactory {
      */
     protected $URLParser;
     /**
-     * @var BodyParser
+     * @var BodyParserFactory
      */
-    private $bodyParser;
+    private $bodyParserFactory;
     /**
-     * @var MIMEProvider
+     * @var HeaderParser
      */
-    private $MIMEProvider;
+    private $headerParser;
 
     /**
      * BasicRequestFactory constructor.
      * @param URLParser $URLParser
-     * @param BodyParser $bodyParser
-     * @param MIMEProvider $MIMEProvider
+     * @param BodyParserFactory $bodyParserFactory
+     * @param HeaderParser $headerParser
      */
-    public function __construct(URLParser $URLParser, BodyParser $bodyParser, MIMEProvider $MIMEProvider) {
+    public function __construct(URLParser $URLParser, BodyParserFactory $bodyParserFactory, HeaderParser $headerParser) {
         $this->URLParser = $URLParser;
-        $this->bodyParser = $bodyParser;
-        $this->MIMEProvider = $MIMEProvider;
+        $this->bodyParserFactory = $bodyParserFactory;
+        $this->headerParser = $headerParser;
     }
 
     /**
@@ -43,14 +45,28 @@ class GenericRequestFactory implements RequestFactory {
      * @param $url
      * @return Request
      * @throws InvalidRequestURLException
+     * @throws UnknownContentTypeException
+     * @throws InvalidRequestDataException
      */
     public function create($method, array $headers, string $data, $ip, $url): Request {
         $parsedURL = $this->URLParser->parse($url);
-        $parsedData = $this->bodyParser->parse($data);
 
-        //TODO: check headers for X-API-KEY and possibly use it instead of the parsedURL api key
+        $parsedHeaders = $this->headerParser->parse($headers);
 
-        return new Request($this->MIMEProvider, $method, $headers, $parsedData, $parsedURL->getRequestData(), $ip, $parsedURL->getVersion(),
-            $parsedURL->getApiKey(), $parsedURL->getEndpoint(), $parsedURL->getExtension(), $parsedURL->getInstance());
+        $bodyParser = $this->bodyParserFactory->create($parsedHeaders->getContentType());
+        $parsedData = $bodyParser->parse($data);
+
+        $apiKey = $parsedURL->getAPIKey();
+        if(!$apiKey) {
+            $apiKey = $parsedHeaders->getAPIKey();
+        }
+
+        $acceptableMIMETypes = array_unique(array_merge(
+            $parsedURL->getAcceptableMIMETypes(),
+            $parsedHeaders->getAcceptableMIMETypes()
+        ));
+
+        return new Request($method, $headers, $parsedData, $parsedURL->getRequestData(), $ip, $parsedURL->getVersion(),
+            $apiKey, $parsedURL->getEndpoint(), $acceptableMIMETypes, $parsedURL->getInstance());
     }
 }

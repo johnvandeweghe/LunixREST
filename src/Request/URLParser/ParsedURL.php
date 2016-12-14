@@ -21,9 +21,9 @@ class ParsedURL {
      */
     protected $endpoint;
     /**
-     * @var string
+     * @var array
      */
-    protected $extension;
+    protected $acceptableMIMETypes;
     /**
      * @var string
      */
@@ -35,15 +35,15 @@ class ParsedURL {
      * @param string $version
      * @param string $apiKey
      * @param string $endpoint
-     * @param string $extension
+     * @param array $acceptableMIMETypes
      * @param string $instance
      */
-    public function __construct(RequestData $requestData, $version, $apiKey, $endpoint, $extension, $instance) {
+    public function __construct(RequestData $requestData, $version, $apiKey, $endpoint, $acceptableMIMETypes, $instance) {
         $this->requestData = $requestData;
         $this->version = $version;
         $this->apiKey = $apiKey;
         $this->endpoint = $endpoint;
-        $this->extension = $extension;
+        $this->acceptableMIMETypes = $acceptableMIMETypes;
         $this->instance = $instance;
     }
 
@@ -64,7 +64,7 @@ class ParsedURL {
     /**
      * @return string|null
      */
-    public function getApiKey() {
+    public function getAPIKey() {
         return $this->apiKey;
     }
 
@@ -76,10 +76,10 @@ class ParsedURL {
     }
 
     /**
-     * @return string|null
+     * @return array
      */
-    public function getExtension() {
-        return $this->extension;
+    public function getAcceptableMIMETypes(): array {
+        return $this->acceptableMIMETypes;
     }
 
     /**

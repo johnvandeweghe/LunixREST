@@ -1,6 +1,8 @@
 <?php
 namespace LunixREST\Request\RequestFactory;
 
+use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
+use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\Request;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 
@@ -14,6 +16,8 @@ interface RequestFactory {
      * @param $url
      * @return Request
      * @throws InvalidRequestURLException
+     * @throws UnknownContentTypeException
+     * @throws InvalidRequestDataException
      */
     public function create($method, array $headers, string $data, $ip, $url): Request;
 }

@@ -34,10 +34,6 @@ class Request {
     /**
      * @var string
      */
-    protected $extension;
-    /**
-     * @var string
-     */
     protected $ip;
     /**
      * @var RequestData
@@ -48,14 +44,13 @@ class Request {
      */
     private $urlData;
     /**
-     * @var MIMEProvider
+     * @var array
      */
-    private $MIMEProvider;
+    private $acceptableMIMETypes;
 
     /**
      * Create a request. Pass Either a URL to parse or the parsed parts.
      * If both are passed the explicitly stated parts will be used.
-     * @param MIMEProvider $MIMEProvider
      * @param $method
      * @param array $headers
      * @param RequestData $body
@@ -64,12 +59,12 @@ class Request {
      * @param string $version
      * @param string $apiKey
      * @param string $endpoint
-     * @param string $extension
+     * @param array $acceptableMIMETypes
      * @param string $instance
+     * @internal param string $extension
      */
 
-    public function __construct(MIMEProvider $MIMEProvider, $method, array $headers, RequestData $body, RequestData $urlData, $ip, $version, $apiKey, $endpoint, $extension, $instance = null){
-        $this->MIMEProvider = $MIMEProvider;
+    public function __construct($method, array $headers, RequestData $body, RequestData $urlData, $ip, $version, $apiKey, $endpoint, array $acceptableMIMETypes = [], $instance = null){
         $this->method = strtolower($method);
         $this->headers = $headers;
         $this->body = $body;
@@ -78,7 +73,7 @@ class Request {
         $this->version = $version;
         $this->apiKey = $apiKey;
         $this->endpoint = $endpoint;
-        $this->extension = $extension;
+        $this->acceptableMIMETypes = $acceptableMIMETypes;
         $this->instance = $instance;
     }
 
@@ -125,19 +120,18 @@ class Request {
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getInstance() {
-        return $this->instance;
+    public function getAcceptableMIMETypes(): array {
+        return $this->acceptableMIMETypes;
     }
 
     /**
      * @return string
      */
-    public function getExtension() {
-        return $this->extension;
+    public function getInstance() {
+        return $this->instance;
     }
-
     /**
      * @return RequestData
      */
@@ -152,17 +146,16 @@ class Request {
         return $this->urlData;
     }
 
-    //TODO: Unit test
-    public function getAcceptableMIMETypes(): array {
+    /*
+     *
         $acceptedMIMETypes = [];
         if($this->extension) {
             //extension to mime type conversion
             $acceptedMIMETypes[] = $this->MIMEProvider->getByFileExtension($this->extension);
         } else {
-            //TODO: follow RFC2616 order
             $headerAccepts = [];
             foreach($this->headers as $key => $value) {
-                if(strtolower($key) == 'http_accept'){
+                if(strtolower($key) == 'http-accept'){
                     $values = explode(',', $value);
                     foreach($values as $acceptedType) {
                         $typeParts = explode(';', $acceptedType);
@@ -177,6 +170,5 @@ class Request {
         }
 
         return $acceptedMIMETypes;
-    }
-
+     */
 }

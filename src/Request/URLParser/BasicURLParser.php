@@ -1,10 +1,24 @@
 <?php
 namespace LunixREST\Request\URLParser;
 
+use LunixREST\Request\MIMEProvider;
 use LunixREST\Request\RequestData\URLEncodedQueryStringRequestData;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 
 class BasicURLParser implements URLParser {
+
+    /**
+     * @var MIMEProvider
+     */
+    private $MIMEProvider;
+
+    /**
+     * BasicURLParser constructor.
+     * @param MIMEProvider $MIMEProvider
+     */
+    public function __construct(MIMEProvider $MIMEProvider) {
+        $this->MIMEProvider = $MIMEProvider;
+    }
 
     /**
      * Parses API request data out of a url
@@ -38,6 +52,8 @@ class BasicURLParser implements URLParser {
 
         $requestData = new URLEncodedQueryStringRequestData($queryString);
 
-        return new ParsedURL($requestData, $version, $apiKey, $endpoint, $extension, $instance);
+        $mime = $this->MIMEProvider->getByFileExtension($extension);
+
+        return new ParsedURL($requestData, $version, $apiKey, $endpoint, $mime ? [$mime] : [], $instance);
     }
 }
