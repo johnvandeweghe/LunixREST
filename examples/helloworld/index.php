@@ -11,8 +11,8 @@ use LunixREST\Server\HTTPServer;
 use LunixREST\Server\Server;
 use LunixREST\Throttle\NoThrottle;
 
-//The public key "public" gives access to everything
-$accessControl = new PublicAccessControl("public");
+//Ignore whatever key is passed and give access anyway
+$accessControl = new PublicAccessControl();
 
 //Don't throttle requests
 $throttle = new NoThrottle();
