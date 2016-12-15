@@ -31,4 +31,12 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals($responseDataMock, $JSONResponse->getResponseData());
     }
+
+    public function testgetMIMETypeReturnsJSONType(){
+        $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
+
+        $JSONResponse = new JSONResponse($responseDataMock);
+
+        $this->assertEquals('application/json', $JSONResponse->getMIMEType());
+    }
 }

@@ -6,12 +6,12 @@ use LunixREST\Endpoint\EndpointFactory;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
-use LunixREST\Exceptions\MethodNotFoundException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Request\Request;
 use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Response\Response;
 use LunixREST\Response\ResponseFactory;
+use LunixREST\Server\Exceptions\MethodNotFoundException;
 use LunixREST\Throttle\Throttle;
 
 //TODO: Unit test
@@ -59,7 +59,7 @@ class Server {
     public function handleRequest(Request $request): Response {
         $this->validateKey($request);
 
-        $this->validateExtension($request);
+        $this->validateAcceptableMIMETypes($request);
 
         if($this->throttle->shouldThrottle($request)) {
             throw new ThrottleLimitExceededException('Request limit exceeded');
@@ -90,7 +90,8 @@ class Server {
      * @param Request $request
      * @throws NotAcceptableResponseTypeException
      */
-    protected function validateExtension(Request $request) {
+    //TODO: Handle wildcards in request MIME types (*/*)
+    protected function validateAcceptableMIMETypes(Request $request) {
         $formats = $this->responseFactory->getSupportedMIMETypes();
         if(empty($formats) || (
             !empty($request->getAcceptableMIMETypes()) && empty(array_intersect($request->getAcceptableMIMETypes(), $formats))

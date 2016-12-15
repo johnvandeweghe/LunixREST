@@ -10,6 +10,7 @@ use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\RequestFactory\RequestFactory;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
+use LunixREST\Server\Exceptions\MethodNotFoundException;
 
 //TODO: Unit test? Might be impossible (this is a weird global class, and hopefully the ONLY weird global class)
 class HTTPServer {
@@ -41,6 +42,7 @@ class HTTPServer {
             try {
                 $response = $this->server->handleRequest($request);
                 header("Content-Type: " . $response->getMIMEType());
+                //TODO: Find a way for the Response to specify additional headers (to enable auth, as well as pagination)
                 echo $response->getAsString();
             } catch(InvalidAPIKeyException $e){
                 header('400 Bad Request', true, 400);
@@ -52,6 +54,8 @@ class HTTPServer {
                 header('403 Access Denied', true, 403);
             } catch(ThrottleLimitExceededException $e){
                 header('429 Too Many Requests', true, 429);
+            } catch (MethodNotFoundException $e) {
+                header('500 Internal Server Error', true, 500);
             } catch (\Exception $e) {
                 header('500 Internal Server Error', true, 500);
             }

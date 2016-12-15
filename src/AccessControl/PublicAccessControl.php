@@ -8,30 +8,18 @@ use LunixREST\Request\Request;
  */
 class PublicAccessControl implements AccessControl {
     /**
-     * @var string
-     */
-    protected $publicKey;
-
-    /**
-     * @param string $publicKey
-     */
-    public function __construct($publicKey = 'public'){
-        $this->publicKey = $publicKey;
-    }
-
-    /**
      * @param \LunixREST\Request\Request $request
-     * @return bool true if key is valid
+     * @return bool
      */
     public function validateAccess(Request $request){
-        return $this->validateKey($request->getApiKey());
+        return true;
     }
 
     /**
      * @param $apiKey
-     * @return bool true if key is the key specified in the constructor
+     * @return bool
      */
     public function validateKey($apiKey){
-        return $apiKey === $this->publicKey;
+        return true;
     }
 }

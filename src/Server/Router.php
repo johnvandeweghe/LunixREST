@@ -4,14 +4,15 @@ namespace LunixREST\Server;
 use LunixREST\Endpoint\Endpoint;
 use LunixREST\Endpoint\EndpointFactory;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
-use LunixREST\Exceptions\MethodNotFoundException;
 use LunixREST\Request\Request;
 use LunixREST\Response\ResponseData;
+use LunixREST\Server\Exceptions\MethodNotFoundException;
 
 /**
  * Class Router
  * @package LunixREST\Router
  */
+//TODO: Unit test
 class Router {
     /**
      * @var EndpointFactory

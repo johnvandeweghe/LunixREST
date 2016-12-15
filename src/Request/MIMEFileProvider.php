@@ -21,14 +21,17 @@ class MIMEFileProvider implements MIMEProvider {
         $out = array();
         while(($line = fgets($this->file)) !== false) {
             $line = trim(preg_replace('/#.*/', '', $line));
-            if(!$line)
+            if(!$line) {
                 continue;
+            }
             $parts = preg_split('/\s+/', $line);
-            if(count($parts) == 1)
+            if(count($parts) == 1) {
                 continue;
+            }
             $type = array_shift($parts);
-            foreach($parts as $part)
+            foreach($parts as $part) {
                 $out[$part] = $type;
+            }
         }
 
         $this->cache = $out;

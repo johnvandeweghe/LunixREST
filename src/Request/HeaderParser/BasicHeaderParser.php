@@ -13,7 +13,15 @@ class BasicHeaderParser implements HeaderParser {
         $this->apiKeyHeaderKey = $apiKeyHeaderKey;
     }
 
-    public function findAcceptableMIMETypes(array $headers): array{
+    public function parse(array $headers): ParsedHeaders {
+        $contentType = $this->getContentType($headers);
+        $acceptableMIMETypes = $this->findAcceptableMIMETypes($headers);
+        $apiKey = $this->findAPIKey($headers);
+
+        return new ParsedHeaders($contentType, $acceptableMIMETypes, $apiKey);
+    }
+
+    protected function findAcceptableMIMETypes(array $headers): array{
         //TODO: follow RFC2616 order
         $acceptedMIMETypes = [];
         foreach($headers as $key => $value) {
@@ -22,7 +30,7 @@ class BasicHeaderParser implements HeaderParser {
                 foreach($values as $acceptedType) {
                     $typeParts = explode(';', $acceptedType);
                     if(count($typeParts) > 0 ){
-                        $acceptedMIMETypes[] = trim($typeParts);
+                        $acceptedMIMETypes[] = trim($typeParts[0]);
                     }
                 }
                 break;
@@ -31,29 +39,21 @@ class BasicHeaderParser implements HeaderParser {
         return $acceptedMIMETypes;
     }
 
-    public function findAPIKey(array $headers){
+    protected function findAPIKey(array $headers){
         foreach($headers as $key => $value) {
-            if(strtolower($key) == $this->apiKeyHeaderKey){
+            if(strtolower($key) == strtolower($this->apiKeyHeaderKey)){
                 return $value;
             }
         }
         return null;
     }
 
-    public function getContentType(array $headers){
+    protected function getContentType(array $headers){
         foreach($headers as $key => $value) {
             if(strtolower($key) == 'content-type'){
                 return $value;
             }
         }
         return null;
-    }
-
-    public function parse(array $headers): ParsedHeaders {
-        $contentType = $this->getContentType($headers);
-        $acceptableMIMETypes = $this->findAcceptableMIMETypes($headers);
-        $apiKey = $this->findAPIKey($headers);
-
-        return new ParsedHeaders($contentType, $acceptableMIMETypes, $apiKey);
     }
 }
