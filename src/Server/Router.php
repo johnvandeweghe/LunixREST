@@ -12,7 +12,6 @@ use LunixREST\Server\Exceptions\MethodNotFoundException;
  * Class Router
  * @package LunixREST\Router
  */
-//TODO: Unit test
 class Router {
     /**
      * @var EndpointFactory

@@ -4,3 +4,4 @@ vendor/
 *.sqlite
 composer.phar
 composer.lock
+*.clover
