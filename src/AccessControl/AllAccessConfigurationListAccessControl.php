@@ -4,6 +4,7 @@ use LunixREST\Configuration\Configuration;
 use LunixREST\Request\Request;
 
 /**
+ * Access control that uses a Configuration to read in valid keys. All keys the configuration provide are given full access
  * Class AllAccessListAccessControl
  * @package LunixREST\AccessControl
  */

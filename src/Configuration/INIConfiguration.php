@@ -5,6 +5,7 @@ use LunixREST\Exceptions\INIKeyNotFoundException;
 use LunixREST\Exceptions\INIParseException;
 
 /**
+ * Configuration that reads in an ini file
  * Class INIConfiguration
  * @package LunixREST\Configuration
  */
@@ -28,12 +29,14 @@ class INIConfiguration implements Configuration {
 	}
 
 	/**
+     * //TODO: Move throws/loading to constructor to keep with get contract
 	 * @param $key
 	 * @return mixed
 	 * @throws INIKeyNotFoundException
 	 * @throws INIParseException
 	 */
 	public function get($key){
+	    //TODO: Cache the file contents
 		$config = parse_ini_file($this->filename, (bool)$this->nameSpace);
 
 		if($config === false){

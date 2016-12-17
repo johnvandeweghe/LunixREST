@@ -28,7 +28,8 @@ class HTTPServer {
      * @param Server $server
      * @param RequestFactory $requestFactory
      */
-    //TODO: Add logging that we can pass through to log requests
+    //TODO: Add RequestLogger that we can pass through to log requests
+    //TODO: Add ErrorLogger to log errors (500s)
     public function __construct(Server $server, RequestFactory $requestFactory) {
         $this->server = $server;
         $this->requestFactory = $requestFactory;

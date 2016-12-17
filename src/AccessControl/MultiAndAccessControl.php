@@ -3,6 +3,7 @@ namespace LunixREST\AccessControl;
 use LunixREST\Request\Request;
 
 /**
+ * Take all of our Multiple access controls, and verify each one returns true (logical AND)
  * Class MultiAccessControl
  * @package LunixREST\AccessControl
  */

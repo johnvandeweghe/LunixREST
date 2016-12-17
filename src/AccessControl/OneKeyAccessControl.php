@@ -3,7 +3,8 @@ namespace LunixREST\AccessControl;
 use LunixREST\Request\Request;
 
 /**
- * Class PublicAccessControl
+ * An access control policy that allows a single key full access to the API
+ * Class OneKeyAccessControl
  * @package LunixREST\AccessControl
  */
 class OneKeyAccessControl implements AccessControl {

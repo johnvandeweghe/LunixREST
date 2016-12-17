@@ -1,6 +1,12 @@
 <?php
 namespace LunixREST\Request\BodyParser;
 
+/**
+ * A BodyParserFactory that understands url encoded and json encoded content-types.
+ * Class BasicBodyParserFactory
+ * @package LunixREST\Request\BodyParser
+ */
+//TODO: Consider renaming to Default*
 class BasicBodyParserFactory implements BodyParserFactory {
     /**
      * Parses API request data out of a url

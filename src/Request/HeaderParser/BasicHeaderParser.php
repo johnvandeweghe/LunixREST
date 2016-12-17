@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Request\HeaderParser;
 
+//TODO: Consider renaming to Default
 class BasicHeaderParser implements HeaderParser {
 
     private $apiKeyHeaderKey;

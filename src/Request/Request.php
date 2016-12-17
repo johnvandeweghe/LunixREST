@@ -3,6 +3,7 @@ namespace LunixREST\Request;
 use LunixREST\Request\RequestData\RequestData;
 
 /**
+ * An immutable data class for API requests.
  * Class Request
  * @package LunixREST\Request
  */
@@ -49,8 +50,6 @@ class Request {
     private $acceptableMIMETypes;
 
     /**
-     * Create a request. Pass Either a URL to parse or the parsed parts.
-     * If both are passed the explicitly stated parts will be used.
      * @param $method
      * @param array $headers
      * @param RequestData $body
@@ -61,7 +60,6 @@ class Request {
      * @param string $endpoint
      * @param array $acceptableMIMETypes
      * @param string $instance
-     * @internal param string $extension
      */
 
     public function __construct($method, array $headers, RequestData $body, RequestData $urlData, $ip, $version, $apiKey, $endpoint, array $acceptableMIMETypes = [], $instance = null){

@@ -9,6 +9,11 @@ use LunixREST\Request\Request;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Request\URLParser\URLParser;
 
+/**
+ * A generic Request Factory that derives it's behavior from a URLParser, a BodyParserFactory, and a HeaderParser.
+ * Class GenericRequestFactory
+ * @package LunixREST\Request\RequestFactory
+ */
 class GenericRequestFactory implements RequestFactory {
 
     /**

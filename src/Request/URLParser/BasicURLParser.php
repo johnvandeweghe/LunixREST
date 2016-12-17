@@ -5,6 +5,12 @@ use LunixREST\Request\MIMEProvider;
 use LunixREST\Request\RequestData\URLEncodedQueryStringRequestData;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 
+/**
+ * A basic URL parser. Expects URLS in the format:
+ * /VERSION/APIKEY/ENDPOINT_NAME[/INSTANCE_ID].EXTENSION[?QUERY_STRING]
+ * Class BasicURLParser
+ * @package LunixREST\Request\URLParser
+ */
 class BasicURLParser implements URLParser {
 
     /**

@@ -3,6 +3,8 @@ namespace LunixREST\AccessControl;
 use LunixREST\Request\Request;
 
 /**
+ * Similar to OneKeyAccessControl, but takes in an array of valid keys to check against.
+ * IMPORTANT: Only use for short lists. Anything longer should be built using something else.
  * Class AllAccessListAccessControl
  * @package LunixREST\AccessControl
  */

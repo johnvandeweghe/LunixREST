@@ -1,7 +1,13 @@
 <?php
 namespace LunixREST\Request;
 
-//TODO: Unit test?
+/**
+ * A MIMEProvider that works off of a mime.types file often found in Linux distros. Defaults to the common path.
+ * Warning: Probably won't work under Windows, unless you can supply it a mime.types file
+ * Note that much of this behaviour derives from: http://stackoverflow.com/a/1147952
+ * Class MIMEFileProvider
+ * @package LunixREST\Request
+ */
 class MIMEFileProvider implements MIMEProvider {
     protected $file;
 
@@ -11,7 +17,6 @@ class MIMEFileProvider implements MIMEProvider {
         $this->file = fopen($filePath, 'r');
     }
 
-    //Borrowed from http://stackoverflow.com/a/1147952
     public function getAll(): array {
         if($this->cache){
             return $this->cache;
@@ -39,7 +44,6 @@ class MIMEFileProvider implements MIMEProvider {
         return $out;
     }
 
-    //Borrowed from http://stackoverflow.com/a/1147952
     public function getByFileExtension($extension): string {
         # Returns the system MIME type (as defined in /etc/mime.types) for the filename specified.
         #

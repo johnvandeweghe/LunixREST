@@ -3,6 +3,7 @@ namespace LunixREST\AccessControl;
 use LunixREST\Request\Request;
 
 /**
+ * Access control for a public API, ignores all parameters and allows full access
  * Class PublicAccessControl
  * @package LunixREST\AccessControl
  */

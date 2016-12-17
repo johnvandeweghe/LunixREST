@@ -3,6 +3,10 @@ namespace LunixREST\Response;
 
 use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
 
+/**
+ * Class DefaultResponseFactory
+ * @package LunixREST\Response
+ */
 class DefaultResponseFactory implements ResponseFactory {
     /**
      * @param ResponseData $data
