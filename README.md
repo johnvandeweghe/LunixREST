@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/johnvandeweghe/LunixREST.svg?branch=master)](https://travis-ci.org/johnvandeweghe/LunixREST) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnvandeweghe/LunixREST/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/johnvandeweghe/LunixREST/?branch=master)
+[![Build Status](https://travis-ci.org/johnvandeweghe/LunixREST.svg?branch=master)](https://travis-ci.org/johnvandeweghe/LunixREST) [![Code Coverage](https://scrutinizer-ci.com/g/johnvandeweghe/LunixREST/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/johnvandeweghe/LunixREST/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnvandeweghe/LunixREST/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/johnvandeweghe/LunixREST/?branch=master)
 
 
 LunixREST is a highly extensible, lightweight framework for writing REST APIs in PHP.
