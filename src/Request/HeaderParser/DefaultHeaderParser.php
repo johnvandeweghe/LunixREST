@@ -1,13 +1,12 @@
 <?php
 namespace LunixREST\Request\HeaderParser;
 
-//TODO: Consider renaming to Default
-class BasicHeaderParser implements HeaderParser {
+class DefaultHeaderParser implements HeaderParser {
 
     private $apiKeyHeaderKey;
 
     /**
-     * BasicHeaderParser constructor.
+     * DefaultHeaderParser constructor.
      * @param string $apiKeyHeaderKey
      */
     public function __construct($apiKeyHeaderKey = 'x-api-key') {

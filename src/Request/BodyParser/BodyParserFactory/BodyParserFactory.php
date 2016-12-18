@@ -1,7 +1,8 @@
 <?php
-namespace LunixREST\Request\BodyParser;
+namespace LunixREST\Request\BodyParser\BodyParserFactory;
 
-use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
+use LunixREST\Request\BodyParser\BodyParser;
+use LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException;
 
 interface BodyParserFactory {
     /**

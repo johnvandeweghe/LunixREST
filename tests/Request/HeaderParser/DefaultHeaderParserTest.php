@@ -1,15 +1,15 @@
 <?php
 namespace LunixREST\tests\Request\HeaderParser;
 
-use LunixREST\Request\HeaderParser\BasicHeaderParser;
+use LunixREST\Request\HeaderParser\DefaultHeaderParser;
 
-class BasicHeaderParserTest extends \PHPUnit_Framework_TestCase {
+class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase {
     public function testParsesAPIKeyWithDefaultKeyName() {
         $headers = [
             "X-API-KEY" => "123353245",
         ];
 
-        $headerParser = new BasicHeaderParser();
+        $headerParser = new DefaultHeaderParser();
 
         $parsedHeaders = $headerParser->parse($headers);
 
@@ -21,7 +21,7 @@ class BasicHeaderParserTest extends \PHPUnit_Framework_TestCase {
             "X-SUPER-COOL-TEST-KEY" => "123353245",
         ];
 
-        $headerParser = new BasicHeaderParser("X-SUPER-COOL-TEST-KEY");
+        $headerParser = new DefaultHeaderParser("X-SUPER-COOL-TEST-KEY");
 
         $parsedHeaders = $headerParser->parse($headers);
 
@@ -33,7 +33,7 @@ class BasicHeaderParserTest extends \PHPUnit_Framework_TestCase {
             "X-SUPER-COOL-TEST-KEY" => "123353245",
         ];
 
-        $headerParser = new BasicHeaderParser("X-SUPER-cool-TEST-key");
+        $headerParser = new DefaultHeaderParser("X-SUPER-cool-TEST-key");
 
         $parsedHeaders = $headerParser->parse($headers);
 
@@ -45,7 +45,7 @@ class BasicHeaderParserTest extends \PHPUnit_Framework_TestCase {
             "CONTENT-TYPE" => "form/urlencoded"
         ];
 
-        $headerParser = new BasicHeaderParser();
+        $headerParser = new DefaultHeaderParser();
 
         $parsedHeaders = $headerParser->parse($headers);
 
@@ -57,7 +57,7 @@ class BasicHeaderParserTest extends \PHPUnit_Framework_TestCase {
             "content-type" => "form/urlencoded"
         ];
 
-        $headerParser = new BasicHeaderParser();
+        $headerParser = new DefaultHeaderParser();
 
         $parsedHeaders = $headerParser->parse($headers);
 
@@ -76,7 +76,7 @@ class BasicHeaderParserTest extends \PHPUnit_Framework_TestCase {
             "*/*"
         ];
 
-        $headerParser = new BasicHeaderParser();
+        $headerParser = new DefaultHeaderParser();
 
         $parsedHeaders = $headerParser->parse($headers);
 

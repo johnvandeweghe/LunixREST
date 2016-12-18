@@ -1,9 +1,9 @@
 <?php
 namespace LunixREST\Request\RequestFactory;
 
-use LunixREST\Request\BodyParser\BodyParserFactory;
+use LunixREST\Request\BodyParser\BodyParserFactory\BodyParserFactory;
+use LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
-use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\HeaderParser\HeaderParser;
 use LunixREST\Request\Request;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
@@ -73,5 +73,26 @@ class GenericRequestFactory implements RequestFactory {
 
         return new Request($method, $headers, $parsedData, $parsedURL->getRequestData(), $ip, $parsedURL->getVersion(),
             $apiKey, $parsedURL->getEndpoint(), $acceptableMIMETypes, $parsedURL->getInstance());
+    }
+
+    /**
+     * @return URLParser
+     */
+    public function getURLParser(): URLParser {
+        return $this->URLParser;
+    }
+
+    /**
+     * @return BodyParserFactory
+     */
+    public function getBodyParserFactory(): BodyParserFactory {
+        return $this->bodyParserFactory;
+    }
+
+    /**
+     * @return HeaderParser
+     */
+    public function getHeaderParser(): HeaderParser {
+        return $this->headerParser;
     }
 }
