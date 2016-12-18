@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Server;
-
-use LunixREST\Server\Server;
+namespace LunixREST\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase {
     public function testThrowsExceptionForInvalidKey() {

@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\RequestFactory;
-
-use LunixREST\Request\RequestFactory\DefaultRequestFactory;
+namespace LunixREST\Request\RequestFactory;
 
 class DefaultRequestFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testUsesDefaults() {

@@ -1,8 +1,5 @@
 <?php
-namespace LunixREST\tests\AccessControl;
-
-use LunixREST\AccessControl\OneKeyAccessControl;
-use LunixREST\AccessControl\PublicAccessControl;
+namespace LunixREST\AccessControl;
 
 class PublicAccessControlTest extends \PHPUnit_Framework_TestCase  {
 

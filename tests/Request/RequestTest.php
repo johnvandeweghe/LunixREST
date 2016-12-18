@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request;
-
-use LunixREST\Request\Request;
+namespace LunixREST\Request;
 
 class RequestTest extends \PHPUnit_Framework_TestCase {
     public function testCreateRequestWithInstanceFromConstructor() {

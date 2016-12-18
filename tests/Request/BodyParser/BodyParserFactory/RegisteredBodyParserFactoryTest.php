@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\BodyParser\BodyParserFactory;
-
-use LunixREST\Request\BodyParser\BodyParserFactory\RegisteredBodyParserFactory;
+namespace LunixREST\Request\BodyParser\BodyParserFactory;
 
 class RegisteredBodyParserFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testThrowsErrorForUnknownContentType() {

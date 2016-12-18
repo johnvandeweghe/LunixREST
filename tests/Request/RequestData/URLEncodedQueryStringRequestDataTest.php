@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\RequestData;
-
-use LunixREST\Request\RequestData\URLEncodedQueryStringRequestData;
+namespace LunixREST\Request\RequestData;
 
 class URLEncodedQueryStringRequestDataTest extends \PHPUnit_Framework_TestCase {
     public function testRawDataIsNotButchered() {

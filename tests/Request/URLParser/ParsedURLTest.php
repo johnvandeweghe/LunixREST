@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\URLParser;
-
-use LunixREST\Request\URLParser\ParsedURL;
+namespace LunixREST\Request\URLParser;
 
 class ParsedURLTest extends \PHPUnit_Framework_TestCase {
     public function testGettersReturnExpectedValuesForAllParameters() {

@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\AccessControl;
-
-use LunixREST\AccessControl\AllAccessConfigurationListAccessControl;
+namespace LunixREST\AccessControl;
 
 class AllAccessConfigurationListAccessControlTest extends \PHPUnit_Framework_TestCase  {
 

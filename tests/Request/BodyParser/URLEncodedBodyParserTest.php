@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\BodyParser;
-
-use LunixREST\Request\BodyParser\URLEncodedBodyParser;
+namespace LunixREST\Request\BodyParser;
 
 class URLEncodedBodyParserTest extends \PHPUnit_Framework_TestCase {
     public function testRawDataIsNotButchered() {

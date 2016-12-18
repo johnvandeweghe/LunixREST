@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Server;
-
-use LunixREST\Server\Router;
+namespace LunixREST\Server;
 
 class RouterTest extends \PHPUnit_Framework_TestCase {
     public function testRouteCallsRequestedMethodWhenValid(){

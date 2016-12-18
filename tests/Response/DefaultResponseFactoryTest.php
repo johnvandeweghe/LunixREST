@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Response;
-
-use LunixREST\Response\DefaultResponseFactory;
+namespace LunixREST\Response;
 
 class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testGetResponseOfTypeJSONReturnsJSONResponse(){

@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Endpoint;
-
-use LunixREST\Endpoint\NamespaceEndpointFactory;
+namespace LunixREST\Endpoint;
 
 class NamespaceEndpointFactoryTest extends \PHPUnit_Framework_TestCase {
     protected $version = "1";

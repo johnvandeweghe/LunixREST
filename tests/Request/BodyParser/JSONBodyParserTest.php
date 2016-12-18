@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\BodyParser;
-
-use LunixREST\Request\BodyParser\JSONBodyParser;
+namespace LunixREST\Request\BodyParser;
 
 class JSONBodyParserTest extends \PHPUnit_Framework_TestCase {
     public function testRawDataIsNotButchered() {

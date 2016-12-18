@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Response;
-
-use LunixREST\Response\JSONResponse;
+namespace LunixREST\Response;
 
 class JSONResponseTest extends \PHPUnit_Framework_TestCase {
     public function testGetAsStringReturnsExpectedJSON(){

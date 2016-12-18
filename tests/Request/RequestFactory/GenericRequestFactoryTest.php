@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\RequestFactory;
-
-use LunixREST\Request\RequestFactory\GenericRequestFactory;
+namespace LunixREST\Request\RequestFactory;
 
 class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testRequestHasProperValues() {

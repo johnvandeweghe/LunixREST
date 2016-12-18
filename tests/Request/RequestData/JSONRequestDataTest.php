@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\RequestData;
-
-use LunixREST\Request\RequestData\JSONRequestData;
+namespace LunixREST\Request\RequestData;
 
 class JSONRequestDataTest extends \PHPUnit_Framework_TestCase {
     public function testRawDataIsNotButchered() {

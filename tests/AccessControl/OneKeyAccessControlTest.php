@@ -1,48 +1,46 @@
 <?php
-namespace LunixREST\tests\AccessControl;
-
-use LunixREST\AccessControl\OneKeyAccessControl;
+namespace LunixREST\AccessControl;
 
 class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase  {
 
     public function testValidateKeyWhenValid() {
         $accessKey = md5(rand());
 
-        $publicAccess = new OneKeyAccessControl($accessKey);
-        $this->assertTrue($publicAccess->validateKey($accessKey));
+        $oneKeyAccess = new OneKeyAccessControl($accessKey);
+        $this->assertTrue($oneKeyAccess->validateKey($accessKey));
     }
     public function testValidateKeyWhenInvalid(){
         $accessKey = md5(rand());
         $notAccessKey = "asd";
 
-        $publicAccess = new OneKeyAccessControl($accessKey);
-        $this->assertFalse($publicAccess->validateKey($notAccessKey));
+        $oneKeyAccess = new OneKeyAccessControl($accessKey);
+        $this->assertFalse($oneKeyAccess->validateKey($notAccessKey));
     }
 
     public function testValidateAccessWhenValid() {
         $accessKey = md5(rand());
 
-        $publicAccess = new OneKeyAccessControl($accessKey);
+        $oneKeyAccess = new OneKeyAccessControl($accessKey);
 
         $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
             ->getMock();
         $requestMock->method('getApiKey')->willReturn($accessKey);
 
-        $this->assertTrue($publicAccess->validateAccess($requestMock));
+        $this->assertTrue($oneKeyAccess->validateAccess($requestMock));
     }
 
     public function testValidateAccessWhenInvalid() {
         $accessKey = md5(rand());
         $notAccessKey = "asd";
 
-        $publicAccess = new OneKeyAccessControl($accessKey);
+        $oneKeyAccess = new OneKeyAccessControl($accessKey);
 
         $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
             ->getMock();
         $requestMock->method('getApiKey')->willReturn($notAccessKey);
 
-        $this->assertFalse($publicAccess->validateAccess($requestMock));
+        $this->assertFalse($oneKeyAccess->validateAccess($requestMock));
     }
 }

@@ -1,7 +1,5 @@
 <?php
-namespace LunixREST\tests\Request\URLParser;
-
-use LunixREST\Request\URLParser\BasicURLParser;
+namespace LunixREST\Request\URLParser;
 
 class BasicURLParserTest extends \PHPUnit_Framework_TestCase {
     public function testCreateRequestWithInstanceFromURL() {
