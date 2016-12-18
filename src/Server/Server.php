@@ -58,11 +58,11 @@ class Server {
     public function handleRequest(Request $request): Response {
         $this->validateKey($request);
 
-        $this->validateAcceptableMIMETypes($request);
-
         if($this->throttle->shouldThrottle($request)) {
             throw new ThrottleLimitExceededException('Request limit exceeded');
         }
+
+        $this->validateAcceptableMIMETypes($request);
 
         if(!$this->accessControl->validateAccess($request)) {
             throw new AccessDeniedException("API key does not have the required permissions to access requested resource");

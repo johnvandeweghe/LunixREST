@@ -12,7 +12,6 @@ use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 
-//TODO: Unit test? Might be impossible (this is a weird global class, and hopefully the ONLY weird global class)
 class HTTPServer {
     /**
      * @var Server
@@ -35,10 +34,17 @@ class HTTPServer {
         $this->requestFactory = $requestFactory;
     }
 
-    public function handleSAPIRequest() {
+    /**
+     * @param $requestMethod - gotten from $_SERVER['REQUEST_METHOD'] for example
+     * @param $headers - gotten from getallheaders() for example
+     * @param $data - gotten from file_get_contents("php://input") for example
+     * @param $remoteAddress - gotten from $_SERVER['REMOTE_ADDR'] for example
+     * @param $requestURI - gotten from $_SERVER['REQUEST_URI'] for example
+     * Prints out the server response data, and sets any needed HTTP headers based on exceptions
+     */
+    public function handleSAPIRequest($requestMethod, $headers, $data, $remoteAddress, $requestURI) {
         try {
-            $request = $this->requestFactory->create($_SERVER['REQUEST_METHOD'], getallheaders(),
-                file_get_contents("php://input"), $_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_URI']);
+            $request = $this->requestFactory->create($requestMethod, $headers(), $data, $remoteAddress, $requestURI);
 
             try {
                 $response = $this->server->handleRequest($request);

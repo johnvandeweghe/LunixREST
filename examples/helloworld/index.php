@@ -31,4 +31,5 @@ $requestFactory = new BasicRequestFactory();
 $httpServer = new HTTPServer($server, $requestFactory);
 
 //Run to test: GET /1.0/public/helloworld.json
-$httpServer->handleSAPIRequest();
+$httpServer->handleSAPIRequest($_SERVER['REQUEST_METHOD'], getallheaders(), file_get_contents("php://input"),
+    $_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_URI']);
