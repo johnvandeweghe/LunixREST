@@ -1,8 +1,8 @@
 <?php
 namespace LunixREST\Request\RequestFactory;
 
+use LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
-use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\Request;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 
