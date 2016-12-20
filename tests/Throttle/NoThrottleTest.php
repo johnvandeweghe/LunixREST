@@ -3,14 +3,18 @@ namespace LunixREST\tests\Throttle;
 
 use LunixREST\Throttle\NoThrottle;
 
-class NoThrottleTest extends \PHPUnit_Framework_TestCase {
-    public function testShouldThrottleShouldBeFalse() {
+class NoThrottleTest extends \PHPUnit_Framework_TestCase
+{
+    public function testShouldThrottleShouldBeFalse()
+    {
         $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
         $throttle = new NoThrottle();
 
         $this->assertEquals(false, $throttle->shouldThrottle($requestMock));
     }
-    public function testShouldThrottleShouldBeFalseAfterLog() {
+
+    public function testShouldThrottleShouldBeFalseAfterLog()
+    {
         $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
         $throttle = new NoThrottle();
 
@@ -18,11 +22,13 @@ class NoThrottleTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(false, $throttle->shouldThrottle($requestMock));
     }
-    public function testShouldThrottleShouldBeFalseAfterLotsOfLogs() {
+
+    public function testShouldThrottleShouldBeFalseAfterLotsOfLogs()
+    {
         $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
         $throttle = new NoThrottle();
 
-        for($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
             $throttle->logRequest($requestMock);
         }
 

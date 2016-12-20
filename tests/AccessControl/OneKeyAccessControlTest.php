@@ -1,15 +1,19 @@
 <?php
 namespace LunixREST\AccessControl;
 
-class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase  {
+class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testValidateKeyWhenValid() {
+    public function testValidateKeyWhenValid()
+    {
         $accessKey = md5(rand());
 
         $oneKeyAccess = new OneKeyAccessControl($accessKey);
         $this->assertTrue($oneKeyAccess->validateKey($accessKey));
     }
-    public function testValidateKeyWhenInvalid(){
+
+    public function testValidateKeyWhenInvalid()
+    {
         $accessKey = md5(rand());
         $notAccessKey = "asd";
 
@@ -17,7 +21,8 @@ class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase  {
         $this->assertFalse($oneKeyAccess->validateKey($notAccessKey));
     }
 
-    public function testValidateAccessWhenValid() {
+    public function testValidateAccessWhenValid()
+    {
         $accessKey = md5(rand());
 
         $oneKeyAccess = new OneKeyAccessControl($accessKey);
@@ -30,7 +35,8 @@ class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase  {
         $this->assertTrue($oneKeyAccess->validateAccess($requestMock));
     }
 
-    public function testValidateAccessWhenInvalid() {
+    public function testValidateAccessWhenInvalid()
+    {
         $accessKey = md5(rand());
         $notAccessKey = "asd";
 

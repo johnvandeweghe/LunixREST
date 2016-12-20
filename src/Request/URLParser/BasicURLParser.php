@@ -11,7 +11,8 @@ use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
  * Class BasicURLParser
  * @package LunixREST\Request\URLParser
  */
-class BasicURLParser implements URLParser {
+class BasicURLParser implements URLParser
+{
 
     /**
      * @var MIMEProvider
@@ -22,7 +23,8 @@ class BasicURLParser implements URLParser {
      * BasicURLParser constructor.
      * @param MIMEProvider $MIMEProvider
      */
-    public function __construct(MIMEProvider $MIMEProvider) {
+    public function __construct(MIMEProvider $MIMEProvider)
+    {
         $this->MIMEProvider = $MIMEProvider;
     }
 
@@ -32,9 +34,10 @@ class BasicURLParser implements URLParser {
      * @return ParsedURL
      * @throws InvalidRequestURLException
      */
-    public function parse(string $url): ParsedURL {
+    public function parse(string $url): ParsedURL
+    {
         $splitURL = explode('/', trim($url, '/'));
-        if(count($splitURL) < 3){
+        if (count($splitURL) < 3) {
             throw new InvalidRequestURLException();
         }
         //Find endpoint
@@ -47,7 +50,7 @@ class BasicURLParser implements URLParser {
 
         $instance = null;
 
-        if(count($splitURL) == 4){
+        if (count($splitURL) == 4) {
             $instance = implode('.', $splitExtension);
         } else {
             $endpoint = implode('.', $splitExtension);

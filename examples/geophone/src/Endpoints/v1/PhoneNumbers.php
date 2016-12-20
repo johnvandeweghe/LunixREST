@@ -6,7 +6,8 @@ use LunixREST\Endpoint\DefaultEndpoint;
 use LunixREST\Request\Request;
 use LunixREST\Response\ResponseData;
 
-class PhoneNumbers extends DefaultEndpoint {
+class PhoneNumbers extends DefaultEndpoint
+{
 
     protected $geoPhone;
 
@@ -14,12 +15,14 @@ class PhoneNumbers extends DefaultEndpoint {
      * PhoneNumbers constructor.
      * @param GeoPhone $geoPhone
      */
-    public function __construct(GeoPhone $geoPhone) {
+    public function __construct(GeoPhone $geoPhone)
+    {
         $this->geoPhone = $geoPhone;
     }
 
 
-    public function get(Request $request): ResponseData{
-		return $this->geoPhone->lookupNumber($request->getInstance());
-	}
+    public function get(Request $request): ResponseData
+    {
+        return $this->geoPhone->lookupNumber($request->getInstance());
+    }
 }

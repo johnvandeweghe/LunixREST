@@ -5,7 +5,8 @@ namespace LunixREST\Response;
  * Class Response
  * @package LunixREST\Response
  */
-interface Response {
+interface Response
+{
     /**
      * @return ResponseData
      */

@@ -5,7 +5,8 @@ use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
 use LunixREST\Request\RequestData\RequestData;
 use LunixREST\Request\RequestData\URLEncodedQueryStringRequestData;
 
-class URLEncodedBodyParser implements BodyParser {
+class URLEncodedBodyParser implements BodyParser
+{
 
     /**
      * Parses API request data out of a url
@@ -13,7 +14,8 @@ class URLEncodedBodyParser implements BodyParser {
      * @return RequestData
      * @throws InvalidRequestDataException
      */
-    public function parse(string $rawBody): RequestData {
+    public function parse(string $rawBody): RequestData
+    {
         return new URLEncodedQueryStringRequestData($rawBody);
     }
 }

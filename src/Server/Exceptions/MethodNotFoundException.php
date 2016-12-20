@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Server\Exceptions;
 
-class MethodNotFoundException extends \Exception {
+class MethodNotFoundException extends \Exception
+{
 
 }

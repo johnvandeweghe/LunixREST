@@ -10,18 +10,21 @@ use LunixREST\Request\BodyParser\URLEncodedBodyParser;
  * Class DefaultBodyParserFactory
  * @package LunixREST\Request\BodyParser
  */
-class DefaultBodyParserFactory implements BodyParserFactory {
+class DefaultBodyParserFactory implements BodyParserFactory
+{
 
     protected $registeredBodyParserFactory;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->registeredBodyParserFactory = new RegisteredBodyParserFactory([
             'application/json' => new JSONBodyParser(),
             'application/x-www-form-urlencoded' => new URLEncodedBodyParser()
         ]);
     }
 
-    public function add($contentType, BodyParser $bodyParser) {
+    public function add($contentType, BodyParser $bodyParser)
+    {
         $this->registeredBodyParserFactory->add($contentType, $bodyParser);
     }
 
@@ -30,7 +33,8 @@ class DefaultBodyParserFactory implements BodyParserFactory {
      * @param string $contentType
      * @return BodyParser
      */
-    public function create(string $contentType): BodyParser {
+    public function create(string $contentType): BodyParser
+    {
         return $this->registeredBodyParserFactory->create($contentType);
     }
 }

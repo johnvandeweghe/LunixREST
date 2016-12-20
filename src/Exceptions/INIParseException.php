@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Exceptions;
 
-class INIParseException extends \Exception {
+class INIParseException extends \Exception
+{
 
 }

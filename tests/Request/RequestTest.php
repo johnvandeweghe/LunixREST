@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Request;
 
-class RequestTest extends \PHPUnit_Framework_TestCase {
-    public function testCreateRequestWithInstanceFromConstructor() {
+class RequestTest extends \PHPUnit_Framework_TestCase
+{
+    public function testCreateRequestWithInstanceFromConstructor()
+    {
         $requestVersion = '1.0';
         $requestAPIKey = 'public';
         $requestEndpoint = 'helloworld';
@@ -21,7 +23,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($requestAPIKey, $request->getApiKey(), 'api key should be set without a URL');
         $this->assertEquals($requestEndpoint, $request->getEndpoint(), 'endpoint should be set without a URL');
         $this->assertEquals($requestInstance, $request->getInstance(), 'instance should be set without a URL');
-        $this->assertEquals($requestAcceptableMIMETypes, $request->getAcceptableMIMETypes(), 'acceptableMIMETypes should be set without a URL');
+        $this->assertEquals($requestAcceptableMIMETypes, $request->getAcceptableMIMETypes(),
+            'acceptableMIMETypes should be set without a URL');
         $this->assertEquals($requestMethod, $request->getMethod(), 'method with instance should be set without a URL');
         $this->assertEquals($requestIP, $request->getIp(), 'ip should be set without a URL');
         $this->assertEquals($requestHeaders, $request->getHeaders(), 'header should be set without a URL');
@@ -31,7 +34,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    public function testCreateRequestWithoutInstanceFromConstructor() {
+    public function testCreateRequestWithoutInstanceFromConstructor()
+    {
         $requestVersion = '1.0';
         $requestAPIKey = 'public';
         $requestEndpoint = 'helloworld';
@@ -50,8 +54,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($requestAPIKey, $request->getApiKey(), 'api key should be set without a URL');
         $this->assertEquals($requestEndpoint, $request->getEndpoint(), 'endpoint should be set without a URL');
         $this->assertEquals($requestInstance, $request->getInstance(), 'instance should be set without a URL');;
-        $this->assertEquals($requestAcceptableMIMETypes, $request->getAcceptableMIMETypes(), 'acceptableMIMETypes should be set without a URL');
-        $this->assertEquals($requestMethod . 'All', $request->getMethod(), 'method without instance should be set without a URL');
+        $this->assertEquals($requestAcceptableMIMETypes, $request->getAcceptableMIMETypes(),
+            'acceptableMIMETypes should be set without a URL');
+        $this->assertEquals($requestMethod . 'All', $request->getMethod(),
+            'method without instance should be set without a URL');
         $this->assertEquals($requestIP, $request->getIp(), 'ip should be set without a URL');
         $this->assertEquals($requestHeaders, $request->getHeaders(), 'header should be set without a URL');
         $this->assertEquals($requestDataMock, $request->getBody(), 'body should be set without a URL');

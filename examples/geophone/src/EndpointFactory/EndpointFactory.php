@@ -6,11 +6,13 @@ use GeoPhone\Models\GeoPhone;
 use LunixREST\Endpoint\Endpoint;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 
-class EndpointFactory implements \LunixREST\Endpoint\EndpointFactory {
+class EndpointFactory implements \LunixREST\Endpoint\EndpointFactory
+{
 
     protected $geoPhone;
 
-    public function __construct(GeoPhone $geoPhone) {
+    public function __construct(GeoPhone $geoPhone)
+    {
         $this->geoPhone = $geoPhone;
     }
 
@@ -20,8 +22,9 @@ class EndpointFactory implements \LunixREST\Endpoint\EndpointFactory {
      * @return Endpoint
      * @throws UnknownEndpointException
      */
-    public function getEndpoint(string $name, string $version): Endpoint {
-        switch($version) {
+    public function getEndpoint(string $name, string $version): Endpoint
+    {
+        switch ($version) {
             case "1":
                 switch (strtolower($name)) {
                     case "phonenumbers":
@@ -38,7 +41,8 @@ class EndpointFactory implements \LunixREST\Endpoint\EndpointFactory {
      * @param string $version
      * @return string[]
      */
-    public function getSupportedEndpoints(string $version): array {
+    public function getSupportedEndpoints(string $version): array
+    {
         return ["phonenumbers"];
     }
 }

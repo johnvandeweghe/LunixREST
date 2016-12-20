@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Request\URLParser;
 
-class BasicURLParserTest extends \PHPUnit_Framework_TestCase {
-    public function testCreateRequestWithInstanceFromURL() {
+class BasicURLParserTest extends \PHPUnit_Framework_TestCase
+{
+    public function testCreateRequestWithInstanceFromURL()
+    {
         $requestVersion = '1.0';
         $requestAPIKey = 'public';
         $requestEndpoint = 'helloworld';
@@ -20,10 +22,12 @@ class BasicURLParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($requestAPIKey, $parsedURL->getAPIKey(), 'api key should be parsed out of URLS');
         $this->assertEquals($requestEndpoint, $parsedURL->getEndpoint(), 'endpoint should be parsed out of URLS');
         $this->assertEquals($requestInstance, $parsedURL->getInstance(), 'instance should be parsed out of URLS');
-        $this->assertEquals([$requestMIMEType], $parsedURL->getAcceptableMIMETypes(), 'acceptableMIMETypes should be parsed out of URLS');
+        $this->assertEquals([$requestMIMEType], $parsedURL->getAcceptableMIMETypes(),
+            'acceptableMIMETypes should be parsed out of URLS');
     }
 
-    public function testCreateRequestFromInvalidURL() {
+    public function testCreateRequestFromInvalidURL()
+    {
         $mockedMIMEProvider = $this->getMockBuilder('\LunixREST\Request\MIMEProvider')->getMock();
         $urlParser = new BasicURLParser($mockedMIMEProvider);
 
@@ -31,7 +35,8 @@ class BasicURLParserTest extends \PHPUnit_Framework_TestCase {
         $urlParser->parse("/admin");
     }
 
-    public function testCreateRequestWithoutInstanceFromURL() {
+    public function testCreateRequestWithoutInstanceFromURL()
+    {
         $requestVersion = '1.0';
         $requestAPIKey = 'public';
         $requestEndpoint = 'helloworld';
@@ -50,6 +55,7 @@ class BasicURLParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($requestAPIKey, $parsedURL->getAPIKey(), 'api key should be parsed out of URLS');
         $this->assertEquals($requestEndpoint, $parsedURL->getEndpoint(), 'endpoint should be parsed out of URLS');
         $this->assertEquals($requestInstance, $parsedURL->getInstance(), 'instance should be parsed out of URLS');
-        $this->assertEquals([$requestMIMEType], $parsedURL->getAcceptableMIMETypes(), 'acceptableMIMETypes should be parsed out of URLS');
+        $this->assertEquals([$requestMIMEType], $parsedURL->getAcceptableMIMETypes(),
+            'acceptableMIMETypes should be parsed out of URLS');
     }
 }

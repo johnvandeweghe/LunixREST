@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Request\HeaderParser;
 
-class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase {
-    public function testParsesAPIKeyWithDefaultKeyName() {
+class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase
+{
+    public function testParsesAPIKeyWithDefaultKeyName()
+    {
         $headers = [
             "X-API-KEY" => "123353245",
         ];
@@ -14,7 +16,8 @@ class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($headers['X-API-KEY'], $parsedHeaders->getAPIKey());
     }
 
-    public function testParsesAPIKeyWithNonDefaultKeyName() {
+    public function testParsesAPIKeyWithNonDefaultKeyName()
+    {
         $headers = [
             "X-SUPER-COOL-TEST-KEY" => "123353245",
         ];
@@ -26,7 +29,8 @@ class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($headers['X-SUPER-COOL-TEST-KEY'], $parsedHeaders->getAPIKey());
     }
 
-    public function testParsesAPIKeyWithNonDefaultKeyNameAndDifferentCase() {
+    public function testParsesAPIKeyWithNonDefaultKeyNameAndDifferentCase()
+    {
         $headers = [
             "X-SUPER-COOL-TEST-KEY" => "123353245",
         ];
@@ -38,7 +42,8 @@ class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($headers['X-SUPER-COOL-TEST-KEY'], $parsedHeaders->getAPIKey());
     }
 
-    public function testParsesContentType() {
+    public function testParsesContentType()
+    {
         $headers = [
             "CONTENT-TYPE" => "form/urlencoded"
         ];
@@ -50,7 +55,8 @@ class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($headers['CONTENT-TYPE'], $parsedHeaders->getContentType());
     }
 
-    public function testParsesContentTypeLowerCase() {
+    public function testParsesContentTypeLowerCase()
+    {
         $headers = [
             "content-type" => "form/urlencoded"
         ];
@@ -62,7 +68,8 @@ class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($headers['content-type'], $parsedHeaders->getContentType());
     }
 
-    public function testParsesHTTPAccept() {
+    public function testParsesHTTPAccept()
+    {
         $headers = [
             "HTTP-ACCEPT" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
         ];

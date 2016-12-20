@@ -1,15 +1,18 @@
 <?php
 namespace LunixREST\Request\BodyParser\BodyParserFactory;
 
-class RegisteredBodyParserFactoryTest extends \PHPUnit_Framework_TestCase {
-    public function testThrowsErrorForUnknownContentType() {
+class RegisteredBodyParserFactoryTest extends \PHPUnit_Framework_TestCase
+{
+    public function testThrowsErrorForUnknownContentType()
+    {
         $bodyParserFactory = new RegisteredBodyParserFactory();
 
         $this->expectException('\LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException');
         $bodyParserFactory->create('unknown');
     }
 
-    public function testReturnsBodyParserForAddedContentTypeViaAdd() {
+    public function testReturnsBodyParserForAddedContentTypeViaAdd()
+    {
         $contentType = 'application/fake';
         $mockedBodyParser = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParser')->getMock();
 
@@ -21,7 +24,8 @@ class RegisteredBodyParserFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    public function testReturnsBodyParserForAddedContentTypeViaConstructor() {
+    public function testReturnsBodyParserForAddedContentTypeViaConstructor()
+    {
         $contentType = 'application/fake';
         $mockedBodyParser = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParser')->getMock();
 

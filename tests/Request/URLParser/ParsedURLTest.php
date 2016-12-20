@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Request\URLParser;
 
-class ParsedURLTest extends \PHPUnit_Framework_TestCase {
-    public function testGettersReturnExpectedValuesForAllParameters() {
+class ParsedURLTest extends \PHPUnit_Framework_TestCase
+{
+    public function testGettersReturnExpectedValuesForAllParameters()
+    {
         $mockedRequestData = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
         $version = '1.0';
         $APIKey = 'public';

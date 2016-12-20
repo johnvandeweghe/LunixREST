@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Endpoint;
 
-class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
-    public function testThrowsUnsupportedForGetRequest() {
+class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
+{
+    public function testThrowsUnsupportedForGetRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -11,7 +13,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->get($request);
     }
-    public function testThrowsUnsupportedForGetAllRequest() {
+
+    public function testThrowsUnsupportedForGetAllRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -20,7 +24,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->getAll($request);
     }
-    public function testThrowsUnsupportedForPostRequest() {
+
+    public function testThrowsUnsupportedForPostRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -29,7 +35,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->post($request);
     }
-    public function testThrowsUnsupportedForPostAllRequest() {
+
+    public function testThrowsUnsupportedForPostAllRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -38,7 +46,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->postAll($request);
     }
-    public function testThrowsUnsupportedForPutRequest() {
+
+    public function testThrowsUnsupportedForPutRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -47,7 +57,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->put($request);
     }
-    public function testThrowsUnsupportedForPutAllRequest() {
+
+    public function testThrowsUnsupportedForPutAllRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -56,7 +68,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->putAll($request);
     }
-    public function testThrowsUnsupportedForOptionsRequest() {
+
+    public function testThrowsUnsupportedForOptionsRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -65,7 +79,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->options($request);
     }
-    public function testThrowsUnsupportedForOptionsAllRequest() {
+
+    public function testThrowsUnsupportedForOptionsAllRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -74,7 +90,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->optionsAll($request);
     }
-    public function testThrowsUnsupportedForDeleteRequest() {
+
+    public function testThrowsUnsupportedForDeleteRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()
@@ -83,7 +101,9 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
         $defaultEndpoint->delete($request);
     }
-    public function testThrowsUnsupportedForDeleteAllRequest() {
+
+    public function testThrowsUnsupportedForDeleteAllRequest()
+    {
         $defaultEndpoint = new DefaultEndpoint();
         $request = $this->getMockBuilder('\LunixREST\Request\Request')
             ->disableOriginalConstructor()

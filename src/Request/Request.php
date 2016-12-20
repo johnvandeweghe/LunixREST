@@ -1,5 +1,6 @@
 <?php
 namespace LunixREST\Request;
+
 use LunixREST\Request\RequestData\RequestData;
 
 /**
@@ -7,7 +8,8 @@ use LunixREST\Request\RequestData\RequestData;
  * Class Request
  * @package LunixREST\Request
  */
-class Request {
+class Request
+{
     /**
      * @var string
      */
@@ -62,7 +64,18 @@ class Request {
      * @param string $instance
      */
 
-    public function __construct($method, array $headers, RequestData $body, RequestData $urlData, $ip, $version, $apiKey, $endpoint, array $acceptableMIMETypes = [], $instance = null){
+    public function __construct(
+        $method,
+        array $headers,
+        RequestData $body,
+        RequestData $urlData,
+        $ip,
+        $version,
+        $apiKey,
+        $endpoint,
+        array $acceptableMIMETypes = [],
+        $instance = null
+    ) {
         $this->method = strtolower($method);
         $this->headers = $headers;
         $this->body = $body;
@@ -78,69 +91,80 @@ class Request {
     /**
      * @return string
      */
-    public function getIp() {
+    public function getIp()
+    {
         return $this->ip;
     }
 
     /**
      * @return string
      */
-    public function getMethod() {
+    public function getMethod()
+    {
         return $this->method . ($this->instance ? '' : 'All');
     }
 
     /**
      * @return array
      */
-    public function getHeaders() {
+    public function getHeaders()
+    {
         return $this->headers;
     }
 
     /**
      * @return string
      */
-    public function getVersion() {
+    public function getVersion()
+    {
         return $this->version;
     }
 
     /**
      * @return string
      */
-    public function getApiKey() {
+    public function getApiKey()
+    {
         return $this->apiKey;
     }
 
     /**
      * @return string
      */
-    public function getEndpoint() {
+    public function getEndpoint()
+    {
         return $this->endpoint;
     }
 
     /**
      * @return array
      */
-    public function getAcceptableMIMETypes(): array {
+    public function getAcceptableMIMETypes(): array
+    {
         return $this->acceptableMIMETypes;
     }
 
     /**
      * @return string
      */
-    public function getInstance() {
+    public function getInstance()
+    {
         return $this->instance;
     }
+
     /**
      * @return RequestData
      */
-    public function getBody(): RequestData {
+    public function getBody(): RequestData
+    {
         return $this->body;
     }
 
     /**
      * @return RequestData
      */
-    public function getUrlData(): RequestData {
+    public function getUrlData(): RequestData
+    {
         return $this->urlData;
     }
 }

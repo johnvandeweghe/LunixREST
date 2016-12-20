@@ -4,7 +4,8 @@ namespace LunixREST\Request\BodyParser\BodyParserFactory;
 use LunixREST\Request\BodyParser\BodyParser;
 use LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException;
 
-interface BodyParserFactory {
+interface BodyParserFactory
+{
     /**
      * Parses API request data out of a url
      * @param string $contentType

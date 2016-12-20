@@ -9,7 +9,8 @@ use LunixREST\Response\ResponseData;
  * Interface Endpoint
  * @package LunixREST\Endpoints
  */
-interface Endpoint {
+interface Endpoint
+{
     /**
      * @param Request $request
      * @return ResponseData

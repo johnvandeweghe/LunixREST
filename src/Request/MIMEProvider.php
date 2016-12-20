@@ -6,7 +6,9 @@ namespace LunixREST\Request;
  * Interface MIMEProvider
  * @package LunixREST\Request
  */
-interface MIMEProvider {
+interface MIMEProvider
+{
     public function getAll(): array;
+
     public function getByFileExtension($extension): string;
 }

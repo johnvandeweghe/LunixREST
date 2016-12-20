@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Request\RequestFactory;
 
-class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
-    public function testRequestHasProperValues() {
+class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase
+{
+    public function testRequestHasProperValues()
+    {
         $version = '1';
         $apiKey = 'public';
         $endpoint = 'geophone';
@@ -15,7 +17,8 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         $acceptableMIMETypes = ['application/json'];
 
         $mockedRequestData = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
-        $mockedURLParser = $this->mockURLParser($mockedRequestData, $version, $apiKey, $endpoint, $acceptableMIMETypes, $instance);
+        $mockedURLParser = $this->mockURLParser($mockedRequestData, $version, $apiKey, $endpoint, $acceptableMIMETypes,
+            $instance);
         $mockedBodyParserFactory = $this->mockBodyParserFactory($mockedRequestData);
         $mockedHeaderParser = $this->mockHeaderParser($acceptableMIMETypes, $apiKey, '');
 
@@ -35,7 +38,8 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($mockedRequestData, $request->getUrlData());
     }
 
-    public function testHeaderAPIKeyIsUsedWhenURLAPIKeyIsNull() {
+    public function testHeaderAPIKeyIsUsedWhenURLAPIKeyIsNull()
+    {
         $version = '1';
         $apiKey = 'public';
         $endpoint = 'geophone';
@@ -48,7 +52,8 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         $acceptableMIMETypes = ['application/json'];
 
         $mockedRequestData = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
-        $mockedURLParser = $this->mockURLParser($mockedRequestData, $version, null, $endpoint, $acceptableMIMETypes, $instance);
+        $mockedURLParser = $this->mockURLParser($mockedRequestData, $version, null, $endpoint, $acceptableMIMETypes,
+            $instance);
         $mockedBodyParserFactory = $this->mockBodyParserFactory($mockedRequestData);
         $mockedHeaderParser = $this->mockHeaderParser($acceptableMIMETypes, $apiKey, '');
 
@@ -59,7 +64,8 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($apiKey, $request->getApiKey());
     }
 
-    public function testGetters() {
+    public function testGetters()
+    {
         $mockedURLParser = $this->getMockBuilder('\LunixREST\Request\URLParser\URLParser')->getMock();
         $mockedBodyParserFactory = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParserFactory\BodyParserFactory')->getMock();
         $mockedHeaderParser = $this->getMockBuilder('\LunixREST\Request\HeaderParser\HeaderParser')->getMock();
@@ -71,7 +77,8 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($mockedHeaderParser, $requestFactory->getHeaderParser());
     }
 
-    private function mockURLParser($requestData, $version, $apiKey, $endpoint, $acceptableMIMETypes, $instance) {
+    private function mockURLParser($requestData, $version, $apiKey, $endpoint, $acceptableMIMETypes, $instance)
+    {
         $mockedParsedURL = $this->getMockBuilder('\LunixREST\Request\URLParser\ParsedURL')->disableOriginalConstructor()->getMock();
         $mockedParsedURL->method('getRequestData')->willReturn($requestData);
         $mockedParsedURL->method('getVersion')->willReturn($version);
@@ -84,7 +91,8 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         return $mockedURLParser;
     }
 
-    private function mockBodyParserFactory($requestData) {
+    private function mockBodyParserFactory($requestData)
+    {
         $mockedBodyParser = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParser')->getMock();
         $mockedBodyParser->method('parse')->willReturn($requestData);
         $mockedBodyParserFactory = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParserFactory\BodyParserFactory')->getMock();
@@ -92,7 +100,8 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase {
         return $mockedBodyParserFactory;
     }
 
-    private function mockHeaderParser($acceptableMIMETypes, $apiKey, $contentType) {
+    private function mockHeaderParser($acceptableMIMETypes, $apiKey, $contentType)
+    {
         $mockedParsedHeaders = $this->getMockBuilder('\LunixREST\Request\HeaderParser\ParsedHeaders')->disableOriginalConstructor()->getMock();
         $mockedParsedHeaders->method('getAcceptableMIMETypes')->willReturn($acceptableMIMETypes);
         $mockedParsedHeaders->method('getAPIKey')->willReturn($apiKey);

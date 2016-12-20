@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Endpoint;
-use Doctrine\ORM\EntityManager;
 
+use Doctrine\ORM\EntityManager;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 
 /**
@@ -10,10 +10,12 @@ use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
  * Class DoctrineNamespaceEndpointFactory
  * @package LunixREST\Endpoint
  */
-class DoctrineNamespaceEndpointFactory extends NamespaceEndpointFactory {
+class DoctrineNamespaceEndpointFactory extends NamespaceEndpointFactory
+{
     protected $entityManager;
 
-    public function __construct(string $endpointNamespace, EntityManager $em) {
+    public function __construct(string $endpointNamespace, EntityManager $em)
+    {
         parent::__construct($endpointNamespace);
         $this->entityManager = $em;
     }
@@ -25,7 +27,8 @@ class DoctrineNamespaceEndpointFactory extends NamespaceEndpointFactory {
      * @return Endpoint
      * @throws UnknownEndpointException
      */
-    public function getEndpoint(string $name, string $version): Endpoint {
+    public function getEndpoint(string $name, string $version): Endpoint
+    {
         $className = $this->buildVersionedEndpointNamespace($version) . $name;
         return new $className($this->entityManager);
     }

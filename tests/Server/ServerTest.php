@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Server;
 
-class ServerTest extends \PHPUnit_Framework_TestCase {
-    public function testThrowsExceptionForInvalidKey() {
+class ServerTest extends \PHPUnit_Framework_TestCase
+{
+    public function testThrowsExceptionForInvalidKey()
+    {
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
         $mockedAccessControl->method('validateKey')->willReturn(false);
 
@@ -17,7 +19,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
 
         $server->handleRequest($mockedRequest);
     }
-    public function testThrowsExceptionForThrottleExceeded() {
+
+    public function testThrowsExceptionForThrottleExceeded()
+    {
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
         $mockedAccessControl->method('validateKey')->willReturn(true);
 
@@ -35,7 +39,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
 
         $server->handleRequest($mockedRequest);
     }
-    public function testThrowsExceptionForEmptySupportedMimeTypes() {
+
+    public function testThrowsExceptionForEmptySupportedMimeTypes()
+    {
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
         $mockedAccessControl->method('validateKey')->willReturn(true);
 
@@ -55,7 +61,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
 
         $server->handleRequest($mockedRequest);
     }
-    public function testThrowsExceptionForNonSupportedMimeTypes() {
+
+    public function testThrowsExceptionForNonSupportedMimeTypes()
+    {
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
         $mockedAccessControl->method('validateKey')->willReturn(true);
 
@@ -75,7 +83,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
 
         $server->handleRequest($mockedRequest);
     }
-    public function testThrowsExceptionForInvalidAPIAccess() {
+
+    public function testThrowsExceptionForInvalidAPIAccess()
+    {
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
         $mockedAccessControl->method('validateKey')->willReturn(true);
         $mockedAccessControl->method('validateAccess')->willReturn(false);
@@ -97,7 +107,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase {
         $server->handleRequest($mockedRequest);
     }
 
-    public function testLogsRequestAndRoutesAndReturnsResponseData() {
+    public function testLogsRequestAndRoutesAndReturnsResponseData()
+    {
         $method = 'get';
 
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();

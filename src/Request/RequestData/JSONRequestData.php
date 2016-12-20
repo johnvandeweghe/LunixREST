@@ -3,7 +3,8 @@ namespace LunixREST\Request\RequestData;
 
 use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
 
-class JSONRequestData implements RequestData {
+class JSONRequestData implements RequestData
+{
 
     protected $jsonString;
 
@@ -14,10 +15,11 @@ class JSONRequestData implements RequestData {
      * @param $body
      * @throws InvalidRequestDataException
      */
-    public function __construct($body) {
+    public function __construct($body)
+    {
         $this->jsonString = $body;
         $this->parsedData = json_decode($body, true);
-        if($this->parsedData === null) {
+        if ($this->parsedData === null) {
             throw new InvalidRequestDataException('Content not valid JSON');
         }
     }
@@ -26,7 +28,8 @@ class JSONRequestData implements RequestData {
      * Returns the raw data that the requestData tried to parse
      * @return string
      */
-    public function getRawData(): string {
+    public function getRawData(): string
+    {
         return $this->jsonString;
     }
 
@@ -37,7 +40,8 @@ class JSONRequestData implements RequestData {
      * @param string $key
      * @return mixed
      */
-    public function get(string $key) {
+    public function get(string $key)
+    {
         return $this->parsedData[$key] ?? null;
     }
 
@@ -46,7 +50,8 @@ class JSONRequestData implements RequestData {
      * @param string $key
      * @return mixed
      */
-    public function has(string $key): bool {
+    public function has(string $key): bool
+    {
         return isset($this->parsedData[$key]);
     }
 
@@ -55,7 +60,8 @@ class JSONRequestData implements RequestData {
      * WARNING: Parsed data is not sanitized, and should be treated as regular user data
      * @return array
      */
-    public function getAllAsAssociativeArray(): array {
+    public function getAllAsAssociativeArray(): array
+    {
         return $this->parsedData;
     }
 }

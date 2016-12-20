@@ -5,7 +5,8 @@ use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
 use LunixREST\Request\RequestData\JSONRequestData;
 use LunixREST\Request\RequestData\RequestData;
 
-class JSONBodyParser implements BodyParser {
+class JSONBodyParser implements BodyParser
+{
 
     /**
      * Parses API request data out of a json string
@@ -13,7 +14,8 @@ class JSONBodyParser implements BodyParser {
      * @return RequestData
      * @throws InvalidRequestDataException
      */
-    public function parse(string $rawBody): RequestData {
+    public function parse(string $rawBody): RequestData
+    {
         return new JSONRequestData($rawBody);
     }
 }

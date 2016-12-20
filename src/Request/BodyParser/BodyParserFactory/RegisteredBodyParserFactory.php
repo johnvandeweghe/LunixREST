@@ -9,7 +9,8 @@ use LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentType
  * Class RegisteredBodyParserFactory
  * @package LunixREST\Request\BodyParser
  */
-class RegisteredBodyParserFactory implements BodyParserFactory {
+class RegisteredBodyParserFactory implements BodyParserFactory
+{
 
     protected $contentTypeToParserMap;
 
@@ -17,8 +18,9 @@ class RegisteredBodyParserFactory implements BodyParserFactory {
      * RegisteredBodyParserFactory constructor.
      * @param BodyParser[] $mappings keyed by content type
      */
-    public function __construct($mappings = []) {
-        foreach($mappings as $contentType => $bodyParser) {
+    public function __construct($mappings = [])
+    {
+        foreach ($mappings as $contentType => $bodyParser) {
             $this->add($contentType, $bodyParser);
         }
     }
@@ -27,7 +29,8 @@ class RegisteredBodyParserFactory implements BodyParserFactory {
      * @param $contentType
      * @param BodyParser $bodyParser
      */
-    public function add($contentType, BodyParser $bodyParser) {
+    public function add($contentType, BodyParser $bodyParser)
+    {
         $this->contentTypeToParserMap[strtolower($contentType)] = $bodyParser;
     }
 
@@ -37,8 +40,9 @@ class RegisteredBodyParserFactory implements BodyParserFactory {
      * @return BodyParser
      * @throws UnknownContentTypeException
      */
-    public function create(string $contentType): BodyParser {
-        if(isset($this->contentTypeToParserMap[strtolower($contentType)])){
+    public function create(string $contentType): BodyParser
+    {
+        if (isset($this->contentTypeToParserMap[strtolower($contentType)])) {
             return $this->contentTypeToParserMap[strtolower($contentType)];
         }
 

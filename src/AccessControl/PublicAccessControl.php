@@ -1,5 +1,6 @@
 <?php
 namespace LunixREST\AccessControl;
+
 use LunixREST\Request\Request;
 
 /**
@@ -7,12 +8,14 @@ use LunixREST\Request\Request;
  * Class PublicAccessControl
  * @package LunixREST\AccessControl
  */
-class PublicAccessControl implements AccessControl {
+class PublicAccessControl implements AccessControl
+{
     /**
      * @param \LunixREST\Request\Request $request
      * @return bool
      */
-    public function validateAccess(Request $request){
+    public function validateAccess(Request $request)
+    {
         return true;
     }
 
@@ -20,7 +23,8 @@ class PublicAccessControl implements AccessControl {
      * @param $apiKey
      * @return bool
      */
-    public function validateKey($apiKey){
+    public function validateKey($apiKey)
+    {
         return true;
     }
 }

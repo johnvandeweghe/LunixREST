@@ -1,14 +1,17 @@
 <?php
 namespace LunixREST\AccessControl;
 
-class PublicAccessControlTest extends \PHPUnit_Framework_TestCase  {
+class PublicAccessControlTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testValidateKeyWhenValid() {
+    public function testValidateKeyWhenValid()
+    {
         $publicAccess = new PublicAccessControl();
         $this->assertTrue($publicAccess->validateKey(null));
     }
 
-    public function testValidateAccessWhenValid() {
+    public function testValidateAccessWhenValid()
+    {
         $publicAccess = new PublicAccessControl();
 
         $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')

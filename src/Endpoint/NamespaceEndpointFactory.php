@@ -3,7 +3,8 @@ namespace LunixREST\Endpoint;
 
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 
-class NamespaceEndpointFactory implements EndpointFactory {
+class NamespaceEndpointFactory implements EndpointFactory
+{
 
     protected $endpointNamespace;
 
@@ -11,7 +12,8 @@ class NamespaceEndpointFactory implements EndpointFactory {
      * NamespaceEndpointFactory constructor.
      * @param string $endpointNamespace
      */
-    public function __construct(string $endpointNamespace) {
+    public function __construct(string $endpointNamespace)
+    {
         $this->endpointNamespace = $endpointNamespace;
     }
 
@@ -21,9 +23,10 @@ class NamespaceEndpointFactory implements EndpointFactory {
      * @return Endpoint
      * @throws UnknownEndpointException
      */
-    public function getEndpoint(string $name, string $version): Endpoint {
+    public function getEndpoint(string $name, string $version): Endpoint
+    {
         $className = $this->buildVersionedEndpointNamespace($version) . $name;
-        if(!class_exists($className)){
+        if (!class_exists($className)) {
             throw new UnknownEndpointException("Could not find $className");
         }
 
@@ -35,11 +38,12 @@ class NamespaceEndpointFactory implements EndpointFactory {
      * @param string $version
      * @return string[]
      */
-    public function getSupportedEndpoints(string $version): array {
+    public function getSupportedEndpoints(string $version): array
+    {
         $classesInNamespace = [];
 
         $namespace = $this->buildVersionedEndpointNamespace($version);
-        foreach(get_declared_classes() as $name) {
+        foreach (get_declared_classes() as $name) {
             if (strpos($name, $namespace) === 0) {
                 $classesInNamespace[] = $name;
             }
@@ -48,7 +52,8 @@ class NamespaceEndpointFactory implements EndpointFactory {
         return $classesInNamespace;
     }
 
-    protected function buildVersionedEndpointNamespace(string $version): string {
+    protected function buildVersionedEndpointNamespace(string $version): string
+    {
         return $this->endpointNamespace . '\v' . str_replace('.', '_', $version) . '\\';
     }
 }

@@ -1,7 +1,8 @@
 <?php
 namespace LunixREST\Request\HeaderParser;
 
-class ParsedHeaders {
+class ParsedHeaders
+{
     /**
      * @var array
      */
@@ -15,21 +16,25 @@ class ParsedHeaders {
      * @param array $acceptableMIMETypes
      * @param $APIKey
      */
-    public function __construct($contentType, array $acceptableMIMETypes, $APIKey) {
+    public function __construct($contentType, array $acceptableMIMETypes, $APIKey)
+    {
         $this->contentType = $contentType;
         $this->acceptableMIMETypes = $acceptableMIMETypes;
         $this->APIKey = $APIKey;
     }
 
-    public function getContentType() {
+    public function getContentType()
+    {
         return $this->contentType;
     }
 
-    public function getAcceptableMIMETypes(): array {
+    public function getAcceptableMIMETypes(): array
+    {
         return $this->acceptableMIMETypes;
     }
 
-    public function getAPIKey() {
+    public function getAPIKey()
+    {
         return $this->APIKey;
     }
 }

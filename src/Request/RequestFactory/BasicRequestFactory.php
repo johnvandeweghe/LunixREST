@@ -9,8 +9,10 @@ use LunixREST\Request\URLParser\BasicURLParser;
  * Class BasicRequestFactory
  * @package LunixREST\Request\RequestFactory
  */
-class BasicRequestFactory extends DefaultRequestFactory {
-    public function __construct() {
+class BasicRequestFactory extends DefaultRequestFactory
+{
+    public function __construct()
+    {
         parent::__construct(new BasicURLParser(new MIMEFileProvider()));
     }
 }

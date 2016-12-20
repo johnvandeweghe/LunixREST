@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Exceptions;
 
-class ThrottleLimitExceededException extends \Exception {
+class ThrottleLimitExceededException extends \Exception
+{
 
 }

@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Exceptions;
 
-class InstanceNotFoundException extends \Exception {
+class InstanceNotFoundException extends \Exception
+{
 
 }

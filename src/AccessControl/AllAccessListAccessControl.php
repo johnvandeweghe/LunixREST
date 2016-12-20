@@ -1,5 +1,6 @@
 <?php
 namespace LunixREST\AccessControl;
+
 use LunixREST\Request\Request;
 
 /**
@@ -8,7 +9,8 @@ use LunixREST\Request\Request;
  * Class AllAccessListAccessControl
  * @package LunixREST\AccessControl
  */
-class AllAccessListAccessControl implements AccessControl {
+class AllAccessListAccessControl implements AccessControl
+{
     /**
      * @var array
      */
@@ -17,7 +19,8 @@ class AllAccessListAccessControl implements AccessControl {
     /**
      * @param array $keys
      */
-    public function __construct(Array $keys){
+    public function __construct(Array $keys)
+    {
         $this->keys = $keys;
     }
 
@@ -25,7 +28,8 @@ class AllAccessListAccessControl implements AccessControl {
      * @param \LunixREST\Request\Request $request
      * @return bool true if key is valid
      */
-    public function validateAccess(Request $request){
+    public function validateAccess(Request $request)
+    {
         return $this->validateKey($request->getApiKey());
     }
 
@@ -33,7 +37,8 @@ class AllAccessListAccessControl implements AccessControl {
      * @param $apiKey
      * @return bool true if key is in the array passed to this object in it's construction
      */
-    public function validateKey($apiKey){
+    public function validateKey($apiKey)
+    {
         return in_array($apiKey, $this->keys);
     }
 }

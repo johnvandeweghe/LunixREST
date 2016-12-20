@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Server;
 
-class RouterTest extends \PHPUnit_Framework_TestCase {
-    public function testRouteCallsRequestedMethodWhenValid(){
+class RouterTest extends \PHPUnit_Framework_TestCase
+{
+    public function testRouteCallsRequestedMethodWhenValid()
+    {
         $method = 'getAll';
         $endpoint = 'asdasd';
         $version = '123';
@@ -22,7 +24,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $router->route($requestMock);
     }
 
-    public function testRouteThrowsExceptionWhenMethodIsInvalid(){
+    public function testRouteThrowsExceptionWhenMethodIsInvalid()
+    {
         $method = 'NotAMethodInEndpoint';
         $endpoint = 'asdasd';
         $version = '123';

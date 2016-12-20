@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Response;
 
-class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
-    public function testGetResponseOfTypeJSONReturnsJSONResponse(){
+class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase
+{
+    public function testGetResponseOfTypeJSONReturnsJSONResponse()
+    {
         $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
 
         $defaultResponseFactory = new DefaultResponseFactory();
@@ -11,7 +13,9 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
     }
-    public function testGetResponseOfTypesNotAnJSONReturnsJSONResponse(){
+
+    public function testGetResponseOfTypesNotAnJSONReturnsJSONResponse()
+    {
         $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
 
         $defaultResponseFactory = new DefaultResponseFactory();
@@ -21,7 +25,8 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
     }
 
-    public function testGetResponseOfTypeJSONWithWeirdCaseReturnsJSONResponse(){
+    public function testGetResponseOfTypeJSONWithWeirdCaseReturnsJSONResponse()
+    {
         $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
 
         $defaultResponseFactory = new DefaultResponseFactory();
@@ -31,7 +36,8 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
     }
 
-    public function testGetResponseOfInvalidTypeThrowsException(){
+    public function testGetResponseOfInvalidTypeThrowsException()
+    {
         $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
 
         $defaultResponseFactory = new DefaultResponseFactory();
@@ -40,7 +46,8 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase {
         $defaultResponseFactory->getResponse($responseDataMock, ['notJSON']);
     }
 
-    public function testGetSupportedMIMETypesReturnsJSON(){
+    public function testGetSupportedMIMETypesReturnsJSON()
+    {
         $expected = ["application/json"];
         $defaultResponseFactory = new DefaultResponseFactory();
 

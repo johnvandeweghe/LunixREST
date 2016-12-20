@@ -9,13 +9,15 @@ use LunixREST\Response\ResponseData;
  * Class Endpoint
  * @package LunixREST\Endpoints
  */
-class DefaultEndpoint implements Endpoint {
+class DefaultEndpoint implements Endpoint
+{
     /**
      * @param Request $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function get(Request $request): ResponseData {
+    public function get(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -24,7 +26,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function getAll(Request $request): ResponseData {
+    public function getAll(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -33,7 +36,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function post(Request $request): ResponseData {
+    public function post(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -42,7 +46,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function postAll(Request $request): ResponseData {
+    public function postAll(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -51,7 +56,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function put(Request $request): ResponseData {
+    public function put(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -60,7 +66,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function putAll(Request $request): ResponseData {
+    public function putAll(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -69,7 +76,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function options(Request $request): ResponseData {
+    public function options(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -78,7 +86,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function optionsAll(Request $request): ResponseData {
+    public function optionsAll(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -87,7 +96,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function delete(Request $request): ResponseData {
+    public function delete(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 
@@ -96,7 +106,8 @@ class DefaultEndpoint implements Endpoint {
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function deleteAll(Request $request): ResponseData {
+    public function deleteAll(Request $request): ResponseData
+    {
         throw new UnsupportedMethodException('Method not supported');
     }
 }

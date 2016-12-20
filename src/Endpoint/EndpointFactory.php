@@ -3,7 +3,8 @@ namespace LunixREST\Endpoint;
 
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 
-interface EndpointFactory {
+interface EndpointFactory
+{
     /**
      * @param string $name
      * @param string $version

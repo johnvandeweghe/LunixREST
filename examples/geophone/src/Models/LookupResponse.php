@@ -4,10 +4,11 @@ namespace GeoPhone\Models;
 use LunixREST\Response\ResponseData;
 
 /**
-* Class GeoPhone
-* @package GeoPhone\Models
-*/
-class LookupResponse implements ResponseData {
+ * Class GeoPhone
+ * @package GeoPhone\Models
+ */
+class LookupResponse implements ResponseData
+{
     protected $city;
     protected $state;
 
@@ -16,7 +17,8 @@ class LookupResponse implements ResponseData {
      * @param string $city
      * @param string $state
      */
-    public function __construct(string $city, string $state) {
+    public function __construct(string $city, string $state)
+    {
         $this->city = $city;
         $this->state = $state;
     }
@@ -25,12 +27,13 @@ class LookupResponse implements ResponseData {
     /**
      * @return array
      */
-    public function getAsAssociativeArray(): array {
+    public function getAsAssociativeArray(): array
+    {
         return [
             "location" => [
-                    'city' => $this->city,
-                    'state' => $this->state
-                ]
-            ];
+                'city' => $this->city,
+                'state' => $this->state
+            ]
+        ];
     }
 }

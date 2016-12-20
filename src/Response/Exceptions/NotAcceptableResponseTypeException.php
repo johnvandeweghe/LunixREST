@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Response\Exceptions;
 
-class NotAcceptableResponseTypeException extends \Exception {
+class NotAcceptableResponseTypeException extends \Exception
+{
 
 }

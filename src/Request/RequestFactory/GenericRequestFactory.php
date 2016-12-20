@@ -14,7 +14,8 @@ use LunixREST\Request\URLParser\URLParser;
  * Class GenericRequestFactory
  * @package LunixREST\Request\RequestFactory
  */
-class GenericRequestFactory implements RequestFactory {
+class GenericRequestFactory implements RequestFactory
+{
 
     /**
      * @var URLParser
@@ -35,7 +36,8 @@ class GenericRequestFactory implements RequestFactory {
      * @param BodyParserFactory $bodyParserFactory
      * @param HeaderParser $headerParser
      */
-    public function __construct(URLParser $URLParser, BodyParserFactory $bodyParserFactory, HeaderParser $headerParser) {
+    public function __construct(URLParser $URLParser, BodyParserFactory $bodyParserFactory, HeaderParser $headerParser)
+    {
         $this->URLParser = $URLParser;
         $this->bodyParserFactory = $bodyParserFactory;
         $this->headerParser = $headerParser;
@@ -53,7 +55,8 @@ class GenericRequestFactory implements RequestFactory {
      * @throws UnknownContentTypeException
      * @throws InvalidRequestDataException
      */
-    public function create($method, array $headers, string $data, $ip, $url): Request {
+    public function create($method, array $headers, string $data, $ip, $url): Request
+    {
         $parsedURL = $this->URLParser->parse($url);
 
         $parsedHeaders = $this->headerParser->parse($headers);
@@ -62,7 +65,7 @@ class GenericRequestFactory implements RequestFactory {
         $parsedData = $bodyParser->parse($data);
 
         $apiKey = $parsedURL->getAPIKey();
-        if($apiKey === null) {
+        if ($apiKey === null) {
             $apiKey = $parsedHeaders->getAPIKey();
         }
 
@@ -78,21 +81,24 @@ class GenericRequestFactory implements RequestFactory {
     /**
      * @return URLParser
      */
-    public function getURLParser(): URLParser {
+    public function getURLParser(): URLParser
+    {
         return $this->URLParser;
     }
 
     /**
      * @return BodyParserFactory
      */
-    public function getBodyParserFactory(): BodyParserFactory {
+    public function getBodyParserFactory(): BodyParserFactory
+    {
         return $this->bodyParserFactory;
     }
 
     /**
      * @return HeaderParser
      */
-    public function getHeaderParser(): HeaderParser {
+    public function getHeaderParser(): HeaderParser
+    {
         return $this->headerParser;
     }
 }

@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\Response;
 
-class JSONResponseTest extends \PHPUnit_Framework_TestCase {
-    public function testGetAsStringReturnsExpectedJSON(){
+class JSONResponseTest extends \PHPUnit_Framework_TestCase
+{
+    public function testGetAsStringReturnsExpectedJSON()
+    {
         $data = [
             "Key" => "Value",
             1 => [
@@ -22,7 +24,8 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedData, $JSONResponse->getAsString());
     }
 
-    public function testGetResponseDataReturnsPassedData(){
+    public function testGetResponseDataReturnsPassedData()
+    {
         $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
 
         $JSONResponse = new JSONResponse($responseDataMock);
@@ -30,7 +33,8 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($responseDataMock, $JSONResponse->getResponseData());
     }
 
-    public function testgetMIMETypeReturnsJSONType(){
+    public function testgetMIMETypeReturnsJSONType()
+    {
         $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
 
         $JSONResponse = new JSONResponse($responseDataMock);

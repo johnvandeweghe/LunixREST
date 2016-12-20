@@ -5,7 +5,8 @@ namespace GeoPhone\Models;
  * Class GeoPhone
  * @package GeoPhone\Models
  */
-class GeoPhone {
+class GeoPhone
+{
     /**
      * @var resource
      */
@@ -14,7 +15,8 @@ class GeoPhone {
     /**
      * @param string $filename
      */
-    public function __construct($filename = 'data.csv'){
+    public function __construct($filename = 'data.csv')
+    {
         $this->fileHandle = fopen($filename, 'r');
     }
 
@@ -23,13 +25,14 @@ class GeoPhone {
      * @return LookupResponse
      * City and state are empty when not found.
      */
-    public function lookupNumber($phoneNumber): LookupResponse{
+    public function lookupNumber($phoneNumber): LookupResponse
+    {
         $phoneNumber = preg_replace('/[^0-9]/s', '', $phoneNumber);
         $areaCode = substr($phoneNumber, 0, 3);
         $nextThree = substr($phoneNumber, 3, 3);
 
-        while (($data = fgetcsv($this->fileHandle)) !== FALSE) {
-            if($areaCode == $data[0] && $nextThree == $data[1]){
+        while (($data = fgetcsv($this->fileHandle)) !== false) {
+            if ($areaCode == $data[0] && $nextThree == $data[1]) {
                 return new LookupResponse($data[2], $data[3]);
             }
         }

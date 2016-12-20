@@ -10,8 +10,10 @@ use LunixREST\Request\URLParser\URLParser;
  * Class BasicRequestFactory
  * @package LunixREST\Request\RequestFactory
  */
-class DefaultRequestFactory extends GenericRequestFactory {
-    public function __construct(URLParser $URLParser) {
+class DefaultRequestFactory extends GenericRequestFactory
+{
+    public function __construct(URLParser $URLParser)
+    {
         parent::__construct($URLParser, new DefaultBodyParserFactory(), new DefaultHeaderParser());
     }
 }

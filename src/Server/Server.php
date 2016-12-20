@@ -15,7 +15,8 @@ use LunixREST\Server\Exceptions\MethodNotFoundException;
 use LunixREST\Throttle\Throttle;
 
 //TODO: Unit test
-class Server {
+class Server
+{
     /**
      * @var AccessControl
      */
@@ -39,7 +40,12 @@ class Server {
      * @param ResponseFactory $responseFactory
      * @param EndpointFactory $endpointFactory
      */
-    public function __construct(AccessControl $accessControl, Throttle $throttle, ResponseFactory $responseFactory, EndpointFactory $endpointFactory){
+    public function __construct(
+        AccessControl $accessControl,
+        Throttle $throttle,
+        ResponseFactory $responseFactory,
+        EndpointFactory $endpointFactory
+    ) {
         $this->accessControl = $accessControl;
         $this->throttle = $throttle;
         $this->responseFactory = $responseFactory;
@@ -55,16 +61,17 @@ class Server {
      * @throws MethodNotFoundException
      * @throws NotAcceptableResponseTypeException
      */
-    public function handleRequest(Request $request): Response {
+    public function handleRequest(Request $request): Response
+    {
         $this->validateKey($request);
 
-        if($this->throttle->shouldThrottle($request)) {
+        if ($this->throttle->shouldThrottle($request)) {
             throw new ThrottleLimitExceededException('Request limit exceeded');
         }
 
         $this->validateAcceptableMIMETypes($request);
 
-        if(!$this->accessControl->validateAccess($request)) {
+        if (!$this->accessControl->validateAccess($request)) {
             throw new AccessDeniedException("API key does not have the required permissions to access requested resource");
         }
 
@@ -79,8 +86,9 @@ class Server {
      * @param Request $request
      * @throws InvalidAPIKeyException
      */
-    protected function validateKey(Request $request){
-        if(!$this->accessControl->validateKey($request->getApiKey())){
+    protected function validateKey(Request $request)
+    {
+        if (!$this->accessControl->validateKey($request->getApiKey())) {
             throw new InvalidAPIKeyException('Invalid API key');
         }
     }
@@ -90,11 +98,14 @@ class Server {
      * @throws NotAcceptableResponseTypeException
      */
     //TODO: Handle wildcards in request MIME types (*/*)
-    protected function validateAcceptableMIMETypes(Request $request) {
+    protected function validateAcceptableMIMETypes(Request $request)
+    {
         $formats = $this->responseFactory->getSupportedMIMETypes();
-        if(empty($formats) || (
-            !empty($request->getAcceptableMIMETypes()) && empty(array_intersect($request->getAcceptableMIMETypes(), $formats))
-            )) {
+        if (empty($formats) || (
+                !empty($request->getAcceptableMIMETypes()) && empty(array_intersect($request->getAcceptableMIMETypes(),
+                    $formats))
+            )
+        ) {
             throw new NotAcceptableResponseTypeException('None of the requests acceptable response types are valid');
         }
     }

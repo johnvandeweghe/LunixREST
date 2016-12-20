@@ -1,7 +1,8 @@
 <?php
 namespace LunixREST\Request\RequestData;
 
-interface RequestData {
+interface RequestData
+{
     /**
      * Returns the raw data that the requestData tried to parse
      * @return string

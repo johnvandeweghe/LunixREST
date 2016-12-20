@@ -3,7 +3,8 @@ namespace LunixREST\Request\URLParser;
 
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 
-interface URLParser {
+interface URLParser
+{
     /**
      * Parses API request data out of a url
      * @param $url

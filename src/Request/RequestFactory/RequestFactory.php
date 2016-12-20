@@ -6,7 +6,8 @@ use LunixREST\Request\BodyParser\Exceptions\UnknownContentTypeException;
 use LunixREST\Request\Request;
 use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
 
-interface RequestFactory {
+interface RequestFactory
+{
     /**
      * Creates a request from raw $data and a $url
      * @param $method
