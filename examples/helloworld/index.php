@@ -5,8 +5,8 @@ require("src/Endpoints/v1_0/helloworld.php");
 
 use LunixREST\AccessControl\PublicAccessControl;
 use LunixREST\Endpoint\NamespaceEndpointFactory;
-use LunixREST\Request\RequestFactory\BasicRequestFactory;
-use LunixREST\Response\DefaultResponseFactory;
+use LunixREST\APIRequest\RequestFactory\BasicRequestFactory;
+use LunixREST\APIResponse\DefaultResponseFactory;
 use LunixREST\Server\HTTPServer;
 use LunixREST\Server\Server;
 use LunixREST\Throttle\NoThrottle;

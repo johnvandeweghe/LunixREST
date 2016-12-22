@@ -2,7 +2,7 @@
 namespace LunixREST\AccessControl;
 
 use LunixREST\Configuration\Configuration;
-use LunixREST\Request\Request;
+use LunixREST\APIRequest\APIRequest;
 
 /**
  * Access control that uses a Configuration to read in valid keys. All keys the configuration provide are given full access
@@ -32,10 +32,10 @@ class AllAccessConfigurationListAccessControl implements AccessControl
     }
 
     /**
-     * @param \LunixREST\Request\Request $request
+     * @param \LunixREST\APIRequest\APIRequest $request
      * @return bool true if this key is valid
      */
-    public function validateAccess(Request $request)
+    public function validateAccess(APIRequest $request)
     {
         return $this->validateKey($request->getApiKey());
     }

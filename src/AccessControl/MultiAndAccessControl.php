@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\AccessControl;
 
-use LunixREST\Request\Request;
+use LunixREST\APIRequest\APIRequest;
 
 /**
  * Take all of our Multiple access controls, and verify each one returns true (logical AND)
@@ -11,10 +11,10 @@ use LunixREST\Request\Request;
 class MultiAndAccessControl extends MultiAccessControl
 {
     /**
-     * @param \LunixREST\Request\Request $request
+     * @param \LunixREST\APIRequest\APIRequest $request
      * @return bool true if all of the $accessControls' validate access methods returned true for the given request
      */
-    public function validateAccess(Request $request)
+    public function validateAccess(APIRequest $request)
     {
         foreach ($this->accessControls as $accessControl) {
             if (!$accessControl->validateAccess($request)) {

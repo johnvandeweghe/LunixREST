@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\AccessControl;
 
-use LunixREST\Request\Request;
+use LunixREST\APIRequest\APIRequest;
 
 /**
  * Access control for a public API, ignores all parameters and allows full access
@@ -11,10 +11,10 @@ use LunixREST\Request\Request;
 class PublicAccessControl implements AccessControl
 {
     /**
-     * @param \LunixREST\Request\Request $request
+     * @param \LunixREST\APIRequest\APIRequest $request
      * @return bool
      */
-    public function validateAccess(Request $request)
+    public function validateAccess(APIRequest $request)
     {
         return true;
     }

@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Throttle;
 
-use LunixREST\Request\Request;
+use LunixREST\APIRequest\APIRequest;
 
 /**
  * Interface Throttle
@@ -11,14 +11,14 @@ interface Throttle
 {
     /**
      * Returns true if the given request should be throttled in our implementation
-     * @param \LunixREST\Request\Request $request
+     * @param \LunixREST\APIRequest\APIRequest $request
      * @return bool
      */
-    public function shouldThrottle(Request $request): bool;
+    public function shouldThrottle(APIRequest $request): bool;
 
     /**
      * Log that a request took place
-     * @param \LunixREST\Request\Request $request
+     * @param \LunixREST\APIRequest\APIRequest $request
      */
-    public function logRequest(Request $request);
+    public function logRequest(APIRequest $request);
 }

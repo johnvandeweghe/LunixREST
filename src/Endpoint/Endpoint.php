@@ -2,8 +2,8 @@
 namespace LunixREST\Endpoint;
 
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
-use LunixREST\Request\Request;
-use LunixREST\Response\ResponseData;
+use LunixREST\APIRequest\APIRequest;
+use LunixREST\APIResponse\ResponseData;
 
 /**
  * Interface Endpoint
@@ -12,72 +12,72 @@ use LunixREST\Response\ResponseData;
 interface Endpoint
 {
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function get(Request $request): ResponseData;
+    public function get(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function getAll(Request $request): ResponseData;
+    public function getAll(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function post(Request $request): ResponseData;
+    public function post(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function postAll(Request $request): ResponseData;
+    public function postAll(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function put(Request $request): ResponseData;
+    public function put(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function putAll(Request $request): ResponseData;
+    public function putAll(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function options(Request $request): ResponseData;
+    public function options(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function optionsAll(Request $request): ResponseData;
+    public function optionsAll(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function delete(Request $request): ResponseData;
+    public function delete(APIRequest $request): ResponseData;
 
     /**
-     * @param Request $request
+     * @param APIRequest $request
      * @return ResponseData
      * @throws UnsupportedMethodException
      */
-    public function deleteAll(Request $request): ResponseData;
+    public function deleteAll(APIRequest $request): ResponseData;
 }
