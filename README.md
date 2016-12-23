@@ -10,9 +10,9 @@ Features include:
 - Routing to endpoints
 - API versioning
 - API Access throttling
-- Versatile request data parsing
+- PSR-7 compatible
 - Versatile output formatting
 
-See /examples/ folder for some examples on how to implement LunixREST
+See https://github.com/johnvandeweghe/LunixREST-Basics for some basic implementations, and examples.
 
 As per composer.json: This project requires PHP 7.1+ to run. 
