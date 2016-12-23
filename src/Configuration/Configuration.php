@@ -1,9 +1,23 @@
 <?php
 namespace LunixREST\Configuration;
 
+/**
+ * Interface Configuration
+ * @package LunixREST\Configuration
+ */
 interface Configuration
 {
-    public function get($key);
+    /**
+     * @param $key
+     * @param null|string $namespace
+     * @return mixed
+     */
+    public function get($key, $namespace);
 
-    public function set($key);
+    /**
+     * @param $key
+     * @param null $namespace
+     * @return bool
+     */
+    public function has($key, $namespace): bool;
 }

@@ -28,6 +28,8 @@ class DefaultHeaderParser implements HeaderParser
     {
         //TODO: follow RFC2616 order
         $acceptedMIMETypes = [];
+
+        //TODO: Headers are now in format key => values[], this won't work
         foreach ($headers as $key => $value) {
             if (strtolower($key) == 'http-accept') {
                 $values = explode(',', $value);
@@ -45,6 +47,7 @@ class DefaultHeaderParser implements HeaderParser
 
     protected function findAPIKey(array $headers)
     {
+        //TODO: Headers are now in format key => values[], this won't work
         foreach ($headers as $key => $value) {
             if (strtolower($key) == strtolower($this->apiKeyHeaderKey)) {
                 return $value;
@@ -55,6 +58,7 @@ class DefaultHeaderParser implements HeaderParser
 
     protected function getContentType(array $headers)
     {
+        //TODO: Headers are now in format key => values[], this won't work
         foreach ($headers as $key => $value) {
             if (strtolower($key) == 'content-type') {
                 return $value;

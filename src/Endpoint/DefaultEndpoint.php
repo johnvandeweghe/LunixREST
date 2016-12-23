@@ -13,100 +13,100 @@ class DefaultEndpoint implements Endpoint
 {
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function get(APIRequest $request): ResponseData
+    public function get(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function getAll(APIRequest $request): ResponseData
+    public function getAll(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function post(APIRequest $request): ResponseData
+    public function post(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function postAll(APIRequest $request): ResponseData
+    public function postAll(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function put(APIRequest $request): ResponseData
+    public function put(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function putAll(APIRequest $request): ResponseData
+    public function putAll(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function options(APIRequest $request): ResponseData
+    public function options(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function optionsAll(APIRequest $request): ResponseData
+    public function optionsAll(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function delete(APIRequest $request): ResponseData
+    public function delete(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return ResponseData
+     * @return null|array|object
      * @throws UnsupportedMethodException
      */
-    public function deleteAll(APIRequest $request): ResponseData
+    public function deleteAll(APIRequest $request)
     {
         throw new UnsupportedMethodException('Method not supported');
     }
