@@ -27,7 +27,7 @@ class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase
 
         $oneKeyAccess = new OneKeyAccessControl($accessKey);
 
-        $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')
+        $requestMock = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
         $requestMock->method('getApiKey')->willReturn($accessKey);
@@ -42,7 +42,7 @@ class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase
 
         $oneKeyAccess = new OneKeyAccessControl($accessKey);
 
-        $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')
+        $requestMock = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
         $requestMock->method('getApiKey')->willReturn($notAccessKey);

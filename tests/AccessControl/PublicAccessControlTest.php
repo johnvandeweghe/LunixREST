@@ -14,7 +14,7 @@ class PublicAccessControlTest extends \PHPUnit_Framework_TestCase
     {
         $publicAccess = new PublicAccessControl();
 
-        $requestMock = $this->getMockBuilder('\LunixREST\Request\Request')
+        $requestMock = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
         $requestMock->method('getApiKey')->willReturn(null);

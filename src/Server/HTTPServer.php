@@ -5,12 +5,12 @@ use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
-use LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException;
-use LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException;
-use LunixREST\Request\RequestFactory\RequestFactory;
-use LunixREST\Request\URLParser\Exceptions\InvalidRequestURLException;
-use LunixREST\Response\Exceptions\NotAcceptableResponseTypeException;
+use LunixREST\APIRequest\RequestFactory\RequestFactory;
+use LunixREST\APIRequest\URLParser\Exceptions\InvalidRequestURLException;
+use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HTTPServer
 {
@@ -37,46 +37,61 @@ class HTTPServer
     }
 
     /**
-     * @param $requestMethod - gotten from $_SERVER['REQUEST_METHOD'] for example
-     * @param $headers - gotten from getallheaders() for example
-     * @param $data - gotten from file_get_contents("php://input") for example
-     * @param $remoteAddress - gotten from $_SERVER['REMOTE_ADDR'] for example
-     * @param $requestURI - gotten from $_SERVER['REQUEST_URI'] for example
-     * Prints out the server response data, and sets any needed HTTP headers based on exceptions
+     * clones a response, changing contents based on the handling of a given request
+     * Taking in a response allows us not to define a specific response implementation to create
+     * @param ServerRequestInterface $serverRequest
+     * @param ResponseInterface $response
+     * @return ResponseInterface
      */
-    public function handleSAPIRequest($requestMethod, $headers, $data, $remoteAddress, $requestURI)
+    public function handleRequest(ServerRequestInterface $serverRequest, ResponseInterface $response): ResponseInterface
     {
+        $response = $response->withProtocolVersion($serverRequest->getProtocolVersion());
+
         try {
-            $request = $this->requestFactory->create($requestMethod, $headers(), $data, $remoteAddress, $requestURI);
+            $APIRequest = $this->requestFactory->create($serverRequest);
 
             try {
-                $response = $this->server->handleRequest($request);
-                header("Content-Type: " . $response->getMIMEType());
-                //TODO: Find a way for the Response to specify additional headers (to enable auth, as well as pagination)
-                echo $response->getAsString();
+                $APIResponse = $this->server->handleRequest($APIRequest);
+
+                $response = $response->withStatus(200, "200 OK");
+                $response = $response->withAddedHeader("Content-Type", $APIResponse->getMIMEType());
+                $response = $response->withAddedHeader("Content-Length", $APIResponse->getAsDataStream()->getSize());
+                $response = $response->withBody($APIResponse->getAsDataStream());
             } catch (InvalidAPIKeyException $e) {
-                header('400 Bad Request', true, 400);
+                $response = $response->withStatus(400, "400 Bad Request");
             } catch (UnknownEndpointException $e) {
-                header('404 Not Found', true, 404);
+                $response = $response->withStatus(404, "404 Not Found");
             } catch (NotAcceptableResponseTypeException $e) {
-                header('406 Not Acceptable', true, 406);
+                $response = $response->withStatus(406, "406 Not Acceptable");
             } catch (AccessDeniedException $e) {
-                header('403 Access Denied', true, 403);
+                $response = $response->withStatus(403, "403 Access Denied");
             } catch (ThrottleLimitExceededException $e) {
-                header('429 Too Many Requests', true, 429);
-            } catch (MethodNotFoundException $e) {
-                header('500 Internal Server Error', true, 500);
-            } catch (\Exception $e) {
-                header('500 Internal Server Error', true, 500);
+                $response = $response->withStatus(429, "429 Too Many Requests");
+            } catch (MethodNotFoundException | \Throwable $e) {
+                $response = $response->withStatus(500, "500 Internal Server Error");
             }
         } catch (InvalidRequestURLException $e) {
-            header('400 Bad Request', true, 400);
-        } catch (UnknownContentTypeException $e) {
-            header('400 Bad Request', true, 400);
-        } catch (InvalidRequestDataException $e) {
-            header('400 Bad Request', true, 400);
-        } catch (\Exception $e) {
-            header('500 Internal Server Error', true, 500);
+            $response = $response->withStatus(400, "400 Bad Request");
+        } catch (MethodNotFoundException | \Throwable $e) {
+            $response = $response->withStatus(500, "500 Internal Server Error");
+        }
+        return $response;
+    }
+
+    public function dumpResponse(ResponseInterface $response) {
+        header(sprintf("HTTP/%s", $response->getProtocolVersion()));
+
+        header($response->getReasonPhrase(), true, $response->getStatusCode());
+
+        foreach ($response->getHeaders() as $name => $values) {
+            foreach ($values as $value) {
+                header(sprintf('%s: %s', $name, $value), false);
+            }
+        }
+
+        $body = $response->getBody();
+        while(!$body->eof()) {
+            echo $body->read(1024);
         }
     }
 }

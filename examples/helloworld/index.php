@@ -5,8 +5,9 @@ require("src/Endpoints/v1_0/helloworld.php");
 
 use LunixREST\AccessControl\PublicAccessControl;
 use LunixREST\Endpoint\NamespaceEndpointFactory;
-use LunixREST\Request\RequestFactory\BasicRequestFactory;
-use LunixREST\Response\DefaultResponseFactory;
+use LunixREST\APIRequest\RequestFactory\BasicRequestFactory;
+use LunixREST\APIResponse\DefaultResponseFactory;
+use LunixREST\Server\GenericServer;
 use LunixREST\Server\HTTPServer;
 use LunixREST\Server\Server;
 use LunixREST\Throttle\NoThrottle;
@@ -23,12 +24,16 @@ $responseFactory = new DefaultResponseFactory();
 //Load any endpoints from the namespace listed
 $endpointFactory = new NamespaceEndpointFactory("\\HelloWorld\\Endpoints");
 
-$server = new Server($accessControl, $throttle, $responseFactory, $endpointFactory);
+$router = new \LunixREST\Server\GenericRouter($endpointFactory);
 
-//Build a basic url decoding body handler, which includes the basic url parser (which determines the url format)
+$server = new GenericServer($accessControl, $throttle, $responseFactory, $router);
+
+//Build a basic request factory, which includes the basic url parser (which determines the url format)
 $requestFactory = new BasicRequestFactory();
 
 $httpServer = new HTTPServer($server, $requestFactory);
+
+$serverRequest = GuzzleHttp\
 
 //Run to test: GET /1.0/public/helloworld.json
 $httpServer->handleSAPIRequest($_SERVER['REQUEST_METHOD'], getallheaders(), file_get_contents("php://input"),

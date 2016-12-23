@@ -6,7 +6,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForGetRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -17,7 +17,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForGetAllRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -28,7 +28,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForPostRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -39,7 +39,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForPostAllRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -50,7 +50,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForPutRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -61,7 +61,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForPutAllRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -72,7 +72,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForOptionsRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -83,7 +83,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForOptionsAllRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -94,7 +94,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForDeleteRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -105,7 +105,7 @@ class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
     public function testThrowsUnsupportedForDeleteAllRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
-        $request = $this->getMockBuilder('\LunixREST\Request\Request')
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
             ->disableOriginalConstructor()
             ->getMock();
 

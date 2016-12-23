@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\AccessControl;
 
-use LunixREST\Request\Request;
+use LunixREST\APIRequest\APIRequest;
 
 /**
  * Similar to OneKeyAccessControl, but takes in an array of valid keys to check against.
@@ -25,10 +25,10 @@ class AllAccessListAccessControl implements AccessControl
     }
 
     /**
-     * @param \LunixREST\Request\Request $request
+     * @param \LunixREST\APIRequest\APIRequest $request
      * @return bool true if key is valid
      */
-    public function validateAccess(Request $request)
+    public function validateAccess(APIRequest $request)
     {
         return $this->validateKey($request->getApiKey());
     }

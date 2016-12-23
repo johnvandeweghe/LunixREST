@@ -1,7 +1,7 @@
 <?php
 namespace HelloWorld\Models;
 
-use LunixREST\Response\ResponseData;
+use LunixREST\APIResponse\ResponseData;
 
 class HelloWorld implements ResponseData
 {

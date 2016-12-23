@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\AccessControl;
 
-use LunixREST\Request\Request;
+use LunixREST\APIRequest\APIRequest;
 
 /**
  * An access control policy that allows a single key full access to the API
@@ -24,10 +24,10 @@ class OneKeyAccessControl implements AccessControl
     }
 
     /**
-     * @param \LunixREST\Request\Request $request
+     * @param \LunixREST\APIRequest\APIRequest $request
      * @return bool true if key is valid
      */
-    public function validateAccess(Request $request)
+    public function validateAccess(APIRequest $request)
     {
         return $this->validateKey($request->getApiKey());
     }

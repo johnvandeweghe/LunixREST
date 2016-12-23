@@ -1,7 +1,7 @@
 <?php
 namespace GeoPhone\Models;
 
-use LunixREST\Response\ResponseData;
+use LunixREST\APIResponse\ResponseData;
 
 /**
  * Class GeoPhone

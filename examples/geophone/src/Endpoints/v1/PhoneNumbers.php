@@ -3,8 +3,8 @@ namespace GeoPhone\Endpoints\v1;
 
 use GeoPhone\Models\GeoPhone;
 use LunixREST\Endpoint\DefaultEndpoint;
-use LunixREST\Request\Request;
-use LunixREST\Response\ResponseData;
+use LunixREST\APIRequest\APIRequest;
+use LunixREST\APIResponse\ResponseData;
 
 class PhoneNumbers extends DefaultEndpoint
 {
@@ -21,7 +21,7 @@ class PhoneNumbers extends DefaultEndpoint
     }
 
 
-    public function get(Request $request): ResponseData
+    public function get(APIRequest $request): ResponseData
     {
         return $this->geoPhone->lookupNumber($request->getInstance());
     }
