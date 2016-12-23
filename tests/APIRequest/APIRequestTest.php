@@ -11,11 +11,11 @@ class APIRequestTest extends \PHPUnit_Framework_TestCase
         $requestAcceptableMIMETypes = ['application/json'];
         $requestVersion = '1.0';
         $requestAPIKey = 'public';
-        $requestQueryString = "hi=world";
+        $requestQueryData = ["hi"=>"world"];
         $requestData = ['dasdasdasd'=>'asdasd'];
 
         $request = new APIRequest($requestMethod, $requestEndpoint, $requestElement, $requestAcceptableMIMETypes,
-            $requestVersion, $requestAPIKey, $requestQueryString, $requestData);
+            $requestVersion, $requestAPIKey, $requestQueryData, $requestData);
 
         $this->assertEquals($requestMethod, $request->getMethod());
         $this->assertEquals($requestEndpoint, $request->getEndpoint());
@@ -23,7 +23,7 @@ class APIRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($requestAcceptableMIMETypes, $request->getAcceptableMIMETypes());
         $this->assertEquals($requestVersion, $request->getVersion());
         $this->assertEquals($requestAPIKey, $request->getApiKey());
-        $this->assertEquals($requestQueryString, $request->getQueryData());
+        $this->assertEquals($requestQueryData, $request->getQueryData());
         $this->assertEquals($requestData, $request->getData());
     }
 }

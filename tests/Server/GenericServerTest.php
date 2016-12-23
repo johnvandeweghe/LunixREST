@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Server;
 
-class ServerTest extends \PHPUnit_Framework_TestCase
+class GenericServerTest extends \PHPUnit_Framework_TestCase
 {
     public function testThrowsExceptionForInvalidKey()
     {
@@ -9,11 +9,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $mockedAccessControl->method('validateKey')->willReturn(false);
 
         $mockedThrottle = $this->getMockBuilder('\LunixREST\Throttle\Throttle')->getMock();
-        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\Response\ResponseFactory')->getMock();
-        $mockedEndpointFactory = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
-        $mockedRequest = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
-        $server = new Server($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedEndpointFactory);
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
         $this->expectException('\LunixREST\Exceptions\InvalidAPIKeyException');
 
@@ -28,12 +28,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $mockedThrottle = $this->getMockBuilder('\LunixREST\Throttle\Throttle')->getMock();
         $mockedThrottle->method('shouldThrottle')->willReturn(true);
 
-        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\Response\ResponseFactory')->getMock();
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
 
-        $mockedEndpointFactory = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
-        $mockedRequest = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
-        $server = new Server($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedEndpointFactory);
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
         $this->expectException('\LunixREST\Exceptions\ThrottleLimitExceededException');
 
@@ -48,16 +48,16 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $mockedThrottle = $this->getMockBuilder('\LunixREST\Throttle\Throttle')->getMock();
         $mockedThrottle->method('shouldThrottle')->willReturn(false);
 
-        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\Response\ResponseFactory')->getMock();
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
         $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn([]);
 
-        $mockedEndpointFactory = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
-        $mockedRequest = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
         $mockedRequest->method('getAcceptableMIMETypes')->willReturn(['application/json']);
 
-        $server = new Server($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedEndpointFactory);
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
-        $this->expectException('\LunixREST\Response\Exceptions\NotAcceptableResponseTypeException');
+        $this->expectException('\LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException');
 
         $server->handleRequest($mockedRequest);
     }
@@ -70,16 +70,16 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $mockedThrottle = $this->getMockBuilder('\LunixREST\Throttle\Throttle')->getMock();
         $mockedThrottle->method('shouldThrottle')->willReturn(false);
 
-        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\Response\ResponseFactory')->getMock();
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
         $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn(['text/html']);
 
-        $mockedEndpointFactory = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
-        $mockedRequest = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
         $mockedRequest->method('getAcceptableMIMETypes')->willReturn(['application/json']);
 
-        $server = new Server($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedEndpointFactory);
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
-        $this->expectException('\LunixREST\Response\Exceptions\NotAcceptableResponseTypeException');
+        $this->expectException('\LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException');
 
         $server->handleRequest($mockedRequest);
     }
@@ -93,14 +93,14 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $mockedThrottle = $this->getMockBuilder('\LunixREST\Throttle\Throttle')->getMock();
         $mockedThrottle->method('shouldThrottle')->willReturn(false);
 
-        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\Response\ResponseFactory')->getMock();
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
         $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn(['application/json']);
 
-        $mockedEndpointFactory = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
-        $mockedRequest = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
         $mockedRequest->method('getAcceptableMIMETypes')->willReturn(['application/json']);
 
-        $server = new Server($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedEndpointFactory);
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
         $this->expectException('\LunixREST\Exceptions\AccessDeniedException');
 
@@ -110,6 +110,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testLogsRequestAndRoutesAndReturnsResponseData()
     {
         $method = 'get';
+        $responseData = ["foo" => "bar"];
+        $mimeTypes = ['application/json'];
 
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
         $mockedAccessControl->method('validateKey')->willReturn(true);
@@ -119,27 +121,22 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $mockedThrottle->method('shouldThrottle')->willReturn(false);
         $mockedThrottle->expects($this->once())->method('logRequest');
 
-        $mockedResponse = $this->getMockBuilder('\LunixREST\Response\Response')->getMock();
+        $mockedResponse = $this->getMockBuilder('\LunixREST\APIResponse\APIResponse')->getMock();
 
-        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\Response\ResponseFactory')->getMock();
-        $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn(['application/json']);
-        $mockedResponseFactory->method('getResponse')->willReturn($mockedResponse);
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
+        $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn($mimeTypes);
+        $mockedResponseFactory->expects($this->once())->method('getResponse')->with($responseData, $mimeTypes)->willReturn($mockedResponse);
 
-        $mockedResponseData = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRouter->expects($this->once())->method('route')->willReturn($responseData);
 
-        $mockedEndpoint = $this->getMockBuilder('\LunixREST\Endpoint\Endpoint')->getMock();
-        $mockedEndpoint->expects($this->once())->method($method)->willReturn($mockedResponseData);
-
-        $mockedEndpointFactory = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
-        $mockedEndpointFactory->method('getEndpoint')->willReturn($mockedEndpoint);
-
-        $mockedRequest = $this->getMockBuilder('\LunixREST\Request\Request')->disableOriginalConstructor()->getMock();
-        $mockedRequest->method('getAcceptableMIMETypes')->willReturn(['application/json']);
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
+        $mockedRequest->method('getAcceptableMIMETypes')->willReturn($mimeTypes);
         $mockedRequest->method('getMethod')->willReturn($method);
         $mockedRequest->method('getEndpoint')->willReturn('testEndpoint');
         $mockedRequest->method('getVersion')->willReturn('v1.0');
 
-        $server = new Server($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedEndpointFactory);
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
         $this->assertEquals($mockedResponse, $server->handleRequest($mockedRequest));
     }

@@ -7,14 +7,14 @@ class DefaultBodyParserFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $bodyParserFactory = new DefaultBodyParserFactory();
 
-        $this->expectException('\LunixREST\Request\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException');
+        $this->expectException('\LunixREST\APIRequest\BodyParser\BodyParserFactory\Exceptions\UnknownContentTypeException');
         $bodyParserFactory->create('unknown');
     }
 
     public function testReturnsBodyParserForAddedContentTypeViaAdd()
     {
         $contentType = 'application/fake';
-        $mockedBodyParser = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParser')->getMock();
+        $mockedBodyParser = $this->getMockBuilder('\LunixREST\APIRequest\BodyParser\BodyParser')->getMock();
 
         $bodyParserFactory = new DefaultBodyParserFactory();
 
@@ -29,7 +29,7 @@ class DefaultBodyParserFactoryTest extends \PHPUnit_Framework_TestCase
 
         $bodyParserFactory = new DefaultBodyParserFactory();
 
-        $this->assertInstanceOf('\LunixREST\Request\BodyParser\JSONBodyParser',
+        $this->assertInstanceOf('\LunixREST\APIRequest\BodyParser\JSONBodyParser',
             $bodyParserFactory->create($contentType));
     }
 
@@ -39,7 +39,7 @@ class DefaultBodyParserFactoryTest extends \PHPUnit_Framework_TestCase
 
         $bodyParserFactory = new DefaultBodyParserFactory();
 
-        $this->assertInstanceOf('\LunixREST\Request\BodyParser\URLEncodedBodyParser',
+        $this->assertInstanceOf('\LunixREST\APIRequest\BodyParser\URLEncodedBodyParser',
             $bodyParserFactory->create($contentType));
     }
 }

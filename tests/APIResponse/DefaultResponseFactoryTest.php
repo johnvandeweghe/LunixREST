@@ -5,45 +5,45 @@ class DefaultResponseFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetResponseOfTypeJSONReturnsJSONResponse()
     {
-        $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
+        $responseData = ["foo" => "bar"];
 
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $response = $defaultResponseFactory->getResponse($responseDataMock, ['application/json']);
+        $response = $defaultResponseFactory->getResponse($responseData, ['application/json']);
 
-        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
+        $this->assertInstanceOf('\LunixREST\APIResponse\JSONResponse', $response);
     }
 
     public function testGetResponseOfTypesNotAnJSONReturnsJSONResponse()
     {
-        $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
+        $responseData = ["foo" => "bar"];
 
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $response = $defaultResponseFactory->getResponse($responseDataMock, ['notJSON', 'application/json']);
+        $response = $defaultResponseFactory->getResponse($responseData, ['notJSON', 'application/json']);
 
-        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
+        $this->assertInstanceOf('\LunixREST\APIResponse\JSONResponse', $response);
     }
 
     public function testGetResponseOfTypeJSONWithWeirdCaseReturnsJSONResponse()
     {
-        $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
+        $responseData = ["foo" => "bar"];
 
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $response = $defaultResponseFactory->getResponse($responseDataMock, ['application/jSoN']);
+        $response = $defaultResponseFactory->getResponse($responseData, ['application/jSoN']);
 
-        $this->assertInstanceOf('\LunixREST\Response\JSONResponse', $response);
+        $this->assertInstanceOf('\LunixREST\APIResponse\JSONResponse', $response);
     }
 
     public function testGetResponseOfInvalidTypeThrowsException()
     {
-        $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
+        $responseData = ["foo" => "bar"];
 
         $defaultResponseFactory = new DefaultResponseFactory();
 
-        $this->expectException('\LunixREST\Response\Exceptions\NotAcceptableResponseTypeException');
-        $defaultResponseFactory->getResponse($responseDataMock, ['notJSON']);
+        $this->expectException('\LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException');
+        $defaultResponseFactory->getResponse($responseData, ['notJSON']);
     }
 
     public function testGetSupportedMIMETypesReturnsJSON()

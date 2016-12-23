@@ -16,10 +16,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
 
         $expectedData = json_encode($data);
 
-        $responseDataMock = $this->getMockBuilder('\LunixREST\Response\ResponseData')->getMock();
-        $responseDataMock->method('getAsAssociativeArray')->willReturn($data);
-
-        $JSONResponse = new JSONAPIResponse($responseDataMock);
+        $JSONResponse = new JSONResponse($data);
 
         $this->assertEquals($expectedData, $JSONResponse->getAsDataStream()->getContents());
     }
@@ -35,14 +32,14 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $JSONResponse = new JSONAPIResponse($data);
+        $JSONResponse = new JSONResponse($data);
 
         $this->assertEquals($data, $JSONResponse->getResponseData());
     }
 
     public function testGetMIMETypeReturnsJSONType()
     {
-        $JSONResponse = new JSONAPIResponse(null);
+        $JSONResponse = new JSONResponse(null);
 
         $this->assertEquals('application/json', $JSONResponse->getMIMEType());
     }

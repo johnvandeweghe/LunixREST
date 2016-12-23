@@ -24,7 +24,7 @@ class DefaultResponseFactory implements ResponseFactory
         foreach ($acceptedMIMETypes as $acceptedMIMEType) {
             switch (strtolower($acceptedMIMEType)) {
                 case "application/json":
-                    return new JSONAPIResponse($data);
+                    return new JSONResponse($data);
             }
         }
 

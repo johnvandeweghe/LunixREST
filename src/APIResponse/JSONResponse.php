@@ -7,7 +7,7 @@ use Psr\Http\Message\StreamInterface;
  * Class JSONResponse
  * @package LunixREST\APIResponse
  */
-class JSONAPIResponse implements APIResponse
+class JSONResponse implements APIResponse
 {
     /**
      * @var null|object|array

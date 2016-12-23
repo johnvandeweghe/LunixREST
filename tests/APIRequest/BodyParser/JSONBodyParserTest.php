@@ -17,7 +17,7 @@ class JSONBodyParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawData = 'fgd dfgh dsfhr sdrf hrfytj ';
 
-        $this->expectException('\LunixREST\Request\BodyParser\Exceptions\InvalidRequestDataException');
+        $this->expectException('\LunixREST\APIRequest\BodyParser\Exceptions\InvalidRequestDataException');
         $parser = new JSONBodyParser();
         $parser->parse($rawData);
     }

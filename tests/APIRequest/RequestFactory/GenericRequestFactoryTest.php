@@ -5,108 +5,102 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testRequestHasProperValues()
     {
+        $endpoint = 'geophone';
+        $element = '123';
         $version = '1';
         $apiKey = 'public';
-        $endpoint = 'geophone';
-        $instance = '123';
+        $queryString = "foo=bar";
+        $queryData = ["foo"=>"bar"];
         $method = 'get';
         $headers = [];
-        $ip = '1.1.1.1';
-        $data = '';
-        $url = '';
+        $data = [];
         $acceptableMIMETypes = ['application/json'];
 
-        $mockedRequestData = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
-        $mockedURLParser = $this->mockURLParser($mockedRequestData, $version, $apiKey, $endpoint, $acceptableMIMETypes,
-            $instance);
-        $mockedBodyParserFactory = $this->mockBodyParserFactory($mockedRequestData);
+        $mockedURLParser = $this->mockURLParser($endpoint, $element, $version, $apiKey, $acceptableMIMETypes, $queryString);
         $mockedHeaderParser = $this->mockHeaderParser($acceptableMIMETypes, $apiKey, '');
 
-        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedBodyParserFactory, $mockedHeaderParser);
+        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
+        $mockedServerRequest->method('getURI')->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+        $mockedServerRequest->method('getHeaders')->willReturn($headers);
+        $mockedServerRequest->method('getMethod')->willReturn($method);
+        $mockedServerRequest->method('getParsedBody')->willReturn($data);
 
-        $request = $requestFactory->create($method, $headers, $data, $ip, $url);
 
+        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedHeaderParser);
+
+        $request = $requestFactory->create($mockedServerRequest);
+
+        $this->assertEquals($method, $request->getMethod());
+        $this->assertEquals($endpoint, $request->getEndpoint());
+        $this->assertEquals($element, $request->getElement());
+        $this->assertEquals($acceptableMIMETypes, $request->getAcceptableMIMETypes());
         $this->assertEquals($version, $request->getVersion());
         $this->assertEquals($apiKey, $request->getApiKey());
-        $this->assertEquals($endpoint, $request->getEndpoint());
-        $this->assertEquals($instance, $request->getInstance());
-        $this->assertEquals($acceptableMIMETypes, $request->getAcceptableMIMETypes());
-        $this->assertEquals($method, $request->getMethod());
-        $this->assertEquals($ip, $request->getIp());
-        $this->assertEquals($headers, $request->getHeaders());
-        $this->assertEquals($mockedRequestData, $request->getBody());
-        $this->assertEquals($mockedRequestData, $request->getUrlData());
+        $this->assertEquals($queryData, $request->getQueryData());
+        $this->assertEquals($data, $request->getData());
     }
 
     public function testHeaderAPIKeyIsUsedWhenURLAPIKeyIsNull()
     {
+        $endpoint = 'geophone';
+        $element = '123';
         $version = '1';
         $apiKey = 'public';
-        $endpoint = 'geophone';
-        $instance = '123';
+        $queryString = "foo=bar";
         $method = 'get';
         $headers = [];
-        $ip = '1.1.1.1';
-        $data = '';
-        $url = '';
+        $data = [];
         $acceptableMIMETypes = ['application/json'];
 
-        $mockedRequestData = $this->getMockBuilder('\LunixREST\Request\RequestData\RequestData')->getMock();
-        $mockedURLParser = $this->mockURLParser($mockedRequestData, $version, null, $endpoint, $acceptableMIMETypes,
-            $instance);
-        $mockedBodyParserFactory = $this->mockBodyParserFactory($mockedRequestData);
+        $mockedURLParser = $this->mockURLParser($endpoint, $element, $version, null, $acceptableMIMETypes, $queryString);
         $mockedHeaderParser = $this->mockHeaderParser($acceptableMIMETypes, $apiKey, '');
 
-        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedBodyParserFactory, $mockedHeaderParser);
+        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
+        $mockedServerRequest->method('getURI')->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+        $mockedServerRequest->method('getHeaders')->willReturn($headers);
+        $mockedServerRequest->method('getMethod')->willReturn($method);
+        $mockedServerRequest->method('getParsedBody')->willReturn($data);
 
-        $request = $requestFactory->create($method, $headers, $data, $ip, $url);
+        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedHeaderParser);
+
+        $request = $requestFactory->create($mockedServerRequest);
 
         $this->assertEquals($apiKey, $request->getApiKey());
     }
 
     public function testGetters()
     {
-        $mockedURLParser = $this->getMockBuilder('\LunixREST\Request\URLParser\URLParser')->getMock();
-        $mockedBodyParserFactory = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParserFactory\BodyParserFactory')->getMock();
-        $mockedHeaderParser = $this->getMockBuilder('\LunixREST\Request\HeaderParser\HeaderParser')->getMock();
+        $mockedURLParser = $this->getMockBuilder('\LunixREST\APIRequest\URLParser\URLParser')->getMock();
+        $mockedHeaderParser = $this->getMockBuilder('\LunixREST\APIRequest\HeaderParser\HeaderParser')->getMock();
 
-        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedBodyParserFactory, $mockedHeaderParser);
+        $requestFactory = new GenericRequestFactory($mockedURLParser, $mockedHeaderParser);
 
         $this->assertEquals($mockedURLParser, $requestFactory->getURLParser());
-        $this->assertEquals($mockedBodyParserFactory, $requestFactory->getBodyParserFactory());
         $this->assertEquals($mockedHeaderParser, $requestFactory->getHeaderParser());
     }
 
-    private function mockURLParser($requestData, $version, $apiKey, $endpoint, $acceptableMIMETypes, $instance)
+    private function mockURLParser($endpoint, $element, $version, $apiKey, $acceptableMIMETypes, $queryString)
     {
-        $mockedParsedURL = $this->getMockBuilder('\LunixREST\Request\URLParser\ParsedURL')->disableOriginalConstructor()->getMock();
-        $mockedParsedURL->method('getRequestData')->willReturn($requestData);
+        //$endpoint, $element, $version, $APIKey, $acceptableMIMETypes, $queryString
+        $mockedParsedURL = $this->getMockBuilder('\LunixREST\APIRequest\URLParser\ParsedURL')->disableOriginalConstructor()->getMock();
+        $mockedParsedURL->method('getEndpoint')->willReturn($endpoint);
+        $mockedParsedURL->method('getElement')->willReturn($element);
         $mockedParsedURL->method('getVersion')->willReturn($version);
         $mockedParsedURL->method('getAPIKey')->willReturn($apiKey);
-        $mockedParsedURL->method('getEndpoint')->willReturn($endpoint);
         $mockedParsedURL->method('getAcceptableMIMETypes')->willReturn($acceptableMIMETypes);
-        $mockedParsedURL->method('getInstance')->willReturn($instance);
-        $mockedURLParser = $this->getMockBuilder('\LunixREST\Request\URLParser\URLParser')->getMock();
+        $mockedParsedURL->method('getQueryString')->willReturn($queryString);
+        $mockedURLParser = $this->getMockBuilder('\LunixREST\APIRequest\URLParser\URLParser')->getMock();
         $mockedURLParser->method('parse')->willReturn($mockedParsedURL);
         return $mockedURLParser;
     }
 
-    private function mockBodyParserFactory($requestData)
-    {
-        $mockedBodyParser = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParser')->getMock();
-        $mockedBodyParser->method('parse')->willReturn($requestData);
-        $mockedBodyParserFactory = $this->getMockBuilder('\LunixREST\Request\BodyParser\BodyParserFactory\BodyParserFactory')->getMock();
-        $mockedBodyParserFactory->method('create')->willReturn($mockedBodyParser);
-        return $mockedBodyParserFactory;
-    }
-
     private function mockHeaderParser($acceptableMIMETypes, $apiKey, $contentType)
     {
-        $mockedParsedHeaders = $this->getMockBuilder('\LunixREST\Request\HeaderParser\ParsedHeaders')->disableOriginalConstructor()->getMock();
+        $mockedParsedHeaders = $this->getMockBuilder('\LunixREST\APIRequest\HeaderParser\ParsedHeaders')->disableOriginalConstructor()->getMock();
         $mockedParsedHeaders->method('getAcceptableMIMETypes')->willReturn($acceptableMIMETypes);
         $mockedParsedHeaders->method('getAPIKey')->willReturn($apiKey);
         $mockedParsedHeaders->method('getContentType')->willReturn($contentType);
-        $mockedHeaderParser = $this->getMockBuilder('\LunixREST\Request\HeaderParser\HeaderParser')->getMock();
+        $mockedHeaderParser = $this->getMockBuilder('\LunixREST\APIRequest\HeaderParser\HeaderParser')->getMock();
         $mockedHeaderParser->method('parse')->willReturn($mockedParsedHeaders);
         return $mockedHeaderParser;
     }

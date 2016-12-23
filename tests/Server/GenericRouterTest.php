@@ -6,11 +6,11 @@ class GenericRouterTest extends \PHPUnit_Framework_TestCase
     public function testRouteCallsRequestedMethodWithAllWhenValid()
     {
         $method = 'get';
-        $element = null;
+        $element = 123;
         $endpoint = 'asdasd';
         $version = '123';
 
-        $requestMock = $this->getMockBuilder('\LunixREST\Request\APIRequest')->disableOriginalConstructor()->getMock();
+        $requestMock = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
         $requestMock->method('getVersion')->willReturn($version);
         $requestMock->method('getEndpoint')->willReturn($endpoint);
         $requestMock->method('getMethod')->willReturn($method);
@@ -29,11 +29,11 @@ class GenericRouterTest extends \PHPUnit_Framework_TestCase
     public function testRouteCallsRequestedMethodWithoutAllWhenValid()
     {
         $method = 'get';
-        $element = 123;
+        $element = null;
         $endpoint = 'asdasd';
         $version = '123';
 
-        $requestMock = $this->getMockBuilder('\LunixREST\Request\APIRequest')->disableOriginalConstructor()->getMock();
+        $requestMock = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
         $requestMock->method('getVersion')->willReturn($version);
         $requestMock->method('getEndpoint')->willReturn($endpoint);
         $requestMock->method('getMethod')->willReturn($method);
@@ -55,7 +55,7 @@ class GenericRouterTest extends \PHPUnit_Framework_TestCase
         $endpoint = 'asdasd';
         $version = '123';
 
-        $requestMock = $this->getMockBuilder('\LunixREST\Request\APIRequest')->disableOriginalConstructor()->getMock();
+        $requestMock = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
         $requestMock->method('getVersion')->willReturn($version);
         $requestMock->method('getEndpoint')->willReturn($endpoint);
         $requestMock->method('getMethod')->willReturn($method);
