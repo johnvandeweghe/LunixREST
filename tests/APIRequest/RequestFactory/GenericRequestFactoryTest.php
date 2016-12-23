@@ -19,8 +19,10 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase
         $mockedURLParser = $this->mockURLParser($endpoint, $element, $version, $apiKey, $acceptableMIMETypes, $queryString);
         $mockedHeaderParser = $this->mockHeaderParser($acceptableMIMETypes, $apiKey, '');
 
+        $mockedURI = $this->getMockBuilder('\Psr\Http\Message\UriInterface')->getMock();
+
         $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-        $mockedServerRequest->method('getURI')->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+        $mockedServerRequest->method('getURI')->willReturn($mockedURI);
         $mockedServerRequest->method('getHeaders')->willReturn($headers);
         $mockedServerRequest->method('getMethod')->willReturn($method);
         $mockedServerRequest->method('getParsedBody')->willReturn($data);
@@ -55,8 +57,10 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase
         $mockedURLParser = $this->mockURLParser($endpoint, $element, $version, null, $acceptableMIMETypes, $queryString);
         $mockedHeaderParser = $this->mockHeaderParser($acceptableMIMETypes, $apiKey, '');
 
+        $mockedURI = $this->getMockBuilder('\Psr\Http\Message\UriInterface')->getMock();
+
         $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-        $mockedServerRequest->method('getURI')->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+        $mockedServerRequest->method('getURI')->willReturn($mockedURI);
         $mockedServerRequest->method('getHeaders')->willReturn($headers);
         $mockedServerRequest->method('getMethod')->willReturn($method);
         $mockedServerRequest->method('getParsedBody')->willReturn($data);
