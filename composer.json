@@ -13,8 +13,7 @@
     "require": {
         "php": "^7.1",
         "ext-mbstring": "*",
-        "psr/http-message": "^1.0",
-        "guzzlehttp/psr7": "^1.3"
+        "psr/http-message": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -22,6 +21,6 @@
         }
     },
     "suggest": {
-        "doctrine/doctrine": "Required for implementations that use DoctrineEndpointFactory and DoctrineEndpoint"
+        "johnvandeweghe/lunixrest-basics": "Everything you need to create a basic API"
     }
 }
