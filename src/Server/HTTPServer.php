@@ -1,7 +1,6 @@
 <?php
 namespace LunixREST\Server;
 
-use GuzzleHttp\Psr7\Stream;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
@@ -38,14 +37,15 @@ class HTTPServer
     }
 
     /**
-     * Modifies a response based on the handling of a given request
+     * clones a response, changing contents based on the handling of a given request
      * Taking in a response allows us not to define a specific response implementation to create
      * @param ServerRequestInterface $serverRequest
      * @param ResponseInterface $response
+     * @return ResponseInterface
      */
-    public function handleRequest(ServerRequestInterface $serverRequest, ResponseInterface &$response)
+    public function handleRequest(ServerRequestInterface $serverRequest, ResponseInterface $response): ResponseInterface
     {
-        $response->withProtocolVersion($serverRequest->getProtocolVersion());
+        $response = $response->withProtocolVersion($serverRequest->getProtocolVersion());
 
         try {
             $APIRequest = $this->requestFactory->create($serverRequest);
@@ -53,28 +53,29 @@ class HTTPServer
             try {
                 $APIResponse = $this->server->handleRequest($APIRequest);
 
-                $response->withStatus(200, "200 OK");
-                $response->withAddedHeader("Content-Type", $APIResponse->getMIMEType());
-                $response->withAddedHeader("Content-Length", $APIResponse->getAsDataStream()->getSize());
-                $response->withBody($APIResponse->getAsDataStream());
+                $response = $response->withStatus(200, "200 OK");
+                $response = $response->withAddedHeader("Content-Type", $APIResponse->getMIMEType());
+                $response = $response->withAddedHeader("Content-Length", $APIResponse->getAsDataStream()->getSize());
+                $response = $response->withBody($APIResponse->getAsDataStream());
             } catch (InvalidAPIKeyException $e) {
-                $response->withStatus(400, "400 Bad Request");
+                $response = $response->withStatus(400, "400 Bad Request");
             } catch (UnknownEndpointException $e) {
-                $response->withStatus(404, "404 Not Found");
+                $response = $response->withStatus(404, "404 Not Found");
             } catch (NotAcceptableResponseTypeException $e) {
-                $response->withStatus(406, "406 Not Acceptable");
+                $response = $response->withStatus(406, "406 Not Acceptable");
             } catch (AccessDeniedException $e) {
-                $response->withStatus(403, "403 Access Denied");
+                $response = $response->withStatus(403, "403 Access Denied");
             } catch (ThrottleLimitExceededException $e) {
-                $response->withStatus(429, "429 Too Many Requests");
+                $response = $response->withStatus(429, "429 Too Many Requests");
             } catch (MethodNotFoundException | \Throwable $e) {
-                $response->withStatus(500, "500 Internal Server Error");
+                $response = $response->withStatus(500, "500 Internal Server Error");
             }
         } catch (InvalidRequestURLException $e) {
-            $response->withStatus(400, "400 Bad Request");
+            $response = $response->withStatus(400, "400 Bad Request");
         } catch (MethodNotFoundException | \Throwable $e) {
-            $response->withStatus(500, "500 Internal Server Error");
+            $response = $response->withStatus(500, "500 Internal Server Error");
         }
+        return $response;
     }
 
     public function dumpResponse(ResponseInterface $response) {

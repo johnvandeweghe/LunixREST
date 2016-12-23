@@ -14,7 +14,7 @@ use LunixREST\APIResponse\ResponseFactory;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 use LunixREST\Throttle\Throttle;
 
-class GenericServer
+class GenericServer implements Server
 {
     /**
      * @var AccessControl
