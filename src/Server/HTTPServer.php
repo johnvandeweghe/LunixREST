@@ -72,7 +72,7 @@ class HTTPServer
             }
         } catch (InvalidRequestURLException $e) {
             $response = $response->withStatus(400, "400 Bad Request");
-        } catch (MethodNotFoundException | \Throwable $e) {
+        } catch (\Throwable $e) {
             $response = $response->withStatus(500, "500 Internal Server Error");
         }
         return $response;
