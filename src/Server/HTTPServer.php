@@ -56,26 +56,25 @@ class HTTPServer
                 $response = $response->withStatus(200, "200 OK");
                 $response = $response->withAddedHeader("Content-Type", $APIResponse->getMIMEType());
                 $response = $response->withAddedHeader("Content-Length", $APIResponse->getAsDataStream()->getSize());
-                $response = $response->withBody($APIResponse->getAsDataStream());
+                return $response->withBody($APIResponse->getAsDataStream());
             } catch (InvalidAPIKeyException $e) {
-                $response = $response->withStatus(400, "400 Bad Request");
+                return $response->withStatus(400, "400 Bad Request");
             } catch (UnknownEndpointException $e) {
-                $response = $response->withStatus(404, "404 Not Found");
+                return $response->withStatus(404, "404 Not Found");
             } catch (NotAcceptableResponseTypeException $e) {
-                $response = $response->withStatus(406, "406 Not Acceptable");
+                return $response->withStatus(406, "406 Not Acceptable");
             } catch (AccessDeniedException $e) {
-                $response = $response->withStatus(403, "403 Access Denied");
+                return $response->withStatus(403, "403 Access Denied");
             } catch (ThrottleLimitExceededException $e) {
-                $response = $response->withStatus(429, "429 Too Many Requests");
+                return $response->withStatus(429, "429 Too Many Requests");
             } catch (MethodNotFoundException | \Throwable $e) {
-                $response = $response->withStatus(500, "500 Internal Server Error");
+                return $response->withStatus(500, "500 Internal Server Error");
             }
         } catch (InvalidRequestURLException $e) {
-            $response = $response->withStatus(400, "400 Bad Request");
+            return $response->withStatus(400, "400 Bad Request");
         } catch (\Throwable $e) {
-            $response = $response->withStatus(500, "500 Internal Server Error");
+            return $response->withStatus(500, "500 Internal Server Error");
         }
-        return $response;
     }
 
     public function dumpResponse(ResponseInterface $response) {
