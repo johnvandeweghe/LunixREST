@@ -9,8 +9,21 @@ use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 
+//Mock the header function, storing results in a public static on the test object (cleared on tearDown)
+function header($string, $replace = true, $http_response_code = null) {
+    HTTPServerTest::$headerCalls[] = [$string, $replace, $http_response_code];
+}
+
+
 class HTTPServerTest extends \PHPUnit_Framework_TestCase
 {
+    public static $headerCalls = [];
+
+    public function tearDown()
+    {
+        self::$headerCalls = [];
+    }
+
     public function testHandleRequestReturns400WhenCreateThrowsInvalidURLException()
     {
         $expectedStatusCode = 400;
@@ -239,5 +252,106 @@ class HTTPServerTest extends \PHPUnit_Framework_TestCase
         $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
 
         $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+    }
+
+    public function testDumpResponseSetsProtocol()
+    {
+        $protocol = 1.1;
+        $reasonPhrase = "";
+        $statusCode = 0;
+        $headers = [];
+        $bodyText = "";
+
+        $expectedHeaderCall = ["HTTP/$protocol", true, null];
+
+        $mockedResponse = $this->buildResponseMock($protocol, $reasonPhrase, $statusCode, $headers, $bodyText);
+
+        ob_start();
+        HTTPServer::dumpResponse($mockedResponse);
+        $body = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertContains($expectedHeaderCall, self::$headerCalls);
+    }
+
+    public function testDumpResponseSetsStatus()
+    {
+        $protocol = 0;
+        $reasonPhrase = "404 Not Found";
+        $statusCode = 404;
+        $headers = [];
+        $bodyText = "";
+
+        $expectedHeaderCall = ["404 Not Found", true, 404];
+
+        $mockedResponse = $this->buildResponseMock($protocol, $reasonPhrase, $statusCode, $headers, $bodyText);
+
+        ob_start();
+        HTTPServer::dumpResponse($mockedResponse);
+        $body = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertContains($expectedHeaderCall, self::$headerCalls);
+    }
+
+    public function testDumpResponseSetsArbitraryHeader()
+    {
+        $protocol = 0;
+        $reasonPhrase = "";
+        $statusCode = 0;
+        $headers = ["Content-Type" => ["application/json"]];
+        $bodyText = "";
+
+        $expectedHeaderCall = ["Content-Type: application/json", false, null];
+
+        $mockedResponse = $this->buildResponseMock($protocol, $reasonPhrase, $statusCode, $headers, $bodyText);
+
+        ob_start();
+        HTTPServer::dumpResponse($mockedResponse);
+        $body = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertContains($expectedHeaderCall, self::$headerCalls);
+    }
+
+    public function testDumpResponseOutputsBody()
+    {
+        $protocol = 0;
+        $reasonPhrase = "";
+        $statusCode = 0;
+        $headers = [];
+        $bodyText = "The quick brown fox jumps over the lazy dog.\n\n\0asdasd";
+
+        $mockedResponse = $this->buildResponseMock($protocol, $reasonPhrase, $statusCode, $headers, $bodyText);
+
+        ob_start();
+        HTTPServer::dumpResponse($mockedResponse);
+        $body = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals($bodyText, $body);
+    }
+
+    private function buildResponseMock($protocol, $reasonPhrase, $statusCode, $headers, $bodyString)
+    {
+        $temp = fopen('php://temp', 'r+');
+        fwrite($temp, $bodyString);
+        fseek($temp, 0);
+
+        $mockedBody = $this->getMockBuilder('\Psr\Http\Message\StreamInterface')->getMock();
+        $mockedBody->method('eof')->willReturnCallback(function() use ($temp){
+            return feof($temp);
+        });
+        $mockedBody->method('read')->willReturnCallback(function($offset) use ($temp){
+            return fread($temp, $offset);
+        });
+
+        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
+        $mockedResponse->method('getProtocolVersion')->willReturn($protocol);
+        $mockedResponse->method('getReasonPhrase')->willReturn($reasonPhrase);
+        $mockedResponse->method('getStatusCode')->willReturn($statusCode);
+        $mockedResponse->method('getHeaders')->willReturn($headers);
+        $mockedResponse->method('getBody')->willReturn($mockedBody);
+        return $mockedResponse;
     }
 }

@@ -77,7 +77,7 @@ class HTTPServer
         }
     }
 
-    public function dumpResponse(ResponseInterface $response) {
+    public static function dumpResponse(ResponseInterface $response) {
         header(sprintf("HTTP/%s", $response->getProtocolVersion()));
 
         header($response->getReasonPhrase(), true, $response->getStatusCode());
