@@ -44,18 +44,21 @@ class GenericRequestFactory implements RequestFactory {
     {
         $parsedURL = $this->URLParser->parse($serverRequest->getUri());
 
-        //TODO: Evauluate if this is still needed, as serverRequest allows getting of specific headers
+        //TODO: Evaluate if this is still needed, as serverRequest allows getting of specific headers
         $parsedHeaders = $this->headerParser->parse($serverRequest->getHeaders());
 
         $urlQueryData = [];
-        if($urlQueryString = $parsedURL->getQueryString())
-        {
-            parse_str($parsedURL->getQueryString(), $urlQueryData);
+        if($urlQueryString = $parsedURL->getQueryString()) {
+            parse_str($urlQueryString, $urlQueryData);
+
+            //In case it's unable to be parsed, default to no params
+            if($urlQueryData === null) {
+                $urlQueryData = [];
+            }
         }
 
         $apiKey = $parsedURL->getAPIKey();
-        if($apiKey === null)
-        {
+        if($apiKey === null) {
             $apiKey = $parsedHeaders->getAPIKey();
         }
 

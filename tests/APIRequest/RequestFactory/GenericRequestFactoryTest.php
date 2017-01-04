@@ -109,6 +109,5 @@ class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase
         return $mockedHeaderParser;
     }
 
-    //TODO: test header api key is used when url api key is null
     //TODO: test both header and url mime types are used
 }
