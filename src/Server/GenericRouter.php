@@ -54,6 +54,6 @@ class GenericRouter implements Router
 
     protected function mapEndpointMethod(APIRequest $request): string
     {
-        return strtolower($request->getMethod()) . ($request->getElement() ? 'All': '');
+        return strtolower($request->getMethod()) . (!$request->getElement() ? 'All': '');
     }
 }
