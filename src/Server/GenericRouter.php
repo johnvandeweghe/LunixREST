@@ -7,10 +7,10 @@ use LunixREST\Endpoint\EndpointFactory;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 
 /**
- * Class DefaultRouter
+ * Class GenericRouter
  * @package LunixREST\Server
  */
-class GenericRouter
+class GenericRouter implements Router
 {
     /**
      * @var EndpointFactory
@@ -54,6 +54,6 @@ class GenericRouter
 
     protected function mapEndpointMethod(APIRequest $request): string
     {
-        return strtolower($request->getMethod()) . ($request->getElement() ? 'All': '');
+        return strtolower($request->getMethod()) . (!$request->getElement() ? 'All': '');
     }
 }

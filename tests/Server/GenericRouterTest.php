@@ -20,7 +20,7 @@ class GenericRouterTest extends \PHPUnit_Framework_TestCase
         $endpointFactoryMock = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
         $endpointFactoryMock->method('getEndpoint')->with($endpoint, $version)->willReturn($endpointMock);
 
-        $endpointMock->expects($this->once())->method($method . "All")->with($requestMock);
+        $endpointMock->expects($this->once())->method($method)->with($requestMock);
 
         $router = new GenericRouter($endpointFactoryMock);
         $router->route($requestMock);
@@ -43,7 +43,7 @@ class GenericRouterTest extends \PHPUnit_Framework_TestCase
         $endpointFactoryMock = $this->getMockBuilder('\LunixREST\Endpoint\EndpointFactory')->getMock();
         $endpointFactoryMock->method('getEndpoint')->with($endpoint, $version)->willReturn($endpointMock);
 
-        $endpointMock->expects($this->once())->method($method)->with($requestMock);
+        $endpointMock->expects($this->once())->method($method . "All")->with($requestMock);
 
         $router = new GenericRouter($endpointFactoryMock);
         $router->route($requestMock);
