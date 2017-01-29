@@ -7,7 +7,7 @@ use Psr\Cache\CacheItemPoolInterface;
  * Class CachingEndpoint
  * @package LunixREST\Endpoint
  */
-abstract class CachingEndpoint implements Endpoint
+abstract class CachingEndpoint extends LoggingEndpoint
 {
     /**
      * @var CacheItemPoolInterface

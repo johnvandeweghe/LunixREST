@@ -2,12 +2,13 @@
 namespace LunixREST\Endpoint;
 
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class CachingEndpointFactory
  * @package LunixREST\Endpoint
  */
-abstract class CachingEndpointFactory implements EndpointFactory
+abstract class CachingEndpointFactory extends LoggingEndpointFactory
 {
     /**
      * @var CacheItemPoolInterface
@@ -17,10 +18,12 @@ abstract class CachingEndpointFactory implements EndpointFactory
     /**
      * CachingEndpointFactory constructor.
      * @param CacheItemPoolInterface $cachePool
+     * @param LoggerInterface $logger
      */
-    public function __construct(CacheItemPoolInterface $cachePool)
+    public function __construct(CacheItemPoolInterface $cachePool, LoggerInterface $logger)
     {
         $this->cachePool = $cachePool;
+        parent::__construct($logger);
     }
 
     /**
@@ -32,6 +35,7 @@ abstract class CachingEndpointFactory implements EndpointFactory
     {
         $endpoint = $this->getCachingEndpoint($name, $version);
         $endpoint->setCachePool($this->cachePool);
+        $endpoint->setLogger($this->logger);
         return $endpoint;
     }
 
