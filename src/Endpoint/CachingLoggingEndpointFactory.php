@@ -27,6 +27,7 @@ abstract class CachingLoggingEndpointFactory implements EndpointFactory
     public function __construct(CacheItemPoolInterface $cachePool, LoggerInterface $logger)
     {
         $this->cachePool = $cachePool;
+        $this->logger = $logger;
     }
 
     /**
