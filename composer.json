@@ -13,6 +13,7 @@
     "require": {
         "php": "^7.1",
         "ext-mbstring": "*",
+        "psr/cache": "^1.0",
         "psr/http-message": "^1.0",
         "psr/log": "^1.0"
     },
@@ -22,6 +23,7 @@
         }
     },
     "suggest": {
-        "johnvandeweghe/lunixrest-basics": "Everything you need to create a basic API"
+        "johnvandeweghe/lunixrest-basics": "Everything you need to create a basic API",
+        "monolog/monolog": "A PSR-3 implementation that supports logging to nearly everything"
     }
 }

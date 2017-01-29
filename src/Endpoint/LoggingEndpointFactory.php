@@ -1,15 +1,13 @@
 <?php
 namespace LunixREST\Endpoint;
 
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * An EndpointFactory that assumes all created endpoints are LoggingEndpoints
  * Class LoggingEndpointFactory
  * @package LunixREST\Endpoint
  */
-abstract class LoggingEndpointFactory implements EndpointFactory, LoggerAwareInterface
+abstract class LoggingEndpointFactory implements EndpointFactory
 {
     /**
      * @var LoggerInterface
