@@ -8,6 +8,7 @@ use LunixREST\Exceptions\AccessDeniedException;
 use LunixREST\Exceptions\InvalidAPIKeyException;
 use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
+use Psr\Log\NullLogger;
 
 //Mock the header function, storing results in a public static on the test object (cleared on tearDown)
 function header($string, $replace = true, $http_response_code = null) {
@@ -26,197 +27,123 @@ class HTTPServerTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleRequestReturns400WhenCreateThrowsInvalidURLException()
     {
+        $exception = new InvalidRequestURLException();
         $expectedStatusCode = 400;
-        $expectedStatusMessage = '400 Bad Request';
+        $expectedStatusMessage = 'Bad Request';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedSever = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create')->willThrowException(new InvalidRequestURLException());
-
-        $httpServer = new HTTPServer($mockedSever, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertCreateWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns500WhenCreateThrowsUnknownException()
     {
+        $exception = new \Exception();
         $expectedStatusCode = 500;
-        $expectedStatusMessage = '500 Internal Server Error';
+        $expectedStatusMessage = 'Internal Server Error';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedSever = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create')->willThrowException(new \Exception());
-
-        $httpServer = new HTTPServer($mockedSever, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertCreateWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns400WhenHandleRequestThrowsInvalidAPIKeyException()
     {
+        $exception = new InvalidAPIKeyException();
         $expectedStatusCode = 400;
-        $expectedStatusMessage = '400 Bad Request';
+        $expectedStatusMessage = 'Bad Request';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedServer->method('handleRequest')->willThrowException(new InvalidAPIKeyException());
-
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create');
-
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns404WhenHandleRequestThrowsUnknownEndpointException()
     {
+        $exception = new UnknownEndpointException();
         $expectedStatusCode = 404;
-        $expectedStatusMessage = '404 Not Found';
+        $expectedStatusMessage = 'Not Found';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedServer->method('handleRequest')->willThrowException(new UnknownEndpointException());
-
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create');
-
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns406WhenHandleRequestThrowsNotAcceptableResponseTypeException()
     {
+        $exception = new NotAcceptableResponseTypeException();
         $expectedStatusCode = 406;
-        $expectedStatusMessage = '406 Not Acceptable';
+        $expectedStatusMessage = 'Not Acceptable';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedServer->method('handleRequest')->willThrowException(new NotAcceptableResponseTypeException());
-
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create');
-
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns403WhenHandleRequestThrowsAccessDeniedException()
     {
+        $exception = new AccessDeniedException();
         $expectedStatusCode = 403;
-        $expectedStatusMessage = '403 Access Denied';
+        $expectedStatusMessage = 'Access Denied';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedServer->method('handleRequest')->willThrowException(new AccessDeniedException());
-
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create');
-
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns429WhenHandleRequestThrowsThrottleLimitExceededException()
     {
+        $exception = new ThrottleLimitExceededException();
         $expectedStatusCode = 429;
-        $expectedStatusMessage = '429 Too Many Requests';
+        $expectedStatusMessage = 'Too Many Requests';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedServer->method('handleRequest')->willThrowException(new ThrottleLimitExceededException());
-
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create');
-
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns500WhenHandleRequestThrowsMethodNotFoundException()
     {
+        $exception = new MethodNotFoundException();
         $expectedStatusCode = 500;
-        $expectedStatusMessage = '500 Internal Server Error';
+        $expectedStatusMessage = 'Internal Server Error';
 
-        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
-        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
-        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
-
-        $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedServer->method('handleRequest')->willThrowException(new MethodNotFoundException());
-
-        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create');
-
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
-
-        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
-
-        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
 
     public function testHandleRequestReturns500WhenHandleRequestThrowsException()
     {
+        $exception = new \Exception();
         $expectedStatusCode = 500;
-        $expectedStatusMessage = '500 Internal Server Error';
+        $expectedStatusMessage = 'Internal Server Error';
 
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
+    }
+
+    protected function assertCreateWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage)
+    {
         $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
         $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
         $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
 
         $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
-        $mockedServer->method('handleRequest')->willThrowException(new \Exception());
 
         $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create');
+        $mockedRequestFactory->method('create')->willThrowException($exception);;
 
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
+        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory, new NullLogger());
 
         $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
 
         $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
     }
+
+    protected function assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage)
+    {
+        $mockedResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')->getMock();
+        $mockedResponse->method('withProtocolVersion')->willReturn($mockedResponse);
+        $mockedResponse->expects($this->once())->method('withStatus')->with($expectedStatusCode, $expectedStatusMessage)->willReturn($mockedResponse);
+
+        $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
+        $mockedServer->method('handleRequest')->willThrowException($exception);
+
+        $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
+        $mockedRequestFactory->method('create');
+
+        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory, new NullLogger());
+
+        $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
+
+        $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
+    }
+
+    //TODO: Test all logger calls that are expected are called.
 
     public function testHandleRequestReturns200WithMIMESizeAndData()
     {
@@ -247,7 +174,7 @@ class HTTPServerTest extends \PHPUnit_Framework_TestCase
         $mockedRequestFactory = $this->getMockBuilder('\LunixREST\APIRequest\RequestFactory\RequestFactory')->getMock();
         $mockedRequestFactory->method('create');
 
-        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory);
+        $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory, new NullLogger());
 
         $mockedServerRequest = $this->getMockBuilder('\Psr\Http\Message\ServerRequestInterface')->getMock();
 

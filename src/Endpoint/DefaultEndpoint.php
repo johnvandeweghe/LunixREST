@@ -3,7 +3,6 @@ namespace LunixREST\Endpoint;
 
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\APIRequest\APIRequest;
-use LunixREST\APIResponse\ResponseData;
 
 /**
  * Class Endpoint
