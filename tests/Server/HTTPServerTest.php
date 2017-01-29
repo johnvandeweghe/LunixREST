@@ -254,35 +254,15 @@ class HTTPServerTest extends \PHPUnit_Framework_TestCase
         $httpServer->handleRequest($mockedServerRequest, $mockedResponse);
     }
 
-    public function testDumpResponseSetsProtocol()
+    public function testDumpResponseSetsStatusLine()
     {
         $protocol = 1.1;
-        $reasonPhrase = "";
-        $statusCode = 0;
+        $reasonPhrase = "OK";
+        $statusCode = 200;
         $headers = [];
         $bodyText = "";
 
-        $expectedHeaderCall = ["HTTP/$protocol", true, null];
-
-        $mockedResponse = $this->buildResponseMock($protocol, $reasonPhrase, $statusCode, $headers, $bodyText);
-
-        ob_start();
-        HTTPServer::dumpResponse($mockedResponse);
-        $body = ob_get_contents();
-        ob_end_clean();
-
-        $this->assertContains($expectedHeaderCall, self::$headerCalls);
-    }
-
-    public function testDumpResponseSetsStatus()
-    {
-        $protocol = 0;
-        $reasonPhrase = "404 Not Found";
-        $statusCode = 404;
-        $headers = [];
-        $bodyText = "";
-
-        $expectedHeaderCall = ["404 Not Found", true, 404];
+        $expectedHeaderCall = ["HTTP/$protocol $statusCode $reasonPhrase", true, $statusCode];
 
         $mockedResponse = $this->buildResponseMock($protocol, $reasonPhrase, $statusCode, $headers, $bodyText);
 

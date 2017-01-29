@@ -78,9 +78,14 @@ class HTTPServer
     }
 
     public static function dumpResponse(ResponseInterface $response) {
-        header(sprintf("HTTP/%s", $response->getProtocolVersion()));
+        $statusLine = sprintf(
+            "HTTP/%s %d %s",
+            $response->getProtocolVersion(),
+            $response->getStatusCode(),
+            $response->getReasonPhrase()
+        );
 
-        header($response->getReasonPhrase(), true, $response->getStatusCode());
+        header($statusLine, true, $response->getStatusCode());
 
         foreach ($response->getHeaders() as $name => $values) {
             foreach ($values as $value) {
