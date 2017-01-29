@@ -50,11 +50,6 @@ class GenericRequestFactory implements RequestFactory {
         $urlQueryData = [];
         if($urlQueryString = $parsedURL->getQueryString()) {
             parse_str($urlQueryString, $urlQueryData);
-
-            //In case it's unable to be parsed, default to no params
-            if($urlQueryData === null) {
-                $urlQueryData = [];
-            }
         }
 
         $apiKey = $parsedURL->getAPIKey();
