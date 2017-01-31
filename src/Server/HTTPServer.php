@@ -3,13 +3,13 @@ namespace LunixREST\Server;
 
 use LunixREST\APIRequest\APIRequest;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
-use LunixREST\Exceptions\AccessDeniedException;
-use LunixREST\Exceptions\InvalidAPIKeyException;
-use LunixREST\Exceptions\ThrottleLimitExceededException;
+use LunixREST\Server\Exceptions\AccessDeniedException;
+use LunixREST\Server\Exceptions\InvalidAPIKeyException;
 use LunixREST\APIRequest\RequestFactory\RequestFactory;
 use LunixREST\APIRequest\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
+use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerAwareTrait;

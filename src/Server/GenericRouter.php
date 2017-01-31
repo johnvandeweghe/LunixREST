@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Server;
 
+use LunixREST\APIResponse\APIResponseData;
 use LunixREST\Endpoint\Endpoint;
 use LunixREST\APIRequest\APIRequest;
 use LunixREST\Endpoint\EndpointFactory;
@@ -28,10 +29,10 @@ class GenericRouter implements Router
 
     /**
      * @param APIRequest $request
-     * @return null|object|array
+     * @return APIResponseData
      * @throws MethodNotFoundException
      */
-    public function route(APIRequest $request)
+    public function route(APIRequest $request): APIResponseData
     {
         $endpoint = $this->endpointFactory->getEndpoint($request->getEndpoint(), $request->getVersion());
         return $this->executeEndpoint($endpoint, $request);
@@ -40,10 +41,10 @@ class GenericRouter implements Router
     /**
      * @param Endpoint $endpoint
      * @param APIRequest $request
-     * @return null|object|array
+     * @return APIResponseData
      * @throws MethodNotFoundException
      */
-    protected function executeEndpoint(Endpoint $endpoint, APIRequest $request)
+    protected function executeEndpoint(Endpoint $endpoint, APIRequest $request): APIResponseData
     {
         $method = $this->mapEndpointMethod($request);
         if (!method_exists($endpoint, $method)) {

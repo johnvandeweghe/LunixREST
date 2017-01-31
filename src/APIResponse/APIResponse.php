@@ -7,18 +7,32 @@ use Psr\Http\Message\StreamInterface;
  * Class APIResponse
  * @package LunixREST\APIResponse
  */
-interface APIResponse
+class APIResponse
 {
     /**
-     * @return null|object|array
+     * @var string
      */
-    public function getResponseData();
+    protected $MIMEType;
+    /**
+     * @var StreamInterface
+     */
+    protected $stream;
 
-    public function getMIMEType(): string;
+    public function __construct(string $MIMEType, StreamInterface $stream)
+    {
+        $this->MIMEType = $MIMEType;
+        $this->stream = $stream;
+    }
+
+    public function getMIMEType(): string {
+        return $this->MIMEType;
+    }
 
     /**
      * @return StreamInterface
      */
-    public function getAsDataStream(): StreamInterface;
+    public function getAsDataStream(): StreamInterface {
+        return $this->stream;
+    }
 
 }

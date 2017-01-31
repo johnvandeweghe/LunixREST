@@ -1,6 +1,8 @@
 <?php
 namespace LunixREST\Server;
 
+use LunixREST\APIResponse\APIResponseData;
+
 class GenericServerTest extends \PHPUnit_Framework_TestCase
 {
     public function testThrowsExceptionForInvalidKey()
@@ -15,7 +17,7 @@ class GenericServerTest extends \PHPUnit_Framework_TestCase
 
         $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
-        $this->expectException('\LunixREST\Exceptions\InvalidAPIKeyException');
+        $this->expectException('\LunixREST\Server\Exceptions\InvalidAPIKeyException');
 
         $server->handleRequest($mockedRequest);
     }
@@ -35,7 +37,7 @@ class GenericServerTest extends \PHPUnit_Framework_TestCase
 
         $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
-        $this->expectException('\LunixREST\Exceptions\ThrottleLimitExceededException');
+        $this->expectException('\LunixREST\Server\Exceptions\ThrottleLimitExceededException');
 
         $server->handleRequest($mockedRequest);
     }
@@ -102,7 +104,7 @@ class GenericServerTest extends \PHPUnit_Framework_TestCase
 
         $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
 
-        $this->expectException('\LunixREST\Exceptions\AccessDeniedException');
+        $this->expectException('\LunixREST\Server\Exceptions\AccessDeniedException');
 
         $server->handleRequest($mockedRequest);
     }
@@ -110,7 +112,7 @@ class GenericServerTest extends \PHPUnit_Framework_TestCase
     public function testLogsRequestAndRoutesAndReturnsResponseData()
     {
         $method = 'get';
-        $responseData = ["foo" => "bar"];
+        $responseData = new APIResponseData(["foo" => "bar"]);
         $mimeTypes = ['application/json'];
 
         $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
@@ -121,7 +123,7 @@ class GenericServerTest extends \PHPUnit_Framework_TestCase
         $mockedThrottle->method('shouldThrottle')->willReturn(false);
         $mockedThrottle->expects($this->once())->method('logRequest');
 
-        $mockedResponse = $this->getMockBuilder('\LunixREST\APIResponse\APIResponse')->getMock();
+        $mockedResponse = $this->getMockBuilder('\LunixREST\APIResponse\APIResponse')->disableOriginalConstructor()->getMock();
 
         $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
         $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn($mimeTypes);

@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Endpoint;
 
+use LunixREST\APIResponse\APIResponseData;
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\APIRequest\APIRequest;
 
@@ -12,100 +13,100 @@ class DefaultEndpoint implements Endpoint
 {
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function get(APIRequest $request)
+    public function get(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function getAll(APIRequest $request)
+    public function getAll(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function post(APIRequest $request)
+    public function post(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function postAll(APIRequest $request)
+    public function postAll(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function put(APIRequest $request)
+    public function put(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function putAll(APIRequest $request)
+    public function putAll(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function options(APIRequest $request)
+    public function options(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function optionsAll(APIRequest $request)
+    public function optionsAll(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function delete(APIRequest $request)
+    public function delete(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }
 
     /**
      * @param APIRequest $request
-     * @return null|array|object
+     * @return APIResponseData
      * @throws UnsupportedMethodException
      */
-    public function deleteAll(APIRequest $request)
+    public function deleteAll(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
     }

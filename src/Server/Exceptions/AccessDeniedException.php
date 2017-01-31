@@ -1,5 +1,5 @@
 <?php
-namespace LunixREST\Exceptions;
+namespace LunixREST\Server\Exceptions;
 
 class AccessDeniedException extends \Exception
 {

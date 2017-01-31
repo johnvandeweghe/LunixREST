@@ -2,13 +2,13 @@
 namespace LunixREST\Server;
 
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
-use LunixREST\Exceptions\AccessDeniedException;
-use LunixREST\Exceptions\InvalidAPIKeyException;
-use LunixREST\Exceptions\ThrottleLimitExceededException;
 use LunixREST\APIRequest\APIRequest;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\APIResponse\APIResponse;
+use LunixREST\Server\Exceptions\AccessDeniedException;
+use LunixREST\Server\Exceptions\InvalidAPIKeyException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
+use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
 
 /**
  * Turns an APIRequest into an APIResponse

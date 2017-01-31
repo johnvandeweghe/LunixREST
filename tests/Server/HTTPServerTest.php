@@ -4,9 +4,9 @@ namespace LunixREST\Server;
 use LunixREST\APIRequest\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
-use LunixREST\Exceptions\AccessDeniedException;
-use LunixREST\Exceptions\InvalidAPIKeyException;
-use LunixREST\Exceptions\ThrottleLimitExceededException;
+use LunixREST\Server\Exceptions\AccessDeniedException;
+use LunixREST\Server\Exceptions\InvalidAPIKeyException;
+use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 use Psr\Log\NullLogger;
 
@@ -164,7 +164,7 @@ class HTTPServerTest extends \PHPUnit_Framework_TestCase
             ->with($contentTypeORContentLength, $mimeTypeORResponseSize)->willReturn($mockedResponse);
         $mockedResponse->expects($this->once())->method('withBody')->with($mockedDataStream)->willReturn($mockedResponse);
 
-        $mockedAPIResponse = $this->getMockBuilder('\LunixREST\APIResponse\APIResponse')->getMock();
+        $mockedAPIResponse = $this->getMockBuilder('\LunixREST\APIResponse\APIResponse')->disableOriginalConstructor()->getMock();
         $mockedAPIResponse->method('getMIMEType')->willReturn($expectedMIMEType);
         $mockedAPIResponse->method('getAsDataStream')->willReturn($mockedDataStream);
 
