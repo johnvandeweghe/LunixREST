@@ -83,4 +83,53 @@ class INIConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($hasKey);
     }
+
+    public function testGetReturnsValueWhenEntryExists() {
+        $namespace = 'the_namespace';
+        $key = 'test';
+        $expectedValue = "test value";
+        self::$parse_ini_response = [
+            $namespace => [
+                $key => $expectedValue
+            ]
+        ];
+        $filename = "super_cool.ini";
+
+        $configuration = new INIConfiguration($filename);
+        $value = $configuration->get($key, $namespace);
+
+        $this->assertEquals($expectedValue, $value);
+    }
+
+    public function testGetReturnsNullWhenNamespaceButNotEntryExists() {
+        $namespace = 'the_namespace';
+        $key = 'test';
+        self::$parse_ini_response = [
+            $namespace => [
+                $key => true
+            ]
+        ];
+        $filename = "super_cool.ini";
+
+        $configuration = new INIConfiguration($filename);
+        $hasKey = $configuration->get('Not $key', $namespace);
+
+        $this->assertNull($hasKey);
+    }
+
+    public function testGetReturnsNullWhenNeitherNamespaceIrEntryExist() {
+        $namespace = 'the_namespace';
+        $key = 'test';
+        self::$parse_ini_response = [
+            $namespace => [
+                $key => true
+            ]
+        ];
+        $filename = "super_cool.ini";
+
+        $configuration = new INIConfiguration($filename);
+        $hasKey = $configuration->get('Not $key', 'Not $namespace');
+
+        $this->assertNull($hasKey);
+    }
 }
