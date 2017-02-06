@@ -26,16 +26,10 @@ abstract class CachingEndpointFactory extends LoggingEndpointFactory
         parent::__construct($logger);
     }
 
-    /**
-     * @param string $name
-     * @param string $version
-     * @return Endpoint
-     */
-    public function getEndpoint(string $name, string $version): Endpoint
+    protected function getLoggingEndpoint(string $name, string $version): LoggingEndpoint
     {
         $endpoint = $this->getCachingEndpoint($name, $version);
         $endpoint->setCachePool($this->cachePool);
-        $endpoint->setLogger($this->logger);
         return $endpoint;
     }
 
@@ -44,5 +38,5 @@ abstract class CachingEndpointFactory extends LoggingEndpointFactory
      * @param string $version
      * @return CachingEndpoint
      */
-    public abstract function getCachingEndpoint(string $name, string $version): CachingEndpoint;
+    protected abstract function getCachingEndpoint(string $name, string $version): CachingEndpoint;
 }

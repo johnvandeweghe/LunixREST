@@ -40,5 +40,5 @@ abstract class LoggingEndpointFactory implements EndpointFactory
      * @param string $version
      * @return LoggingEndpoint
      */
-    public abstract function getLoggingEndpoint(string $name, string $version): LoggingEndpoint;
+    protected abstract function getLoggingEndpoint(string $name, string $version): LoggingEndpoint;
 }
