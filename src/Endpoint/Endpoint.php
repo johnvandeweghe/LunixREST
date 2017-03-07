@@ -6,6 +6,8 @@ use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\APIRequest\APIRequest;
 
 /**
+ * An interface that defines different request types as methods, and returns APIResponse Data.
+ * This is the primary interface that user code for an API will be implementing.
  * Interface Endpoint
  * @package LunixREST\Endpoints
  */

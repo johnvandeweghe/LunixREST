@@ -4,6 +4,9 @@ namespace LunixREST\APIResponse;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
 
 /**
+ * A ResponseFactory implementation that allows the case-insensitive registration of APIResponseDataSerializers to a MIME type.
+ * It then uses the registered APIResponseDataSerializers to serialize APIResponses while building them from APIResponseData.
+ * This provides a good example on how to actually convert APIResponseData to a SteamInterface.
  * Class RegisteredResponseFactory
  * @package LunixRESTBasics\APIResponse
  */
@@ -25,6 +28,10 @@ class RegisteredResponseFactory implements ResponseFactory
         }
     }
 
+    /**
+     * @param $mimeType
+     * @param APIResponseDataSerializer $dataSerializer
+     */
     public function registerSerializer($mimeType, APIResponseDataSerializer $dataSerializer)
     {
         $this->serializers[strtolower($mimeType)] = $dataSerializer;

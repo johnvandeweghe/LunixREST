@@ -11,7 +11,7 @@ use LunixREST\Server\Exceptions\MethodNotFoundException;
 use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
 
 /**
- * Turns an APIRequest into an APIResponse
+ * Handles an APIRequest and returns an APIResponse.
  * Interface Server
  * @package LunixREST\Server
  */

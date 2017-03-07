@@ -4,6 +4,11 @@ namespace LunixREST\APIRequest\URLParser;
 use LunixREST\APIRequest\URLParser\Exceptions\InvalidRequestURLException;
 use Psr\Http\Message\UriInterface;
 
+/**
+ * An interface for converting a PSR-7 UriInterface into a Parsed URL (used in building an APIRequest).
+ * Interface URLParser
+ * @package LunixREST\APIRequest\URLParser
+ */
 interface URLParser
 {
     /**

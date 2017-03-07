@@ -1,9 +1,17 @@
 <?php
 namespace LunixREST\APIRequest\HeaderParser;
 
+/**
+ * Parse out all the common headers from a request.
+ * Class DefaultHeaderParser
+ * @package LunixREST\APIRequest\HeaderParser
+ */
 class DefaultHeaderParser implements HeaderParser
 {
 
+    /**
+     * @var string
+     */
     private $apiKeyHeaderKey;
 
     /**
@@ -15,6 +23,10 @@ class DefaultHeaderParser implements HeaderParser
         $this->apiKeyHeaderKey = $apiKeyHeaderKey;
     }
 
+    /**
+     * @param array $headers
+     * @return ParsedHeaders
+     */
     public function parse(array $headers): ParsedHeaders
     {
         $contentType = $this->getContentType($headers);
@@ -24,6 +36,10 @@ class DefaultHeaderParser implements HeaderParser
         return new ParsedHeaders($contentType, $acceptableMIMETypes, $apiKey);
     }
 
+    /**
+     * @param array $headers
+     * @return array
+     */
     protected function findAcceptableMIMETypes(array $headers): array
     {
         //TODO: follow RFC2616 order
@@ -43,6 +59,10 @@ class DefaultHeaderParser implements HeaderParser
         return $acceptedMIMETypes;
     }
 
+    /**
+     * @param array $headers
+     * @return null
+     */
     protected function findAPIKey(array $headers)
     {
         foreach ($headers as $key => $values) {
@@ -55,6 +75,10 @@ class DefaultHeaderParser implements HeaderParser
         return null;
     }
 
+    /**
+     * @param array $headers
+     * @return null
+     */
     protected function getContentType(array $headers)
     {
         foreach ($headers as $key => $values) {

@@ -8,6 +8,7 @@ use LunixREST\Endpoint\EndpointFactory;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 
 /**
+ * An implementation of a Router that uses an EndpointFactory to find an Endpoint. Maps methods based on the get/getAll pattern.
  * Class GenericRouter
  * @package LunixREST\Server
  */

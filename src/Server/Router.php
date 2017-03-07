@@ -7,7 +7,7 @@ use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 
 /**
- * A router is what actually determines which class a method refers to, and which method on that class
+ * A router takes an APIRequest, determines an Endpoint to use, and which method to call on it, then returns the Endpoint's APIResponseData.
  * Interface Router
  * @package LunixREST\Server
  */

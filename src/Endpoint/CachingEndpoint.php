@@ -4,6 +4,7 @@ namespace LunixREST\Endpoint;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
+ * An extension of a LoggingEndpoint that has a PSR CacheItemPoolInterface available to it. Used with the CachingEndpointFactory.
  * Class CachingEndpoint
  * @package LunixREST\Endpoint
  */

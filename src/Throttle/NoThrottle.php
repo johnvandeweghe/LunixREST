@@ -3,6 +3,11 @@ namespace LunixREST\Throttle;
 
 use LunixREST\APIRequest\APIRequest;
 
+/**
+ * A throttle that never throttles.
+ * Class NoThrottle
+ * @package LunixREST\Throttle
+ */
 class NoThrottle implements Throttle
 {
     /**

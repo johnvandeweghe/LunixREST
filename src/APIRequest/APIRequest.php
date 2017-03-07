@@ -2,7 +2,7 @@
 namespace LunixREST\APIRequest;
 
 /**
- * An immutable data class for API requests.
+ * An immutable data class for representing API requests.
  * Class APIRequest
  * @package LunixREST\Request
  */

@@ -6,6 +6,7 @@ use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\APIRequest\APIRequest;
 
 /**
+ * An Endpoint that throws UnsupportedMethodException for all requests.
  * Class Endpoint
  * @package LunixREST\Endpoints
  */

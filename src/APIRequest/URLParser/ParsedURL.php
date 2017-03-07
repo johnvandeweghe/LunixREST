@@ -1,6 +1,11 @@
 <?php
 namespace LunixREST\APIRequest\URLParser;
 
+/**
+ * An immutable data class representing all of the information pulled from a URL when building an APIRequest.
+ * Class ParsedURL
+ * @package LunixREST\APIRequest\URLParser
+ */
 class ParsedURL
 {
     /**

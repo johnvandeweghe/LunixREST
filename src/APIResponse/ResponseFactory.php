@@ -3,6 +3,11 @@ namespace LunixREST\APIResponse;
 
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
 
+/**
+ * An interface for converting ResponseData into an APIResponse.
+ * Interface ResponseFactory
+ * @package LunixREST\APIResponse
+ */
 interface ResponseFactory
 {
     /**

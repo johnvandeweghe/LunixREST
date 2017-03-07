@@ -4,6 +4,7 @@ namespace LunixREST\Throttle;
 use LunixREST\APIRequest\APIRequest;
 
 /**
+ * An interface for deciding whether or not to throttle a request.
  * Interface Throttle
  * @package LunixREST\Throttle
  */

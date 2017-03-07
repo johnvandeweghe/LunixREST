@@ -4,6 +4,7 @@ namespace LunixREST\AccessControl;
 use LunixREST\APIRequest\APIRequest;
 
 /**
+ * This interface is used to define AccessControllers. Used to validate a request's access, as well as validate API keys.
  * Interface AccessControl
  * @package LunixREST\AccessControl
  */

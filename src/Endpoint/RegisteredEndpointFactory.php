@@ -4,7 +4,7 @@ namespace LunixREST\Endpoint;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 
 /**
- * Case insensitive registered endpoint factory that throws an exception on unknown endpoints
+ * Case insensitive registered endpoint factory that throws an exception on unknown endpoints.
  * Class RegisteredEndpointFactory
  * @package LunixREST\Endpoint
  */

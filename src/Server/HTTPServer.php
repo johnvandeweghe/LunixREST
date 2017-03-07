@@ -15,6 +15,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
+/**
+ * A class that interfaces PSR-7 with our APIRequests and uses a Server to handle the APIRequest. Handles the PSR-7 response building as well.
+ * Class HTTPServer
+ * @package LunixREST\Server
+ */
 class HTTPServer
 {
     use LoggerAwareTrait;
@@ -42,8 +47,8 @@ class HTTPServer
     }
 
     /**
-     * Clones a response, changing contents based on the handling of a given request
-     * Taking in a response allows us not to define a specific response implementation to create
+     * Clones a response, changing contents based on the handling of a given request.
+     * Taking in a response allows us not to define a specific response implementation to create.
      * @param ServerRequestInterface $serverRequest
      * @param ResponseInterface $response
      * @return ResponseInterface
@@ -65,6 +70,12 @@ class HTTPServer
         }
     }
 
+    /**
+     * Takes an APIRequest and a ResponseInterface and creates a new ResponseInterface derived from the passed implementation and returns it.
+     * @param APIRequest $APIRequest
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
     protected function handleAPIRequest(APIRequest $APIRequest, ResponseInterface $response)
     {
         try {
@@ -96,6 +107,10 @@ class HTTPServer
         }
     }
 
+    /**
+     * Dumps a PSR-7 ResponseInterface to the SAPI.
+     * @param ResponseInterface $response
+     */
     public static function dumpResponse(ResponseInterface $response) {
         $statusLine = sprintf(
             "HTTP/%s %d %s",

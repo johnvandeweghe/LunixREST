@@ -4,7 +4,7 @@ namespace LunixREST\AccessControl;
 use LunixREST\APIRequest\APIRequest;
 
 /**
- * An access control policy that allows a single key full access to the API
+ * An access control policy that allows a single key full access to the API.
  * Class OneKeyAccessControl
  * @package LunixREST\AccessControl
  */

@@ -5,7 +5,7 @@ use LunixREST\Configuration\Configuration;
 use LunixREST\APIRequest\APIRequest;
 
 /**
- * Access control that uses a Configuration to read in valid keys. All keys the configuration provide are given full access
+ * Access control that uses a Configuration to read in valid keys. All keys the configuration provide are given full access.
  * Class AllAccessListAccessControl
  * @package LunixRESTBasics\AccessControl
  */

@@ -2,6 +2,7 @@
 namespace LunixREST\Configuration;
 
 /**
+ * An interface that describes a basic configuration reader.
  * Interface Configuration
  * @package LunixREST\Configuration
  */

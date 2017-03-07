@@ -13,6 +13,11 @@ use LunixREST\Server\Exceptions\MethodNotFoundException;
 use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Throttle\Throttle;
 
+/**
+ * A Server implementation that derives it's behaviour from an AccessControl, a Throttle, a ResponseFactory, and a Router.
+ * Class GenericServer
+ * @package LunixREST\Server
+ */
 class GenericServer implements Server
 {
     /**
@@ -96,9 +101,9 @@ class GenericServer implements Server
      * @param APIRequest $request
      * @throws NotAcceptableResponseTypeException
      */
-    //TODO: Handle wildcards in request MIME types (*/*)
     protected function validateAcceptableMIMETypes(APIRequest $request)
     {
+        //TODO: Handle wildcards in request MIME types (*/*)
         $formats = $this->responseFactory->getSupportedMIMETypes();
         if (empty($formats) || (
                 !empty($request->getAcceptableMIMETypes()) && empty(array_intersect($request->getAcceptableMIMETypes(),

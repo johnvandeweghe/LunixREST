@@ -4,6 +4,7 @@ namespace LunixREST\Endpoint;
 use Psr\Log\LoggerInterface;
 
 /**
+ * An EndpointFactory implementation that sets the LoggerInterface on LoggingEndpoints.
  * Class LoggingEndpointFactory
  * @package LunixREST\Endpoint
  */

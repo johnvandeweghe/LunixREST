@@ -5,6 +5,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
 /**
+ * An EndpointFactory that extends LoggingEndpointFactory, using a CachingEndpoint by setting a CachePoolInterface on the Endpoint.
  * Class CachingEndpointFactory
  * @package LunixREST\Endpoint
  */
