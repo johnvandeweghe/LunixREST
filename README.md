@@ -20,3 +20,5 @@ Features include:
 See https://github.com/johnvandeweghe/LunixREST-Basics for some basic implementations, and examples.
 
 As per composer.json: This project requires PHP 7.1+ to run. 
+
+This project updates master regularly. Changes to master that are not released are not guaranteed to be stable, and should be treated as such. Use the release tags for production projects.
