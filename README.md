@@ -80,7 +80,6 @@ A GenericServer requires an AccessControl instance to handle controlling access.
 For example, a PublicAccessControl takes in a request and says that it is allowed, without checking it at all. As the name implies, it's for a public API, and ignores the key entirely.
 
 ```php
-<?php
 $accessControl = new \LunixREST\AccessControl\PublicAccessControl();
 ```
 
@@ -91,7 +90,6 @@ A GenericServer also requires a Throttle instance to handling throttling request
 For example, a NoThrottle just returns that a given request doesn't need to be throttled, ever. Less applicable to real API implementations, beyond smaller ones. Actual implementations of Throttle will be able to be found in LunixREST-Basics.
 
 ```php
-<?php
 $throttle = new \LunixREST\Throttle\NoThrottle();
 ```
 #### ResponseFactory/RegisteredResponseFactory
@@ -101,7 +99,6 @@ Another thing that a GenericServer requires is an instance of a ResponseFactory,
 For example, a RegisteredResponseFactory takes in a list of APIResponseDataSerializers and associates them with a specific MIME type.
 
 ```php
-<?php
 $responseFactory = new \LunixREST\APIResponse\RegisteredResponseFactory([
     'application/json' => new \LunixRESTBasics\APIResponse\JSONResponseDataSerializer()
 ]);
@@ -116,7 +113,6 @@ The final thing that a GenericServer needs to function is a Router. A Router tak
 For this example, we'll be using a GenericRouter, which defines some basic behaviour, but passes most of the details off to an EndpointFactory which is used to actually find an Endpoint.
 
 ```php
-<?php
 $router = new \LunixREST\Server\GenericRouter($endpointFactory);
 ```
 
@@ -127,12 +123,10 @@ An EndpointFactory builds an endpoint from the requested endpoint name, and the 
 The implementation we'll be using in this example is a SingleEndpointFactory from the Basics repo. We're also using a generic HelloWorld Endpoint, the code for which is provided after the example.
 
 ```php
-<?php
 $endpointFactory = new \LunixRESTBasics\Endpoint\SingleEndpointFactory(new HelloWorld());
 ```
 
 ```php
-<?php
 use LunixREST\APIResponse\APIResponseData;
 use LunixREST\Endpoint\DefaultEndpoint;
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
@@ -182,7 +176,6 @@ Or to test our current example:
 Finally, our example code:
 
 ```php
-<?php
 $requestFactory = new \LunixRESTBasics\APIRequest\RequestFactory\BasicRequestFactory();
 ```
 
@@ -191,7 +184,6 @@ $requestFactory = new \LunixRESTBasics\APIRequest\RequestFactory\BasicRequestFac
 The final thing that an HTTPServer needs is an instance of a PSR LoggerInterface. This has been required here as the PSR offers an easy out for those who don't want to log: NullLogger. For actual logging, we recommend [Monolog](https://packagist.org/packages/monolog/monolog).
 
 ```php
-<?php
 $logger = new \Psr\Log\NullLogger();
 ```
 
@@ -208,7 +200,6 @@ We now have everything we need to define a basic API using LunixREST. Our API ha
 The code for this looks like:
 
 ```php
-<?php
 $accessControl = new \LunixREST\AccessControl\PublicAccessControl();
 $throttle = new \LunixREST\Throttle\NoThrottle();
 
@@ -237,7 +228,6 @@ $serverRequest = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 As well as the code for our one Endpoint:
 
 ```php
-<?php
 use LunixREST\APIResponse\APIResponseData;
 use LunixREST\Endpoint\DefaultEndpoint;
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
