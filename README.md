@@ -20,6 +20,10 @@ It's primary goal is to allow the creation of a REST API in which every part of 
 
 See https://github.com/johnvandeweghe/LunixREST-Basics for some basic implementations, and examples.
 
+## Unit test coverage
+
+This project seeks to achieve 100% code coverage at all times. Both in numbers, and in actual code path coverage. If that is ever not the case, leave an issue and it will be addressed ASAP.
+
 # Installation
 ## Requirements
 All dependencies are specified in the composer.json, so as long as you use composer with this library, all dependencies should be taken care of.
@@ -47,7 +51,7 @@ This project is listed in [Packigist](https://packagist.org/packages/johnvandewe
 ## HTTPServer
 The basis of an implementation of LunixREST is the class HTTPServer. This class takes in a PSR-7 ServerRequestInterface and returns a ResponseInterface that can be dumped to the SAPI.
 
-Here is an example that uses Guzzle's PSR-7 implementation.
+Here is an example that uses Guzzle's PSR-7 implementation (which if you're using LunixREST-Basics is already included).
 ```php
 $httpServer = new \LunixREST\Server\HTTPServer($server, $requestFactory, $logger);
 
@@ -115,3 +119,9 @@ TODO:
 ### RequestFactory
 
 ### LoggerInterface
+
+## Full Example
+
+```php
+Build from above bits
+```
