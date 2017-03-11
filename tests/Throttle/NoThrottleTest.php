@@ -2,7 +2,7 @@
 namespace LunixREST\Throttle;
 
 
-class NoThrottleTest extends \PHPUnit_Framework_TestCase
+class NoThrottleTest extends \PHPUnit\Framework\TestCase
 {
     public function testShouldThrottleShouldBeFalse()
     {

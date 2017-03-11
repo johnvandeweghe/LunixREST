@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\APIRequest;
 
-class APIRequestTest extends \PHPUnit_Framework_TestCase
+class APIRequestTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreateRequestWithInstanceFromConstructor()
     {

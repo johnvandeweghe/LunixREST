@@ -16,7 +16,7 @@ function header($string, $replace = true, $http_response_code = null) {
 }
 
 
-class HTTPServerTest extends \PHPUnit_Framework_TestCase
+class HTTPServerTest extends \PHPUnit\Framework\TestCase
 {
     public static $headerCalls = [];
 

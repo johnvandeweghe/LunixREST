@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Endpoint;
 
-class CachingEndpointFactoryTest extends \PHPUnit_Framework_TestCase
+class CachingEndpointFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetsCachePoolAndLoggerOnCachingEndpoint()
     {

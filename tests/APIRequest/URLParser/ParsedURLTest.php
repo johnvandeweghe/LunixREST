@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\APIRequest\URLParser;
 
-class ParsedURLTest extends \PHPUnit_Framework_TestCase
+class ParsedURLTest extends \PHPUnit\Framework\TestCase
 {
     public function testGettersReturnExpectedValuesForAllParameters()
     {

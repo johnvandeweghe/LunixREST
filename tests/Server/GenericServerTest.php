@@ -3,7 +3,7 @@ namespace LunixREST\Server;
 
 use LunixREST\APIResponse\APIResponseData;
 
-class GenericServerTest extends \PHPUnit_Framework_TestCase
+class GenericServerTest extends \PHPUnit\Framework\TestCase
 {
     public function testThrowsExceptionForInvalidKey()
     {

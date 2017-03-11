@@ -5,7 +5,7 @@ namespace LunixREST\APIResponse;
  * Class RegisteredResponseFactoryTest
  * @package LunixREST\APIResponse
  */
-class RegisteredResponseFactoryTest extends \PHPUnit_Framework_TestCase
+class RegisteredResponseFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testReturnsNoSupportedMimeTypesWhenNoneRegistered()
     {

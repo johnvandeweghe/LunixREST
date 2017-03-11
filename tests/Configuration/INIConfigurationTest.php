@@ -6,7 +6,7 @@ function parse_ini_file ($filename, $process_sections = null, $scanner_mode = nu
     return INIConfigurationTest::$parse_ini_response;
 }
 
-class INIConfigurationTest extends \PHPUnit_Framework_TestCase
+class INIConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     //What to return in our mocked namespace function above
     public static $parse_ini_response = false;

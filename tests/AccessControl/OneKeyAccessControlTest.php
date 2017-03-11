@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\AccessControl;
 
-class OneKeyAccessControlTest extends \PHPUnit_Framework_TestCase
+class OneKeyAccessControlTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testValidateKeyWhenValid()

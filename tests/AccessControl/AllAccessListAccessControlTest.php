@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\AccessControl;
 
-class AllAccessListAccessControlTest extends \PHPUnit_Framework_TestCase
+class AllAccessListAccessControlTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testValidateKey()

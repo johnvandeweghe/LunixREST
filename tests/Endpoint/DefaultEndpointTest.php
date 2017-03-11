@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Endpoint;
 
-class DefaultEndpointTest extends \PHPUnit_Framework_TestCase
+class DefaultEndpointTest extends \PHPUnit\Framework\TestCase
 {
     public function testThrowsUnsupportedForGetRequest()
     {

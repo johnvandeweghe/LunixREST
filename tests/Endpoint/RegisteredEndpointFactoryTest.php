@@ -7,7 +7,7 @@ namespace LunixREST\Endpoint;
  * Class RegisteredEndpointFactory
  * @package LunixREST\Endpoint
  */
-class RegisteredEndpointFactoryTest extends \PHPUnit_Framework_TestCase
+class RegisteredEndpointFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetSupportedEndpointsReturnsEmptyWhenNoneRegistered()
     {

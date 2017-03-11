@@ -5,7 +5,7 @@ namespace LunixREST\APIResponse;
  * Class APIResponseDataTest
  * @package LunixREST\APIResponse
  */
-class APIResponseDataTest extends \PHPUnit_Framework_TestCase
+class APIResponseDataTest extends \PHPUnit\Framework\TestCase
 {
     public function testGettersReturnConstructedValues()
     {

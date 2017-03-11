@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\APIRequest\RequestFactory;
 
-class GenericRequestFactoryTest extends \PHPUnit_Framework_TestCase
+class GenericRequestFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testRequestHasProperValues()
     {

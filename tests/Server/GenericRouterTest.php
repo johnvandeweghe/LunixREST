@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Server;
 
-class GenericRouterTest extends \PHPUnit_Framework_TestCase
+class GenericRouterTest extends \PHPUnit\Framework\TestCase
 {
     public function testRouteCallsRequestedMethodWithAllWhenValid()
     {

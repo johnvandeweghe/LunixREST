@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Endpoint;
 
-class LoggingEndpointFactoryTest extends \PHPUnit_Framework_TestCase
+class LoggingEndpointFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetsLoggerOnLoggingEndpoint()
     {

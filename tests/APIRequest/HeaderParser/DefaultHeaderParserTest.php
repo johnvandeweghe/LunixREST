@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\APIRequest\HeaderParser;
 
-class DefaultHeaderParserTest extends \PHPUnit_Framework_TestCase
+class DefaultHeaderParserTest extends \PHPUnit\Framework\TestCase
 {
     public function testParsesAPIKeyWithDefaultKeyName()
     {
