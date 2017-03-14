@@ -56,6 +56,21 @@ class RegisteredEndpointFactoryTest extends \PHPUnit\Framework\TestCase
         $endpointFactory->getEndpoint('unknown', 'anyVersion');
     }
 
+    public function testGetEndpointThrowsExceptionForUnknownEndpointWhenVersionExists()
+    {
+        $mockedEndpoint = $this->getMockBuilder('\LunixREST\Endpoint\Endpoint')->getMock();
+        $version = 2;
+        $name = "theEndpoint";
+        $name2 = "theOtherEndpoint";
+
+        $endpointFactory = new RegisteredEndpointFactory();
+        $endpointFactory->register($name, $version, $mockedEndpoint);
+
+        $this->expectException('\LunixREST\Endpoint\Exceptions\UnknownEndpointException');
+
+        $endpointFactory->getEndpoint($name2, $version);
+    }
+
     public function testGetEndpointReturnsRegisteredEndpointForName()
     {
         $mockedEndpoint = $this->getMockBuilder('\LunixREST\Endpoint\Endpoint')->getMock();

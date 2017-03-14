@@ -37,7 +37,7 @@ class RegisteredEndpointFactory implements EndpointFactory
     public function getEndpoint(string $name, string $version): Endpoint
     {
         $lowercaseName = strtolower($name);
-        if(!isset($this->endpoints[$version]) && !isset($this->endpoints[$version][$lowercaseName])) {
+        if(!isset($this->endpoints[$version]) || !isset($this->endpoints[$version][$lowercaseName])) {
             throw new UnknownEndpointException('Could not find endpoint: ' . $name . ' of version: ' . $version);
         }
 
