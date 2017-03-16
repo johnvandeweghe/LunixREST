@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * A class that interfaces PSR-7 with our APIRequests and uses a Server to handle the APIRequest. Handles the PSR-7 response building as well.
@@ -62,10 +63,10 @@ class HTTPServer
 
             return $this->handleAPIRequest($APIRequest, $response);
         } catch (InvalidRequestURLException $e) {
-            $this->logger->notice($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::NOTICE);
             return $response->withStatus(400, "Bad Request");
         } catch (\Throwable $e) {
-            $this->logger->critical($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(500, $e, LogLevel::CRITICAL);
             return $response->withStatus(500, "Internal Server Error");
         }
     }
@@ -87,22 +88,22 @@ class HTTPServer
             $this->logger->debug("Responding to request successfully");
             return $response->withBody($APIResponse->getAsDataStream());
         } catch (InvalidAPIKeyException $e) {
-            $this->logger->notice($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::NOTICE);
             return $response->withStatus(400, "Bad Request");
         } catch (UnknownEndpointException $e) {
-            $this->logger->notice($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(404, $e, LogLevel::NOTICE);
             return $response->withStatus(404, "Not Found");
         } catch (NotAcceptableResponseTypeException $e) {
-            $this->logger->notice($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(406, $e, LogLevel::NOTICE);
             return $response->withStatus(406, "Not Acceptable");
         } catch (AccessDeniedException $e) {
-            $this->logger->notice($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(403, $e, LogLevel::NOTICE);
             return $response->withStatus(403, "Access Denied");
         } catch (ThrottleLimitExceededException $e) {
-            $this->logger->warning($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(429, $e, LogLevel::WARNING);
             return $response->withStatus(429, "Too Many Requests");
         } catch (MethodNotFoundException | \Throwable $e) {
-            $this->logger->critical($e->getMessage());
+            $this->logCaughtThrowableResultingInHTTPCode(500, $e, LogLevel::CRITICAL);
             return $response->withStatus(500, "Internal Server Error");
         }
     }
@@ -131,5 +132,10 @@ class HTTPServer
         while(!$body->eof()) {
             echo $body->read(1024);
         }
+    }
+
+    protected function logCaughtThrowableResultingInHTTPCode(int $code, \Throwable $exception, $level): void
+    {
+        $this->logger->log($level, "Returning HTTP {code}: {message}", ["code" => $code, "message" => $exception->getMessage()]);
     }
 }
