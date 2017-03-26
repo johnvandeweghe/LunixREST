@@ -60,6 +60,20 @@ interface Endpoint
      * @return APIResponseData
      * @throws UnsupportedMethodException
      */
+    public function patch(APIRequest $request): APIResponseData;
+
+    /**
+     * @param APIRequest $request
+     * @return APIResponseData
+     * @throws UnsupportedMethodException
+     */
+    public function patchAll(APIRequest $request): APIResponseData;
+
+    /**
+     * @param APIRequest $request
+     * @return APIResponseData
+     * @throws UnsupportedMethodException
+     */
     public function options(APIRequest $request): APIResponseData;
 
     /**

@@ -77,6 +77,26 @@ class DefaultEndpoint implements Endpoint
      * @return APIResponseData
      * @throws UnsupportedMethodException
      */
+    public function patch(APIRequest $request): APIResponseData
+    {
+        throw new UnsupportedMethodException('Method not supported');
+    }
+
+    /**
+     * @param APIRequest $request
+     * @return APIResponseData
+     * @throws UnsupportedMethodException
+     */
+    public function patchAll(APIRequest $request): APIResponseData
+    {
+        throw new UnsupportedMethodException('Method not supported');
+    }
+
+    /**
+     * @param APIRequest $request
+     * @return APIResponseData
+     * @throws UnsupportedMethodException
+     */
     public function options(APIRequest $request): APIResponseData
     {
         throw new UnsupportedMethodException('Method not supported');
