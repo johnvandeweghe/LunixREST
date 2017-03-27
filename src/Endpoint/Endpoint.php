@@ -2,6 +2,7 @@
 namespace LunixREST\Endpoint;
 
 use LunixREST\APIResponse\APIResponseData;
+use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\APIRequest\APIRequest;
 
@@ -17,6 +18,7 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
      */
     public function get(APIRequest $request): APIResponseData;
 
@@ -31,6 +33,7 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
      */
     public function post(APIRequest $request): APIResponseData;
 
@@ -45,6 +48,7 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
      */
     public function put(APIRequest $request): APIResponseData;
 
@@ -59,6 +63,7 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
      */
     public function patch(APIRequest $request): APIResponseData;
 
@@ -73,6 +78,7 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
      */
     public function options(APIRequest $request): APIResponseData;
 
@@ -87,6 +93,7 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
      */
     public function delete(APIRequest $request): APIResponseData;
 

@@ -3,6 +3,7 @@ namespace LunixREST\Server;
 
 use LunixREST\APIRequest\APIRequest;
 use LunixREST\APIResponse\APIResponseData;
+use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
 
@@ -18,6 +19,7 @@ interface Router
      * @return APIResponseData
      * @throws MethodNotFoundException
      * @throws UnknownEndpointException
+     * @throws ElementNotFoundException
      */
     public function route(APIRequest $request): APIResponseData;
 }

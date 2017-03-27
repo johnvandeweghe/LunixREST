@@ -3,6 +3,7 @@ namespace LunixREST\Server;
 
 use LunixREST\APIRequest\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
+use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Server\Exceptions\AccessDeniedException;
 use LunixREST\Server\Exceptions\InvalidAPIKeyException;
@@ -55,6 +56,15 @@ class HTTPServerTest extends \PHPUnit\Framework\TestCase
     public function testHandleRequestReturns404WhenHandleRequestThrowsUnknownEndpointException()
     {
         $exception = new UnknownEndpointException();
+        $expectedStatusCode = 404;
+        $expectedStatusMessage = 'Not Found';
+
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
+    }
+
+    public function testHandleRequestReturns404WhenHandleRequestThrowsElementNotFoundException()
+    {
+        $exception = new ElementNotFoundException();
         $expectedStatusCode = 404;
         $expectedStatusMessage = 'Not Found';
 

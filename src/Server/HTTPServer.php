@@ -2,6 +2,7 @@
 namespace LunixREST\Server;
 
 use LunixREST\APIRequest\APIRequest;
+use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Server\Exceptions\AccessDeniedException;
 use LunixREST\Server\Exceptions\InvalidAPIKeyException;
@@ -90,7 +91,7 @@ class HTTPServer
         } catch (InvalidAPIKeyException $e) {
             $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::NOTICE);
             return $response->withStatus(400, "Bad Request");
-        } catch (UnknownEndpointException $e) {
+        } catch (UnknownEndpointException | ElementNotFoundException $e) {
             $this->logCaughtThrowableResultingInHTTPCode(404, $e, LogLevel::NOTICE);
             return $response->withStatus(404, "Not Found");
         } catch (NotAcceptableResponseTypeException $e) {
