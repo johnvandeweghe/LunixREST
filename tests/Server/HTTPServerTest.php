@@ -4,6 +4,7 @@ namespace LunixREST\Server;
 use LunixREST\APIRequest\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
+use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\Server\Exceptions\AccessDeniedException;
 use LunixREST\Server\Exceptions\InvalidAPIKeyException;
@@ -47,6 +48,15 @@ class HTTPServerTest extends \PHPUnit\Framework\TestCase
     public function testHandleRequestReturns400WhenHandleRequestThrowsInvalidAPIKeyException()
     {
         $exception = new InvalidAPIKeyException();
+        $expectedStatusCode = 400;
+        $expectedStatusMessage = 'Bad Request';
+
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
+    }
+
+    public function testHandleRequestReturns400WhenHandleRequestThrowsInvalidRequestException()
+    {
+        $exception = new InvalidRequestException();
         $expectedStatusCode = 400;
         $expectedStatusMessage = 'Bad Request';
 

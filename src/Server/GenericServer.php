@@ -3,6 +3,7 @@ namespace LunixREST\Server;
 
 use LunixREST\AccessControl\AccessControl;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
+use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
 use LunixREST\APIRequest\APIRequest;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
@@ -64,6 +65,7 @@ class GenericServer implements Server
      * @throws ThrottleLimitExceededException
      * @throws UnknownEndpointException
      * @throws ElementNotFoundException
+     * @throws InvalidRequestException
      * @throws MethodNotFoundException
      * @throws NotAcceptableResponseTypeException
      */
