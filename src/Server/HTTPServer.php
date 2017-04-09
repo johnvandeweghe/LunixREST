@@ -2,6 +2,7 @@
 namespace LunixREST\Server;
 
 use LunixREST\APIRequest\APIRequest;
+use LunixREST\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
@@ -65,7 +66,7 @@ class HTTPServer
 
             return $this->handleAPIRequest($APIRequest, $response);
         } catch (InvalidRequestURLException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::NOTICE);
+            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::INFO);
             return $response->withStatus(400, "Bad Request");
         } catch (\Throwable $e) {
             $this->logCaughtThrowableResultingInHTTPCode(500, $e, LogLevel::CRITICAL);
@@ -89,18 +90,21 @@ class HTTPServer
             $response = $response->withAddedHeader("Content-Length", $APIResponse->getAsDataStream()->getSize());
             $this->logger->debug("Responding to request successfully");
             return $response->withBody($APIResponse->getAsDataStream());
-        } catch (InvalidAPIKeyException | InvalidRequestException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::NOTICE);
+        } catch (InvalidRequestException $e) {
+            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::INFO);
             return $response->withStatus(400, "Bad Request");
         } catch (UnknownEndpointException | ElementNotFoundException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(404, $e, LogLevel::NOTICE);
+            $this->logCaughtThrowableResultingInHTTPCode(404, $e, LogLevel::INFO);
             return $response->withStatus(404, "Not Found");
         } catch (NotAcceptableResponseTypeException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(406, $e, LogLevel::NOTICE);
+            $this->logCaughtThrowableResultingInHTTPCode(406, $e, LogLevel::INFO);
             return $response->withStatus(406, "Not Acceptable");
-        } catch (AccessDeniedException $e) {
+        } catch (InvalidAPIKeyException | AccessDeniedException $e) {
             $this->logCaughtThrowableResultingInHTTPCode(403, $e, LogLevel::NOTICE);
             return $response->withStatus(403, "Access Denied");
+        }  catch (ElementConflictException $e) {
+            $this->logCaughtThrowableResultingInHTTPCode(409, $e, LogLevel::NOTICE);
+            return $response->withStatus(409, "Conflict");
         } catch (ThrottleLimitExceededException $e) {
             $this->logCaughtThrowableResultingInHTTPCode(429, $e, LogLevel::WARNING);
             return $response->withStatus(429, "Too Many Requests");

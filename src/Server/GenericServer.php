@@ -2,6 +2,7 @@
 namespace LunixREST\Server;
 
 use LunixREST\AccessControl\AccessControl;
+use LunixREST\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
@@ -66,6 +67,7 @@ class GenericServer implements Server
      * @throws UnknownEndpointException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      * @throws MethodNotFoundException
      * @throws NotAcceptableResponseTypeException
      */

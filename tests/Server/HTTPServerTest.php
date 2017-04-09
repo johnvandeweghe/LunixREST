@@ -3,6 +3,7 @@ namespace LunixREST\Server;
 
 use LunixREST\APIRequest\URLParser\Exceptions\InvalidRequestURLException;
 use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
+use LunixREST\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
@@ -48,8 +49,8 @@ class HTTPServerTest extends \PHPUnit\Framework\TestCase
     public function testHandleRequestReturns400WhenHandleRequestThrowsInvalidAPIKeyException()
     {
         $exception = new InvalidAPIKeyException();
-        $expectedStatusCode = 400;
-        $expectedStatusMessage = 'Bad Request';
+        $expectedStatusCode = 403;
+        $expectedStatusMessage = 'Access Denied';
 
         $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }
@@ -95,6 +96,15 @@ class HTTPServerTest extends \PHPUnit\Framework\TestCase
         $exception = new AccessDeniedException();
         $expectedStatusCode = 403;
         $expectedStatusMessage = 'Access Denied';
+
+        $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
+    }
+
+    public function testHandleRequestReturns409WhenHandleRequestThrowsElementConflictException()
+    {
+        $exception = new ElementConflictException();
+        $expectedStatusCode = 409;
+        $expectedStatusMessage = 'Conflict';
 
         $this->assertHandleRequestWithExceptionReturnsExpectedStatusCodeAndMessage($exception, $expectedStatusCode, $expectedStatusMessage);
     }

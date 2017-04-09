@@ -5,6 +5,7 @@ use LunixREST\APIResponse\APIResponseData;
 use LunixREST\Endpoint\Endpoint;
 use LunixREST\APIRequest\APIRequest;
 use LunixREST\Endpoint\EndpointFactory;
+use LunixREST\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Server\Exceptions\MethodNotFoundException;
@@ -36,6 +37,7 @@ class GenericRouter implements Router
      * @throws MethodNotFoundException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function route(APIRequest $request): APIResponseData
     {
@@ -50,6 +52,7 @@ class GenericRouter implements Router
      * @throws MethodNotFoundException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     protected function executeEndpoint(Endpoint $endpoint, APIRequest $request): APIResponseData
     {
@@ -60,6 +63,10 @@ class GenericRouter implements Router
         return call_user_func([$endpoint, $method], $request);
     }
 
+    /**
+     * @param APIRequest $request
+     * @return string
+     */
     protected function mapEndpointMethod(APIRequest $request): string
     {
         return strtolower($request->getMethod()) . (!$request->getElement() ? 'All': '');

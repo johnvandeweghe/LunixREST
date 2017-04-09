@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\Server;
 
+use LunixREST\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
@@ -28,6 +29,7 @@ interface Server
      * @throws UnknownEndpointException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      * @throws MethodNotFoundException
      * @throws NotAcceptableResponseTypeException
      */

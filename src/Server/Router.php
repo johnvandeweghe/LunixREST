@@ -3,6 +3,7 @@ namespace LunixREST\Server;
 
 use LunixREST\APIRequest\APIRequest;
 use LunixREST\APIResponse\APIResponseData;
+use LunixREST\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
@@ -22,6 +23,7 @@ interface Router
      * @throws UnknownEndpointException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function route(APIRequest $request): APIResponseData;
 }

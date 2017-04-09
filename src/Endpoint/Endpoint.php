@@ -2,6 +2,7 @@
 namespace LunixREST\Endpoint;
 
 use LunixREST\APIResponse\APIResponseData;
+use LunixREST\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
@@ -38,6 +39,7 @@ interface Endpoint
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function post(APIRequest $request): APIResponseData;
 
@@ -46,6 +48,7 @@ interface Endpoint
      * @return APIResponseData
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function postAll(APIRequest $request): APIResponseData;
 
