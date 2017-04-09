@@ -109,6 +109,52 @@ class GenericServerTest extends \PHPUnit\Framework\TestCase
         $server->handleRequest($mockedRequest);
     }
 
+    public function testThrowsExceptionForInvalidAPIAccessViaStarTypes()
+    {
+        $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
+        $mockedAccessControl->method('validateKey')->willReturn(true);
+        $mockedAccessControl->method('validateAccess')->willReturn(false);
+
+        $mockedThrottle = $this->getMockBuilder('\LunixREST\Throttle\Throttle')->getMock();
+        $mockedThrottle->method('shouldThrottle')->willReturn(false);
+
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
+        $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn(['application/json']);
+
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
+        $mockedRequest->method('getAcceptableMIMETypes')->willReturn(['*/*']);
+
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
+
+        $this->expectException('\LunixREST\Server\Exceptions\AccessDeniedException');
+
+        $server->handleRequest($mockedRequest);
+    }
+
+    public function testThrowsExceptionForInvalidAPIAccessViaEmptyTypes()
+    {
+        $mockedAccessControl = $this->getMockBuilder('\LunixREST\AccessControl\AccessControl')->getMock();
+        $mockedAccessControl->method('validateKey')->willReturn(true);
+        $mockedAccessControl->method('validateAccess')->willReturn(false);
+
+        $mockedThrottle = $this->getMockBuilder('\LunixREST\Throttle\Throttle')->getMock();
+        $mockedThrottle->method('shouldThrottle')->willReturn(false);
+
+        $mockedResponseFactory = $this->getMockBuilder('\LunixREST\APIResponse\ResponseFactory')->getMock();
+        $mockedResponseFactory->method('getSupportedMIMETypes')->willReturn(['application/json']);
+
+        $mockedRouter = $this->getMockBuilder('\LunixREST\Server\Router')->getMock();
+        $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
+        $mockedRequest->method('getAcceptableMIMETypes')->willReturn([]);
+
+        $server = new GenericServer($mockedAccessControl, $mockedThrottle, $mockedResponseFactory, $mockedRouter);
+
+        $this->expectException('\LunixREST\Server\Exceptions\AccessDeniedException');
+
+        $server->handleRequest($mockedRequest);
+    }
+
     public function testLogsRequestAndRoutesAndReturnsResponseData()
     {
         $method = 'get';

@@ -109,14 +109,16 @@ class GenericServer implements Server
      */
     protected function validateAcceptableMIMETypes(APIRequest $request)
     {
-        //TODO: Handle wildcards in request MIME types (*/*)
-        $formats = $this->responseFactory->getSupportedMIMETypes();
-        if (empty($formats) || (
-                !empty($request->getAcceptableMIMETypes()) && empty(array_intersect($request->getAcceptableMIMETypes(),
-                    $formats))
-            )
-        ) {
-            throw new NotAcceptableResponseTypeException('None of the requests acceptable response types are valid');
+        $supportedFormats = $this->responseFactory->getSupportedMIMETypes();
+        $requestedFormats = $request->getAcceptableMIMETypes();
+
+        //Cases that our response factory is capable of responding to
+        $requestedFormatSupported = empty($requestedFormats) ||
+            in_array('*/*', $requestedFormats) ||
+            !empty(array_intersect($requestedFormats, $supportedFormats));
+
+        if (empty($supportedFormats) || !$requestedFormatSupported) {
+            throw new NotAcceptableResponseTypeException('None of the requested acceptable response types are supported');
         }
     }
 }
