@@ -69,6 +69,28 @@ class DefaultEndpointTest extends \PHPUnit\Framework\TestCase
         $defaultEndpoint->putAll($request);
     }
 
+    public function testThrowsUnsupportedForPatchRequest()
+    {
+        $defaultEndpoint = new DefaultEndpoint();
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
+        $defaultEndpoint->patch($request);
+    }
+
+    public function testThrowsUnsupportedForPatchAllRequest()
+    {
+        $defaultEndpoint = new DefaultEndpoint();
+        $request = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->expectException('LunixREST\Endpoint\Exceptions\UnsupportedMethodException');
+        $defaultEndpoint->patchAll($request);
+    }
+
     public function testThrowsUnsupportedForOptionsRequest()
     {
         $defaultEndpoint = new DefaultEndpoint();
