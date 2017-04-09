@@ -58,6 +58,7 @@ interface Endpoint
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function put(APIRequest $request): APIResponseData;
 
@@ -66,6 +67,7 @@ interface Endpoint
      * @return APIResponseData
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function putAll(APIRequest $request): APIResponseData;
 
@@ -75,6 +77,7 @@ interface Endpoint
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function patch(APIRequest $request): APIResponseData;
 
@@ -83,6 +86,7 @@ interface Endpoint
      * @return APIResponseData
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function patchAll(APIRequest $request): APIResponseData;
 

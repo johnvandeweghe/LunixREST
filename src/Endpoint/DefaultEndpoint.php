@@ -69,6 +69,7 @@ class DefaultEndpoint implements Endpoint
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function put(APIRequest $request): APIResponseData
     {
@@ -80,6 +81,7 @@ class DefaultEndpoint implements Endpoint
      * @return APIResponseData
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function putAll(APIRequest $request): APIResponseData
     {
@@ -92,6 +94,7 @@ class DefaultEndpoint implements Endpoint
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function patch(APIRequest $request): APIResponseData
     {
@@ -103,6 +106,7 @@ class DefaultEndpoint implements Endpoint
      * @return APIResponseData
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function patchAll(APIRequest $request): APIResponseData
     {
