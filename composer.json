@@ -22,6 +22,11 @@
             "LunixREST\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "LunixREST\\": "tests/"
+        }
+    },
     "suggest": {
         "johnvandeweghe/lunixrest-basics": "Everything you need to create a basic API",
         "monolog/monolog": "A PSR-3 implementation that supports logging to nearly everything"

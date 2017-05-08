@@ -2,7 +2,6 @@
 namespace LunixREST\Throttle;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
 class CachePoolThrottleTest extends TestCase
@@ -17,11 +16,11 @@ class CachePoolThrottleTest extends TestCase
         return $mockedCacheItemPool;
     }
 
-    protected function mockThrottle(CacheItemPoolInterface $cacheItemPool, $derivedKey, $limit = 60, $perXseconds = 60): Throttle
+    protected function mockThrottle(CacheItemPoolInterface $cacheItemPool, $limit = 60, $perXseconds = 60): Throttle
     {
         $throttle = $this->getMockBuilder('\LunixREST\Throttle\CachePoolThrottle')
             ->setConstructorArgs([$cacheItemPool, $limit, $perXseconds])->getMockForAbstractClass();
-        $throttle->method('deriveCacheKey')->willReturn($derivedKey);
+        $throttle->method('deriveCacheKey')->willReturn('');
         /** @var Throttle $throttle */
         return $throttle;
     }
@@ -29,8 +28,11 @@ class CachePoolThrottleTest extends TestCase
     public function testGetCacheItemPoolReturnsConstructedItemPool()
     {
         $mockedCacheItemPool = $this->getMockBuilder('Psr\Cache\CacheItemPoolInterface')->getMock();
-        $throttle = $this->mockThrottle($mockedCacheItemPool, '');
+        $throttle = $this->mockThrottle($mockedCacheItemPool);
 
+        /**
+         * @var CachePoolThrottle $throttle
+         */
         $returnedCacheItemPool = $throttle->getCacheItemPool();
 
         $this->assertEquals($mockedCacheItemPool, $returnedCacheItemPool);
@@ -39,7 +41,7 @@ class CachePoolThrottleTest extends TestCase
     public function testShouldThrottleReturnsFalseWhenItemReturnsAsMiss()
     {
         $mockedCacheItemPool =  $this->mockCacheItemPoolAndItem(false);
-        $throttle = $this->mockThrottle($mockedCacheItemPool, '');
+        $throttle = $this->mockThrottle($mockedCacheItemPool);
         $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
         $shouldThrottle = $throttle->shouldThrottle($mockedRequest);
@@ -52,7 +54,7 @@ class CachePoolThrottleTest extends TestCase
         $value = 30;
         $limit = 60;
         $mockedCacheItemPool =  $this->mockCacheItemPoolAndItem(true, $value);
-        $throttle = $this->mockThrottle($mockedCacheItemPool, '', $limit);
+        $throttle = $this->mockThrottle($mockedCacheItemPool, $limit);
         $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
         $shouldThrottle = $throttle->shouldThrottle($mockedRequest);
@@ -65,7 +67,7 @@ class CachePoolThrottleTest extends TestCase
         $value = 61;
         $limit = 60;
         $mockedCacheItemPool =  $this->mockCacheItemPoolAndItem(true, $value);
-        $throttle = $this->mockThrottle($mockedCacheItemPool, '', $limit);
+        $throttle = $this->mockThrottle($mockedCacheItemPool, $limit);
         $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
         $shouldThrottle = $throttle->shouldThrottle($mockedRequest);
@@ -78,7 +80,7 @@ class CachePoolThrottleTest extends TestCase
         $value = 60;
         $limit = 60;
         $mockedCacheItemPool =  $this->mockCacheItemPoolAndItem(true, $value);
-        $throttle = $this->mockThrottle($mockedCacheItemPool, '', $limit);
+        $throttle = $this->mockThrottle($mockedCacheItemPool, $limit);
         $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
         $shouldThrottle = $throttle->shouldThrottle($mockedRequest);
@@ -92,7 +94,7 @@ class CachePoolThrottleTest extends TestCase
         $xSeconds = 61;
         $mockedCacheItemPool = $this->mockCacheItemPoolAndItem(false);
         $mockedItem = $mockedCacheItemPool->getItem('');
-        $throttle = $this->mockThrottle($mockedCacheItemPool, '', $limit, $xSeconds);
+        $throttle = $this->mockThrottle($mockedCacheItemPool, $limit, $xSeconds);
         $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
         $mockedItem->expects($this->once())->method('set')->with(1)->willReturn($mockedItem);
@@ -109,7 +111,7 @@ class CachePoolThrottleTest extends TestCase
         $value = 41;
         $mockedCacheItemPool = $this->mockCacheItemPoolAndItem(true, $value);
         $mockedItem = $mockedCacheItemPool->getItem('');
-        $throttle = $this->mockThrottle($mockedCacheItemPool, '', $limit, $xSeconds);
+        $throttle = $this->mockThrottle($mockedCacheItemPool, $limit, $xSeconds);
         $mockedRequest = $this->getMockBuilder('\LunixREST\APIRequest\APIRequest')->disableOriginalConstructor()->getMock();
 
         $mockedItem->expects($this->once())->method('set')->with($value + 1)->willReturn($mockedItem);
