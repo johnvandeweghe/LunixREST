@@ -164,7 +164,7 @@ However, for this example we'll keep it a bit simpler and use another class from
 The BasicURLParser expects a request to look like this:
 
 ```
-/VERSION/API_KEY/ENDPOINT.RESPONSE_TYPE_EXTENSION[/OPTIONAL_ELEMENT]
+/VERSION/API_KEY/ENDPOINT[/OPTIONAL_ELEMENT].RESPONSE_TYPE_EXTENSION
 ```
 
 Or to test our current example:
