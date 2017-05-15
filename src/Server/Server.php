@@ -1,17 +1,17 @@
 <?php
 namespace LunixREST\Server;
 
-use LunixREST\Endpoint\Exceptions\ElementConflictException;
-use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
-use LunixREST\Endpoint\Exceptions\InvalidRequestException;
-use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
-use LunixREST\APIRequest\APIRequest;
-use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
-use LunixREST\APIResponse\APIResponse;
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
+use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
+use LunixREST\Server\Router\EndpointFactory\Exceptions\UnknownEndpointException;
+use LunixREST\Server\APIRequest\APIRequest;
+use LunixREST\Server\APIResponse\APIResponse;
 use LunixREST\Server\Exceptions\AccessDeniedException;
 use LunixREST\Server\Exceptions\InvalidAPIKeyException;
-use LunixREST\Server\Exceptions\MethodNotFoundException;
+use LunixREST\Server\Router\Exceptions\MethodNotFoundException;
 use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
+use LunixREST\Server\ResponseFactory\Exceptions\NotAcceptableResponseTypeException;
 
 /**
  * Handles an APIRequest and returns an APIResponse.

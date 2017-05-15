@@ -20,9 +20,24 @@ It's primary goal is to allow the creation of a REST API in which every part of 
 
 See https://github.com/johnvandeweghe/LunixREST-Basics for some basic implementations, and examples.
 
-## Unit test coverage
+## Project standards
 
-This project seeks to achieve 100% code coverage at all times. Both in numbers, and in actual code path coverage. If that is ever not the case, leave an issue and it will be addressed ASAP.
+### Unit test coverage
+
+This project seeks to approach as close to 100% code coverage at all times as reasonably possible. Both in numbers, and in actual code path coverage. If that is ever not the case, leave an issue and it will be addressed ASAP.
+
+### Contributing
+
+Contributions for this project are really appreciated. Just leave a pull request with the requested change/addition. Preferably let me know you're working on it by leaving an issue.
+All PRs not following the standards outlined here will not be merged until any differences are resolved.
+
+### Code style
+
+As mentioned in the Features list above, this project adheres as closely to PSR-2 as possible. No auto stylers are utilized, so there may be portions of the code that violate this. Feel free to drop an issue ticket for any infractions and I will address them.
+
+### Namespacing
+
+Namespacing follows PSR-4. Further, namespaces should be nested by dependency. Meaning, if a Server is the only class that uses a Widget, then a Widget should be within the Server namespace. Cross dependencies should result in the depended class being no closer to root than needed.
 
 # Installation
 ## Requirements
@@ -53,11 +68,11 @@ The basis of an implementation of LunixREST is the class HTTPServer. This class 
 
 Here is an example that uses Guzzle's PSR-7 implementation (which if you're using LunixREST-Basics is already included).
 ```php
-$httpServer = new \LunixREST\Server\HTTPServer($server, $requestFactory, $logger);
+$httpServer = new \LunixREST\HTTPServer($server, $requestFactory, $logger);
 
 $serverRequest = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
-\LunixREST\Server\HTTPServer::dumpResponse($httpServer->handleRequest($serverRequest, new GuzzleHttp\Psr7\Response()));
+\LunixREST\HTTPServer::dumpResponse($httpServer->handleRequest($serverRequest, new GuzzleHttp\Psr7\Response()));
 ```
 
 Looks pretty simple, except for the obvious missing variable definitions of ```$server```, ```$requestFactory```, and ```$logger```.
@@ -80,7 +95,7 @@ A GenericServer requires an AccessControl instance to handle controlling access.
 For example, a PublicAccessControl takes in a request and says that it is allowed, without checking it at all. As the name implies, it's for a public API, and ignores the key entirely.
 
 ```php
-$accessControl = new \LunixREST\AccessControl\PublicAccessControl();
+$accessControl = new \LunixREST\Server\AccessControl\PublicAccessControl();
 ```
 
 #### Throttle/NoThrottle
@@ -90,7 +105,7 @@ A GenericServer also requires a Throttle instance to handling throttling request
 For example, a NoThrottle just returns that a given request doesn't need to be throttled, ever. Less applicable to real API implementations, beyond smaller ones. Actual implementations of Throttle will be able to be found in LunixREST-Basics.
 
 ```php
-$throttle = new \LunixREST\Throttle\NoThrottle();
+$throttle = new \LunixREST\Server\Throttle\NoThrottle();
 ```
 #### ResponseFactory/RegisteredResponseFactory
 
@@ -99,7 +114,7 @@ Another thing that a GenericServer requires is an instance of a ResponseFactory,
 For example, a RegisteredResponseFactory takes in a list of APIResponseDataSerializers and associates them with a specific MIME type.
 
 ```php
-$responseFactory = new \LunixREST\APIResponse\RegisteredResponseFactory([
+$responseFactory = new \LunixREST\Server\ResponseFactory\RegisteredResponseFactory([
     'application/json' => new \LunixRESTBasics\APIResponse\JSONResponseDataSerializer()
 ]);
 ```
@@ -113,7 +128,7 @@ The final thing that a GenericServer needs to function is a Router. A Router tak
 For this example, we'll be using a GenericRouter, which defines some basic behaviour, but passes most of the details off to an EndpointFactory which is used to actually find an Endpoint.
 
 ```php
-$router = new \LunixREST\Server\GenericRouter($endpointFactory);
+$router = new \LunixREST\Server\Router\GenericRouter($endpointFactory);
 ```
 
 ##### EndpointFactory/SingleEndpointFactory
@@ -127,10 +142,10 @@ $endpointFactory = new \LunixRESTBasics\Endpoint\SingleEndpointFactory(new Hello
 ```
 
 ```php
-use LunixREST\APIResponse\APIResponseData;
-use LunixREST\Endpoint\DefaultEndpoint;
-use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
-use LunixREST\APIRequest\APIRequest;
+use LunixREST\Server\APIResponse\APIResponseData;
+use LunixREST\Server\Router\Endpoint\DefaultEndpoint;
+use LunixREST\Server\Router\Endpoint\Exceptions\UnsupportedMethodException;
+use LunixREST\Server\APIRequest\APIRequest;
 
 class HelloWorld extends DefaultEndpoint
 {
@@ -200,16 +215,16 @@ We now have everything we need to define a basic API using LunixREST. Our API ha
 The code for this looks like:
 
 ```php
-$accessControl = new \LunixREST\AccessControl\PublicAccessControl();
-$throttle = new \LunixREST\Throttle\NoThrottle();
+$accessControl = new \LunixREST\Server\AccessControl\PublicAccessControl();
+$throttle = new \LunixREST\Server\Throttle\NoThrottle();
 
-$responseFactory = new \LunixREST\APIResponse\RegisteredResponseFactory([
+$responseFactory = new \LunixREST\Server\ResponseFactory\RegisteredResponseFactory([
     'application/json' => new \LunixRESTBasics\APIResponse\JSONResponseDataSerializer()
 ]);
 
 $endpointFactory = new \LunixRESTBasics\Endpoint\SingleEndpointFactory(new \HelloWorld());
 
-$router = new \LunixREST\Server\GenericRouter($endpointFactory);
+$router = new \LunixREST\Server\Router\GenericRouter($endpointFactory);
 
 $server = new \LunixREST\Server\GenericServer($accessControl, $throttle, $responseFactory, $router);
 
@@ -217,21 +232,21 @@ $requestFactory = new \LunixRESTBasics\APIRequest\RequestFactory\BasicRequestFac
 
 $logger = new \Psr\Log\NullLogger();
 
-$httpServer = new \LunixREST\Server\HTTPServer($server, $requestFactory, $logger);
+$httpServer = new \LunixREST\HTTPServer($server, $requestFactory, $logger);
 
 $serverRequest = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
-\LunixREST\Server\HTTPServer::dumpResponse($httpServer->handleRequest($serverRequest, new \GuzzleHttp\Psr7\Response()));
+\LunixREST\HTTPServer::dumpResponse($httpServer->handleRequest($serverRequest, new \GuzzleHttp\Psr7\Response()));
 
 ```
 
 As well as the code for our one Endpoint:
 
 ```php
-use LunixREST\APIResponse\APIResponseData;
-use LunixREST\Endpoint\DefaultEndpoint;
-use LunixREST\Endpoint\Exceptions\UnsupportedMethodException;
-use LunixREST\APIRequest\APIRequest;
+use LunixREST\Server\APIResponse\APIResponseData;
+use LunixREST\Server\Router\Endpoint\DefaultEndpoint;
+use LunixREST\Server\Router\Endpoint\Exceptions\UnsupportedMethodException;
+use LunixREST\Server\APIRequest\APIRequest;
 
 class HelloWorld extends DefaultEndpoint
 {

@@ -1,20 +1,21 @@
 <?php
 namespace LunixREST\Server;
 
-use LunixREST\AccessControl\AccessControl;
-use LunixREST\Endpoint\Exceptions\ElementConflictException;
-use LunixREST\Endpoint\Exceptions\ElementNotFoundException;
-use LunixREST\Endpoint\Exceptions\InvalidRequestException;
-use LunixREST\Endpoint\Exceptions\UnknownEndpointException;
-use LunixREST\APIRequest\APIRequest;
-use LunixREST\APIResponse\Exceptions\NotAcceptableResponseTypeException;
-use LunixREST\APIResponse\APIResponse;
-use LunixREST\APIResponse\ResponseFactory;
+use LunixREST\Server\AccessControl\AccessControl;
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
+use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
+use LunixREST\Server\Router\EndpointFactory\Exceptions\UnknownEndpointException;
+use LunixREST\Server\APIRequest\APIRequest;
+use LunixREST\Server\APIResponse\APIResponse;
 use LunixREST\Server\Exceptions\AccessDeniedException;
 use LunixREST\Server\Exceptions\InvalidAPIKeyException;
-use LunixREST\Server\Exceptions\MethodNotFoundException;
+use LunixREST\Server\Router\Exceptions\MethodNotFoundException;
 use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
-use LunixREST\Throttle\Throttle;
+use LunixREST\Server\ResponseFactory\Exceptions\NotAcceptableResponseTypeException;
+use LunixREST\Server\ResponseFactory\ResponseFactory;
+use LunixREST\Server\Router\Router;
+use LunixREST\Server\Throttle\Throttle;
 
 /**
  * A Server implementation that derives it's behaviour from an AccessControl, a Throttle, a ResponseFactory, and a Router.
