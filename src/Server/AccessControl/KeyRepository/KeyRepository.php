@@ -14,4 +14,10 @@ interface KeyRepository {
      * @throws UnableToFindKeyException
      */
     public function findKey(string $key): KeyMeta;
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasKey(string $key): bool;
 }
