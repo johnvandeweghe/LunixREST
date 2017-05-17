@@ -104,7 +104,7 @@ class HTTPServer
         } catch (InvalidAPIKeyException | AccessDeniedException $e) {
             $this->logCaughtThrowableResultingInHTTPCode(403, $e, LogLevel::NOTICE);
             return $response->withStatus(403, "Access Denied");
-        }  catch (ElementConflictException $e) {
+        } catch (ElementConflictException $e) {
             $this->logCaughtThrowableResultingInHTTPCode(409, $e, LogLevel::NOTICE);
             return $response->withStatus(409, "Conflict");
         } catch (ThrottleLimitExceededException $e) {
