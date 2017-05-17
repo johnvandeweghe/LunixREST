@@ -3,6 +3,7 @@ namespace LunixREST\Server\Router\EndpointFactory;
 
 use LunixREST\Server\Router\Endpoint\CachingEndpoint;
 use LunixREST\Server\Router\Endpoint\LoggingEndpoint;
+use LunixREST\Server\Router\EndpointFactory\Exceptions\UnableToCreateEndpointException;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
@@ -33,6 +34,7 @@ abstract class CachingEndpointFactory extends LoggingEndpointFactory
      * @param string $name
      * @param string $version
      * @return LoggingEndpoint
+     * @throws UnableToCreateEndpointException
      */
     protected function getLoggingEndpoint(string $name, string $version): LoggingEndpoint
     {
@@ -45,6 +47,7 @@ abstract class CachingEndpointFactory extends LoggingEndpointFactory
      * @param string $name
      * @param string $version
      * @return CachingEndpoint
+     * @throws UnableToCreateEndpointException
      */
     protected abstract function getCachingEndpoint(string $name, string $version): CachingEndpoint;
 }

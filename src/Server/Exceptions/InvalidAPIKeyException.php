@@ -6,7 +6,7 @@ namespace LunixREST\Server\Exceptions;
  * Class InvalidAPIKeyException
  * @package LunixREST\Server\Exceptions
  */
-class InvalidAPIKeyException extends \Exception
+class InvalidAPIKeyException extends UnableToHandleRequestException
 {
 
 }

@@ -145,7 +145,7 @@ class HTTPServerTest extends \PHPUnit\Framework\TestCase
         $mockedServer = $this->getMockBuilder('\LunixREST\Server\Server')->getMock();
 
         $mockedRequestFactory = $this->getMockBuilder('\LunixREST\RequestFactory\RequestFactory')->getMock();
-        $mockedRequestFactory->method('create')->willThrowException($exception);;
+        $mockedRequestFactory->method('create')->willThrowException($exception);
 
         $httpServer = new HTTPServer($mockedServer, $mockedRequestFactory, new NullLogger());
 

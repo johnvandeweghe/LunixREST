@@ -2,6 +2,7 @@
 namespace LunixREST\Server\Router\EndpointFactory;
 
 use LunixREST\Server\Router\Endpoint\Endpoint;
+use LunixREST\Server\Router\EndpointFactory\Exceptions\UnableToCreateEndpointException;
 use LunixREST\Server\Router\EndpointFactory\Exceptions\UnknownEndpointException;
 
 
@@ -34,6 +35,7 @@ class RegisteredEndpointFactory implements EndpointFactory
      * @param string $name
      * @param string $version
      * @return Endpoint
+     * @throws UnableToCreateEndpointException
      * @throws UnknownEndpointException
      */
     public function getEndpoint(string $name, string $version): Endpoint

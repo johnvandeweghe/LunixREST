@@ -6,7 +6,7 @@ namespace LunixREST\Server\Router\Endpoint\Exceptions;
  * Class InvalidRequestException
  * @package LunixREST\Server\Router\Endpoint\Exceptions
  */
-class InvalidRequestException extends \Exception
+class InvalidRequestException extends EndpointExecutionException
 {
 
 }

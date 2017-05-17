@@ -1,6 +1,8 @@
 <?php
 namespace LunixREST\RequestFactory\HeaderParser;
 
+use LunixREST\RequestFactory\HeaderParser\Exceptions\UnableToParseHeadersException;
+
 /**
  * Parse out all the common headers from a request.
  * Class DefaultHeaderParser
@@ -26,6 +28,7 @@ class DefaultHeaderParser implements HeaderParser
     /**
      * @param array $headers
      * @return ParsedHeaders
+     * @throws UnableToParseHeadersException
      */
     public function parse(array $headers): ParsedHeaders
     {

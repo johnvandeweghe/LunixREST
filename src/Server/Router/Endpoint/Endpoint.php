@@ -1,10 +1,7 @@
 <?php
 namespace LunixREST\Server\Router\Endpoint;
 
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
-use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
-use LunixREST\Server\Router\Endpoint\Exceptions\UnsupportedMethodException;
+use LunixREST\Server\Router\Endpoint\Exceptions\EndpointExecutionException;
 use LunixREST\Server\APIRequest\APIRequest;
 use LunixREST\Server\APIResponse\APIResponseData;
 
@@ -19,108 +16,84 @@ interface Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
+     * @throws EndpointExecutionException
      */
     public function get(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws InvalidRequestException
+     * @throws EndpointExecutionException
      */
     public function getAll(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     public function post(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     public function postAll(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     public function put(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     public function putAll(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     public function patch(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     public function patchAll(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
+     * @throws EndpointExecutionException
      */
     public function options(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws InvalidRequestException
+     * @throws EndpointExecutionException
      */
     public function optionsAll(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
+     * @throws EndpointExecutionException
      */
     public function delete(APIRequest $request): APIResponseData;
 
     /**
      * @param APIRequest $request
      * @return APIResponseData
-     * @throws UnsupportedMethodException
-     * @throws InvalidRequestException
+     * @throws EndpointExecutionException
      */
     public function deleteAll(APIRequest $request): APIResponseData;
 }

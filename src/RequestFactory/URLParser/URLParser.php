@@ -2,6 +2,7 @@
 namespace LunixREST\RequestFactory\URLParser;
 
 use LunixREST\RequestFactory\URLParser\Exceptions\InvalidRequestURLException;
+use LunixREST\RequestFactory\URLParser\Exceptions\UnableToParseURLException;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -15,7 +16,7 @@ interface URLParser
      * Parses API request data out of a url
      * @param UriInterface $uri
      * @return ParsedURL
-     * @throws InvalidRequestURLException
+     * @throws UnableToParseURLException
      */
     public function parse(UriInterface $uri): ParsedURL;
 }

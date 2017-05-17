@@ -6,7 +6,7 @@ namespace LunixREST\Server\Router\Endpoint\Exceptions;
  * Class UnsupportedMethodException
  * @package LunixREST\Server\Router\Endpoint\Exceptions
  */
-class UnsupportedMethodException extends \Exception
+class UnsupportedMethodException extends EndpointExecutionException
 {
 
 }

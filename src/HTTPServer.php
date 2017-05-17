@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST;
 
+use LunixREST\RequestFactory\Exceptions\UnableToCreateRequestException;
 use LunixREST\Server\APIRequest\APIRequest;
 use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
@@ -66,7 +67,7 @@ class HTTPServer
             $APIRequest = $this->requestFactory->create($serverRequest);
 
             return $this->handleAPIRequest($APIRequest, $response);
-        } catch (InvalidRequestURLException $e) {
+        } catch (UnableToCreateRequestException $e) {
             $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::INFO);
             return $response->withStatus(400, "Bad Request");
         } catch (\Throwable $e) {
@@ -119,7 +120,8 @@ class HTTPServer
      * Dumps a PSR-7 ResponseInterface to the SAPI.
      * @param ResponseInterface $response
      */
-    public static function dumpResponse(ResponseInterface $response) {
+    public static function dumpResponse(ResponseInterface $response)
+    {
         $statusLine = sprintf(
             "HTTP/%s %d %s",
             $response->getProtocolVersion(),

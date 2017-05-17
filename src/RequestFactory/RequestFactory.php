@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\RequestFactory;
 
-use LunixREST\RequestFactory\URLParser\Exceptions\InvalidRequestURLException;
+use LunixREST\RequestFactory\Exceptions\UnableToCreateRequestException;
 use LunixREST\Server\APIRequest\APIRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -15,7 +15,7 @@ interface RequestFactory {
      * Creates a request from raw $data and a $url
      * @param ServerRequestInterface $serverRequest
      * @return APIRequest
-     * @throws InvalidRequestURLException
+     * @throws UnableToCreateRequestException
      */
     public function create(ServerRequestInterface $serverRequest): APIRequest;
 }

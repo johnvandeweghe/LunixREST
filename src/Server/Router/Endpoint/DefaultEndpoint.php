@@ -3,6 +3,7 @@ namespace LunixREST\Server\Router\Endpoint;
 
 use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
 use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
+use LunixREST\Server\Router\Endpoint\Exceptions\EndpointExecutionException;
 use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Server\Router\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\Server\APIRequest\APIRequest;
@@ -18,6 +19,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
@@ -30,6 +32,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
      */
@@ -41,6 +44,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
@@ -54,6 +58,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
      * @throws ElementConflictException
@@ -66,6 +71,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
@@ -79,6 +85,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
      * @throws ElementConflictException
@@ -91,6 +98,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
@@ -104,6 +112,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
      * @throws ElementConflictException
@@ -116,6 +125,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
@@ -128,6 +138,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
      */
@@ -139,6 +150,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException
      * @throws InvalidRequestException
@@ -151,6 +163,7 @@ class DefaultEndpoint implements Endpoint
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws InvalidRequestException
      */

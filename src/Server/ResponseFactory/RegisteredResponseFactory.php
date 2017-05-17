@@ -4,6 +4,8 @@ namespace LunixREST\Server\ResponseFactory;
 use LunixREST\Server\APIResponse\APIResponse;
 use LunixREST\Server\APIResponse\APIResponseData;
 use LunixREST\Server\ResponseFactory\Exceptions\NotAcceptableResponseTypeException;
+use LunixREST\Server\ResponseFactory\Exceptions\UnableToCreateAPIResponseException;
+use LunixREST\Server\ResponseFactory\Exceptions\UnableToSerializeResponseDataException;
 
 
 /**
@@ -44,6 +46,8 @@ class RegisteredResponseFactory implements ResponseFactory
      * @param APIResponseData $data
      * @param array $acceptedMIMETypes
      * @return APIResponse
+     * @throws UnableToCreateAPIResponseException
+     * @throws UnableToSerializeResponseDataException
      * @throws NotAcceptableResponseTypeException
      */
     public function getResponse(APIResponseData $data, array $acceptedMIMETypes): APIResponse

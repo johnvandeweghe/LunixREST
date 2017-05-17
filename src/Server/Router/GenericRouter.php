@@ -3,12 +3,12 @@ namespace LunixREST\Server\Router;
 
 use LunixREST\Server\Router\Endpoint\Endpoint;
 use LunixREST\Server\APIRequest\APIRequest;
+use LunixREST\Server\Router\Endpoint\Exceptions\EndpointExecutionException;
 use LunixREST\Server\Router\EndpointFactory\EndpointFactory;
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
-use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
 use LunixREST\Server\APIResponse\APIResponseData;
+use LunixREST\Server\Router\EndpointFactory\Exceptions\UnableToCreateEndpointException;
 use LunixREST\Server\Router\Exceptions\MethodNotFoundException;
+use LunixREST\Server\Router\Exceptions\UnableToRouteRequestException;
 
 /**
  * An implementation of a Router that uses an EndpointFactory to find an Endpoint. Maps methods based on the get/getAll pattern.
@@ -34,10 +34,10 @@ class GenericRouter implements Router
     /**
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws UnableToRouteRequestException
+     * @throws UnableToCreateEndpointException
      * @throws MethodNotFoundException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     public function route(APIRequest $request): APIResponseData
     {
@@ -49,10 +49,9 @@ class GenericRouter implements Router
      * @param Endpoint $endpoint
      * @param APIRequest $request
      * @return APIResponseData
+     * @throws UnableToRouteRequestException
      * @throws MethodNotFoundException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
+     * @throws EndpointExecutionException
      */
     protected function executeEndpoint(Endpoint $endpoint, APIRequest $request): APIResponseData
     {

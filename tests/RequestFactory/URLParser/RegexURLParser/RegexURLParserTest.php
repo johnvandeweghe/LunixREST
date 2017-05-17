@@ -102,7 +102,7 @@ class RegexURLParserTest extends TestCase
         $mockedURI->method('getPath')->willReturn($url);
         $urlParser = new RegexURLParser($regex);
 
-        $this->expectException('\LunixREST\RequestFactory\URLParser\Exceptions\InvalidRequestURLException');
+        $this->expectException('\LunixREST\RequestFactory\URLParser\Exceptions\UnableToParseURLException');
 
         $urlParser->parse($mockedURI);
     }
@@ -119,7 +119,7 @@ class RegexURLParserTest extends TestCase
             ->willThrowException(new UnableToProvideMIMEException());
         $urlParser = new RegexURLParser($regex, $mockedMimeProvider);
 
-        $this->expectException('\LunixREST\RequestFactory\URLParser\Exceptions\InvalidRequestURLException');
+        $this->expectException('\LunixREST\RequestFactory\URLParser\Exceptions\UnableToParseURLException');
 
         $urlParser->parse($mockedURI);
     }

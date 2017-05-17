@@ -1,6 +1,7 @@
 <?php
 namespace LunixREST\RequestFactory\URLParser\RegexURLParser;
 
+use LunixREST\RequestFactory\URLParser\Exceptions\UnableToParseURLException;
 use LunixREST\RequestFactory\URLParser\Exceptions\UnableToProvideMIMEException;
 use LunixREST\RequestFactory\URLParser\MIMEProvider;
 use LunixREST\RequestFactory\URLParser\ParsedURL;
@@ -46,6 +47,7 @@ class RegexURLParser implements URLParser
      * Parses API request data out of a url
      * @param UriInterface $uri
      * @return ParsedURL
+     * @throws UnableToParseURLException
      * @throws InvalidRequestURLException
      */
     public function parse(UriInterface $uri): ParsedURL
@@ -64,12 +66,12 @@ class RegexURLParser implements URLParser
         $acceptableMimeTypes = [];
         if(($acceptableExtension = $matches["acceptableExtension"] ?? null)) {
             if(!$this->MIMEProvider) {
-                throw new InvalidRequestURLException("Unable to accept acceptable extensions");
+                throw new UnableToParseURLException("Unable to accept acceptable extensions");
             } else {
                 try {
                     $acceptableMimeTypes[] = $this->MIMEProvider->provideMIME($acceptableExtension);
                 } catch (UnableToProvideMIMEException $exception) {
-                    throw new InvalidRequestURLException($exception->getMessage());
+                    throw new UnableToParseURLException($exception->getMessage());
                 }
             }
         }

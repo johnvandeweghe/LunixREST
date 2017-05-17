@@ -6,7 +6,7 @@ namespace LunixREST\Server\Exceptions;
  * Class ThrottleLimitExceededException
  * @package LunixREST\Server\Exceptions
  */
-class ThrottleLimitExceededException extends \Exception
+class ThrottleLimitExceededException extends UnableToHandleRequestException
 {
 
 }

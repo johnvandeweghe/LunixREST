@@ -3,6 +3,7 @@ namespace LunixREST\Server\Router\EndpointFactory;
 
 use LunixREST\Server\Router\Endpoint\Endpoint;
 use LunixREST\Server\Router\Endpoint\LoggingEndpoint;
+use LunixREST\Server\Router\EndpointFactory\Exceptions\UnableToCreateEndpointException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -30,6 +31,7 @@ abstract class LoggingEndpointFactory implements EndpointFactory
      * @param string $name
      * @param string $version
      * @return Endpoint
+     * @throws UnableToCreateEndpointException
      */
     public function getEndpoint(string $name, string $version): Endpoint
     {
@@ -42,6 +44,7 @@ abstract class LoggingEndpointFactory implements EndpointFactory
      * @param string $name
      * @param string $version
      * @return LoggingEndpoint
+     * @throws UnableToCreateEndpointException
      */
     protected abstract function getLoggingEndpoint(string $name, string $version): LoggingEndpoint;
 }

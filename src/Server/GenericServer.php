@@ -2,18 +2,16 @@
 namespace LunixREST\Server;
 
 use LunixREST\Server\AccessControl\AccessControl;
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
-use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
-use LunixREST\Server\Router\EndpointFactory\Exceptions\UnknownEndpointException;
+use LunixREST\Server\Exceptions\UnableToHandleRequestException;
+use LunixREST\Server\ResponseFactory\Exceptions\UnableToCreateAPIResponseException;
 use LunixREST\Server\APIRequest\APIRequest;
 use LunixREST\Server\APIResponse\APIResponse;
 use LunixREST\Server\Exceptions\AccessDeniedException;
 use LunixREST\Server\Exceptions\InvalidAPIKeyException;
-use LunixREST\Server\Router\Exceptions\MethodNotFoundException;
 use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
 use LunixREST\Server\ResponseFactory\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Server\ResponseFactory\ResponseFactory;
+use LunixREST\Server\Router\Exceptions\UnableToRouteRequestException;
 use LunixREST\Server\Router\Router;
 use LunixREST\Server\Throttle\Throttle;
 
@@ -62,15 +60,13 @@ class GenericServer implements Server
     /**
      * @param APIRequest $request
      * @return APIResponse
+     * @throws UnableToHandleRequestException
      * @throws InvalidAPIKeyException
-     * @throws AccessDeniedException
      * @throws ThrottleLimitExceededException
-     * @throws UnknownEndpointException
-     * @throws ElementNotFoundException
-     * @throws InvalidRequestException
-     * @throws ElementConflictException
-     * @throws MethodNotFoundException
      * @throws NotAcceptableResponseTypeException
+     * @throws AccessDeniedException
+     * @throws UnableToRouteRequestException
+     * @throws UnableToCreateAPIResponseException
      */
     public function handleRequest(APIRequest $request): APIResponse
     {

@@ -6,7 +6,7 @@ namespace LunixREST\Server\Router\Endpoint\Exceptions;
  * Class ElementConflictException
  * @package LunixREST\Server\Router\Endpoint\Exceptions
  */
-class ElementConflictException extends \Exception
+class ElementConflictException extends EndpointExecutionException
 {
 
 }

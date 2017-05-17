@@ -6,7 +6,7 @@ namespace LunixREST\Server\Router\Endpoint\Exceptions;
  * Class ElementNotFoundException
  * @package LunixREST\Server\Router\Endpoint\Exceptions
  */
-class ElementNotFoundException extends \Exception
+class ElementNotFoundException extends EndpointExecutionException
 {
 
 }

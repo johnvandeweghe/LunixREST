@@ -1,8 +1,10 @@
 <?php
 namespace LunixREST\RequestFactory;
 
+use LunixREST\RequestFactory\Exceptions\UnableToCreateRequestException;
+use LunixREST\RequestFactory\HeaderParser\Exceptions\UnableToParseHeadersException;
 use LunixREST\RequestFactory\HeaderParser\HeaderParser;
-use LunixREST\RequestFactory\URLParser\Exceptions\InvalidRequestURLException;
+use LunixREST\RequestFactory\URLParser\Exceptions\UnableToParseURLException;
 use LunixREST\RequestFactory\URLParser\URLParser;
 use LunixREST\Server\APIRequest\APIRequest;
 use Psr\Http\Message\ServerRequestInterface;
@@ -38,7 +40,9 @@ class GenericRequestFactory implements RequestFactory {
      * Creates a request from raw $data and a $url
      * @param ServerRequestInterface $serverRequest
      * @return APIRequest
-     * @throws InvalidRequestURLException
+     * @throws UnableToCreateRequestException
+     * @throws UnableToParseHeadersException
+     * @throws UnableToParseURLException
      */
     public function create(ServerRequestInterface $serverRequest): APIRequest
     {

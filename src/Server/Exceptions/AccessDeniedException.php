@@ -6,7 +6,7 @@ namespace LunixREST\Server\Exceptions;
  * Class AccessDeniedException
  * @package LunixREST\Server\Exceptions
  */
-class AccessDeniedException extends \Exception
+class AccessDeniedException extends UnableToHandleRequestException
 {
 
 }
