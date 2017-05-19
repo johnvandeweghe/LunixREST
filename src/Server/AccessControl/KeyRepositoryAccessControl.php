@@ -1,7 +1,7 @@
 <?php
 namespace LunixREST\Server\AccessControl;
 
-use LunixREST\AccessControl\KeyRepository\KeyRepository;
+use LunixREST\Server\AccessControl\KeyRepository\KeyRepository;
 
 /**
  * An access control that relies on a key repository. Any keys in the repository are valid.

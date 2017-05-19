@@ -1,9 +1,9 @@
 <?php
-namespace LunixREST\AccessControl\KeyRepository;
+namespace LunixREST\Server\AccessControl\KeyRepository;
 
 /**
  * Class KeyMeta
- * @package LunixREST\AccessControl\KeyRepository
+ * @package LunixREST\Server\AccessControl\KeyRepository
  */
 class KeyMeta {
     /**

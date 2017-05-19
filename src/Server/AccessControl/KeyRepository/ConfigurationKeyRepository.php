@@ -1,8 +1,13 @@
 <?php
-namespace LunixREST\AccessControl\KeyRepository;
+namespace LunixREST\Server\AccessControl\KeyRepository;
 
 use LunixREST\Configuration\Configuration;
 
+/**
+ * An array key repository that is read from a configuration key.
+ * Class ConfigurationKeyRepository
+ * @package LunixREST\Server\AccessControl\KeyRepository
+ */
 class ConfigurationKeyRepository extends ArrayKeyRepository
 {
     /**

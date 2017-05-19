@@ -1,8 +1,13 @@
 <?php
-namespace LunixREST\AccessControl\KeyRepository;
+namespace LunixREST\Server\AccessControl\KeyRepository;
 
-use LunixREST\AccessControl\KeyRepository\Exceptions\UnableToFindKeyException;
+use LunixREST\Server\AccessControl\KeyRepository\Exceptions\UnableToFindKeyException;
 
+/**
+ * A key repository based on a provided array.
+ * Class ArrayKeyRepository
+ * @package LunixREST\Server\AccessControl\KeyRepository
+ */
 class ArrayKeyRepository implements KeyRepository
 {
     /**

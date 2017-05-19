@@ -1,11 +1,11 @@
 <?php
-namespace LunixREST\AccessControl\KeyRepository;
+namespace LunixREST\Server\AccessControl\KeyRepository;
 
-use LunixREST\AccessControl\KeyRepository\Exceptions\UnableToFindKeyException;
+use LunixREST\Server\AccessControl\KeyRepository\Exceptions\UnableToFindKeyException;
 
 /**
  * Interface KeyRepository
- * @package LunixREST\AccessControl\KeyRepository
+ * @package LunixREST\ServerAccessControl\KeyRepository
  */
 interface KeyRepository {
     /**
