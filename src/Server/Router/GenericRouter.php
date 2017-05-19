@@ -3,7 +3,11 @@ namespace LunixREST\Server\Router;
 
 use LunixREST\Server\Router\Endpoint\Endpoint;
 use LunixREST\Server\APIRequest\APIRequest;
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Server\Router\Endpoint\Exceptions\EndpointExecutionException;
+use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
+use LunixREST\Server\Router\Endpoint\Exceptions\UnsupportedMethodException;
 use LunixREST\Server\Router\EndpointFactory\EndpointFactory;
 use LunixREST\Server\APIResponse\APIResponseData;
 use LunixREST\Server\Router\EndpointFactory\Exceptions\UnableToCreateEndpointException;
@@ -38,6 +42,10 @@ class GenericRouter implements Router
      * @throws UnableToCreateEndpointException
      * @throws MethodNotFoundException
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function route(APIRequest $request): APIResponseData
     {
@@ -52,6 +60,10 @@ class GenericRouter implements Router
      * @throws UnableToRouteRequestException
      * @throws MethodNotFoundException
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     protected function executeEndpoint(Endpoint $endpoint, APIRequest $request): APIResponseData
     {

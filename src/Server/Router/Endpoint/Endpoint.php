@@ -1,9 +1,13 @@
 <?php
 namespace LunixREST\Server\Router\Endpoint;
 
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
+use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
 use LunixREST\Server\Router\Endpoint\Exceptions\EndpointExecutionException;
 use LunixREST\Server\APIRequest\APIRequest;
 use LunixREST\Server\APIResponse\APIResponseData;
+use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
+use LunixREST\Server\Router\Endpoint\Exceptions\UnsupportedMethodException;
 
 /**
  * An interface that defines different request types as methods, and returns APIResponse Data.
@@ -17,6 +21,9 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
      */
     public function get(APIRequest $request): APIResponseData;
 
@@ -24,6 +31,8 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws InvalidRequestException
      */
     public function getAll(APIRequest $request): APIResponseData;
 
@@ -31,6 +40,10 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function post(APIRequest $request): APIResponseData;
 
@@ -38,6 +51,9 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function postAll(APIRequest $request): APIResponseData;
 
@@ -45,6 +61,10 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function put(APIRequest $request): APIResponseData;
 
@@ -52,6 +72,9 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function putAll(APIRequest $request): APIResponseData;
 
@@ -59,6 +82,10 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function patch(APIRequest $request): APIResponseData;
 
@@ -66,6 +93,9 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws InvalidRequestException
+     * @throws ElementConflictException
      */
     public function patchAll(APIRequest $request): APIResponseData;
 
@@ -73,6 +103,9 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
      */
     public function options(APIRequest $request): APIResponseData;
 
@@ -80,6 +113,8 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws InvalidRequestException
      */
     public function optionsAll(APIRequest $request): APIResponseData;
 
@@ -87,6 +122,9 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws ElementNotFoundException
+     * @throws InvalidRequestException
      */
     public function delete(APIRequest $request): APIResponseData;
 
@@ -94,6 +132,8 @@ interface Endpoint
      * @param APIRequest $request
      * @return APIResponseData
      * @throws EndpointExecutionException
+     * @throws UnsupportedMethodException
+     * @throws InvalidRequestException
      */
     public function deleteAll(APIRequest $request): APIResponseData;
 }
