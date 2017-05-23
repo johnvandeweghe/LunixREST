@@ -2,18 +2,9 @@
 namespace LunixREST;
 
 use LunixREST\RequestFactory\Exceptions\UnableToCreateRequestException;
-use LunixREST\Server\APIRequest\APIRequest;
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementConflictException;
-use LunixREST\Server\Router\Endpoint\Exceptions\ElementNotFoundException;
-use LunixREST\Server\Router\Endpoint\Exceptions\InvalidRequestException;
-use LunixREST\Server\Router\EndpointFactory\Exceptions\UnknownEndpointException;
-use LunixREST\Server\Exceptions\AccessDeniedException;
-use LunixREST\Server\Exceptions\InvalidAPIKeyException;
+use LunixREST\Server\APIResponse\APIResponse;
+use LunixREST\Server\Exceptions\UnableToHandleRequestException;
 use LunixREST\RequestFactory\RequestFactory;
-use LunixREST\RequestFactory\URLParser\Exceptions\InvalidRequestURLException;
-use LunixREST\Server\Router\Exceptions\MethodNotFoundException;
-use LunixREST\Server\Exceptions\ThrottleLimitExceededException;
-use LunixREST\Server\ResponseFactory\Exceptions\NotAcceptableResponseTypeException;
 use LunixREST\Server\Server;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -37,7 +28,7 @@ class HTTPServer
     /**
      * @var RequestFactory
      */
-    private $requestFactory;
+    protected $requestFactory;
 
     /**
      * HTTPServer constructor.
@@ -64,12 +55,19 @@ class HTTPServer
         $response = $response->withProtocolVersion($serverRequest->getProtocolVersion());
 
         try {
-            $APIRequest = $this->requestFactory->create($serverRequest);
+            try {
+                $APIRequest = $this->requestFactory->create($serverRequest);
+            } catch (UnableToCreateRequestException $exception) {
+                return $this->handleRequestFactoryException($exception, $response);
+            }
 
-            return $this->handleAPIRequest($APIRequest, $response);
-        } catch (UnableToCreateRequestException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::INFO);
-            return $response->withStatus(400, "Bad Request");
+            try {
+                $APIResponse = $this->server->handleRequest($APIRequest);
+            } catch (UnableToHandleRequestException $exception) {
+                return $this->handleServerException($exception, $response);
+            }
+
+            return $this->buildResponse($APIResponse, $response);
         } catch (\Throwable $e) {
             $this->logCaughtThrowableResultingInHTTPCode(500, $e, LogLevel::CRITICAL);
             return $response->withStatus(500, "Internal Server Error");
@@ -77,43 +75,40 @@ class HTTPServer
     }
 
     /**
-     * Takes an APIRequest and a ResponseInterface and creates a new ResponseInterface derived from the passed implementation and returns it.
-     * @param APIRequest $APIRequest
+     * Takes an APIResponse and builds a PSR-7 Response
+     * @param APIResponse $APIResponse
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    protected function handleAPIRequest(APIRequest $APIRequest, ResponseInterface $response)
+    protected function buildResponse(APIResponse $APIResponse, ResponseInterface $response): ResponseInterface
     {
-        try {
-            $APIResponse = $this->server->handleRequest($APIRequest);
+        $response = $response->withStatus(200, "200 OK");
+        $response = $response->withAddedHeader("Content-Type", $APIResponse->getMIMEType());
+        $response = $response->withAddedHeader("Content-Length", $APIResponse->getAsDataStream()->getSize());
+        $this->logger->debug("Responding to request successfully");
+        return $response->withBody($APIResponse->getAsDataStream());
+    }
 
-            $response = $response->withStatus(200, "200 OK");
-            $response = $response->withAddedHeader("Content-Type", $APIResponse->getMIMEType());
-            $response = $response->withAddedHeader("Content-Length", $APIResponse->getAsDataStream()->getSize());
-            $this->logger->debug("Responding to request successfully");
-            return $response->withBody($APIResponse->getAsDataStream());
-        } catch (InvalidRequestException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(400, $e, LogLevel::INFO);
-            return $response->withStatus(400, "Bad Request");
-        } catch (UnknownEndpointException | ElementNotFoundException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(404, $e, LogLevel::INFO);
-            return $response->withStatus(404, "Not Found");
-        } catch (NotAcceptableResponseTypeException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(406, $e, LogLevel::INFO);
-            return $response->withStatus(406, "Not Acceptable");
-        } catch (InvalidAPIKeyException | AccessDeniedException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(403, $e, LogLevel::NOTICE);
-            return $response->withStatus(403, "Access Denied");
-        } catch (ElementConflictException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(409, $e, LogLevel::NOTICE);
-            return $response->withStatus(409, "Conflict");
-        } catch (ThrottleLimitExceededException $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(429, $e, LogLevel::WARNING);
-            return $response->withStatus(429, "Too Many Requests");
-        } catch (MethodNotFoundException | \Throwable $e) {
-            $this->logCaughtThrowableResultingInHTTPCode(500, $e, LogLevel::CRITICAL);
-            return $response->withStatus(500, "Internal Server Error");
-        }
+    /**
+     * @param UnableToCreateRequestException $exception
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    protected function handleRequestFactoryException(UnableToCreateRequestException $exception, ResponseInterface $response): ResponseInterface
+    {
+        $this->logCaughtThrowableResultingInHTTPCode(400, $exception, LogLevel::INFO);
+        return $response->withStatus(400, "Bad Request");
+    }
+
+    /**
+     * @param UnableToHandleRequestException $exception
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    protected function handleServerException(UnableToHandleRequestException $exception, ResponseInterface $response): ResponseInterface
+    {
+        $this->logCaughtThrowableResultingInHTTPCode(500, $exception, LogLevel::CRITICAL);
+        return $response->withStatus(500, "Internal Server Error");
     }
 
     /**
@@ -143,6 +138,11 @@ class HTTPServer
         }
     }
 
+    /**
+     * @param int $code
+     * @param \Throwable $exception
+     * @param $level
+     */
     protected function logCaughtThrowableResultingInHTTPCode(int $code, \Throwable $exception, $level): void
     {
         $this->logger->log($level, "Returning HTTP {code}: {message}", ["code" => $code, "message" => $exception->getMessage()]);
