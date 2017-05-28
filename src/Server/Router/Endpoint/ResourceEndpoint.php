@@ -139,7 +139,13 @@ abstract class ResourceEndpoint implements Endpoint
      */
     public function putAll(APIRequest $request): APIResponseData
     {
-        // TODO: Implement putAll() method.
+        $resourceParameters = $this->resourceParametersFactory->createMultipleResourceParameters($request);
+
+        $resources = $this->putResources($resourceParameters);
+
+        return array_map(function(Resource $resource) {
+            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
+        }, $resources);
     }
 
     /**
@@ -174,8 +180,7 @@ abstract class ResourceEndpoint implements Endpoint
      */
     public function patchAll(APIRequest $request): APIResponseData
     {
-        //TODO: Plural?
-        $resourceParameters = $this->resourceParametersFactory->createResourceParameters($request);
+        $resourceParameters = $this->resourceParametersFactory->createMultipleResourceParameters($request);
 
         $resources = $this->patchResources($resourceParameters);
 
@@ -214,7 +219,13 @@ abstract class ResourceEndpoint implements Endpoint
      */
     public function optionsAll(APIRequest $request): APIResponseData
     {
-        // TODO: Implement optionsAll() method.
+        $resourceParameters = $this->resourceParametersFactory->createMultipleResourceParameters($request);
+
+        $resources = $this->optionsResources($resourceParameters);
+
+        return array_map(function(Resource $resource) {
+            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
+        }, $resources);
     }
 
     /**
@@ -247,7 +258,13 @@ abstract class ResourceEndpoint implements Endpoint
      */
     public function deleteAll(APIRequest $request): APIResponseData
     {
-        // TODO: Implement deleteAll() method.
+        $resourceParameters = $this->resourceParametersFactory->createResourceParameters($request);
+
+        $resources = $this->deleteResources($resourceParameters);
+
+        return $resources ? array_map(function(Resource $resource) {
+            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
+        }, $resources) : $this->resourceAPIResponseDataFactory->toAPIResponseData(null);
     }
 
     /**
@@ -354,7 +371,7 @@ abstract class ResourceEndpoint implements Endpoint
 
     /**
      * @param ResourceParameters $parameters
-     * @return Resource[]|Resource
+     * @return Resource|null
      * @throws EndpointExecutionException
      * @throws UnsupportedMethodException
      * @throws ElementNotFoundException

@@ -15,5 +15,5 @@ interface ResourceAPIResponseDataFactory {
      * @return APIResponseData
      * @throws UnableToCreateAPIResponseDataException
      */
-    public function toAPIResponseData(Resource $resource): APIResponseData;
+    public function toAPIResponseData(?Resource $resource): APIResponseData;
 }
