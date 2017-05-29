@@ -13,6 +13,7 @@ use LunixREST\Server\Router\Endpoint\ResourceEndpoint\Exceptions\UnableToCreateR
 use LunixREST\Server\Router\Endpoint\ResourceEndpoint\ResourceAPIResponseDataFactory;
 use LunixREST\Server\Router\Endpoint\ResourceEndpoint\ResourceParameters;
 use LunixREST\Server\Router\Endpoint\ResourceEndpoint\ResourceParametersFactory;
+use LunixREST\Server\Router\Endpoint\ResourceEndpoint\Resource;
 
 /**
  * Class ResourceEndpoint
@@ -28,6 +29,20 @@ abstract class ResourceEndpoint implements Endpoint
      * @var ResourceAPIResponseDataFactory
      */
     protected $resourceAPIResponseDataFactory;
+
+    /**
+     * ResourceEndpoint constructor.
+     * @param ResourceParametersFactory $parametersFactory
+     * @param ResourceAPIResponseDataFactory $APIResponseDataFactory
+     */
+    public function __construct(
+        ResourceParametersFactory $parametersFactory,
+        ResourceAPIResponseDataFactory $APIResponseDataFactory
+    )
+    {
+        $this->resourceParametersFactory = $parametersFactory;
+        $this->resourceAPIResponseDataFactory = $APIResponseDataFactory;
+    }
 
     /**
      * @param APIRequest $request
@@ -63,9 +78,7 @@ abstract class ResourceEndpoint implements Endpoint
 
         $resources = $this->getResources($resourceParameters);
 
-        return array_map(function(Resource $resource) {
-            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
-        }, $resources);
+        return $this->resourceAPIResponseDataFactory->multipleToAPIResponseData($resources);
     }
 
     /**
@@ -143,9 +156,7 @@ abstract class ResourceEndpoint implements Endpoint
 
         $resources = $this->putResources($resourceParameters);
 
-        return array_map(function(Resource $resource) {
-            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
-        }, $resources);
+        return $this->resourceAPIResponseDataFactory->multipleToAPIResponseData($resources);
     }
 
     /**
@@ -184,9 +195,7 @@ abstract class ResourceEndpoint implements Endpoint
 
         $resources = $this->patchResources($resourceParameters);
 
-        return array_map(function(Resource $resource) {
-            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
-        }, $resources);
+        return $this->resourceAPIResponseDataFactory->multipleToAPIResponseData($resources);
     }
 
     /**
@@ -223,9 +232,7 @@ abstract class ResourceEndpoint implements Endpoint
 
         $resources = $this->optionsResources($resourceParameters);
 
-        return array_map(function(Resource $resource) {
-            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
-        }, $resources);
+        return $this->resourceAPIResponseDataFactory->multipleToAPIResponseData($resources);
     }
 
     /**
@@ -262,9 +269,7 @@ abstract class ResourceEndpoint implements Endpoint
 
         $resources = $this->deleteResources($resourceParameters);
 
-        return $resources ? array_map(function(Resource $resource) {
-            return $this->resourceAPIResponseDataFactory->toAPIResponseData($resource);
-        }, $resources) : $this->resourceAPIResponseDataFactory->toAPIResponseData(null);
+        return $this->resourceAPIResponseDataFactory->multipleToAPIResponseData($resources);
     }
 
     /**

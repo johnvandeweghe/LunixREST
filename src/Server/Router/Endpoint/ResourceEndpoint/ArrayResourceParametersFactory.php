@@ -14,12 +14,15 @@ abstract class ArrayResourceParametersFactory implements ResourceParametersFacto
     /**
      * @param APIRequest $request
      * @return ResourceParameters
+     * @throws UnableToCreateResourceParametersException
      */
     public function createResourceParameters(APIRequest $request): ResourceParameters
     {
-        self::checkRequestDataIsArray($request);
+        $requestData = $request->getData() ?? [];
 
-        $data = array_merge($request->getQueryData(), $request->getData());
+        self::checkRequestDataIsArray($requestData);
+
+        $data = array_merge($request->getQueryData(), $requestData);
 
         return $this->createResourceParametersFromArray($data);
     }
@@ -27,27 +30,30 @@ abstract class ArrayResourceParametersFactory implements ResourceParametersFacto
     /**
      * @param APIRequest $request
      * @return ResourceParameters[]
+     * @throws UnableToCreateResourceParametersException
      */
     public function createMultipleResourceParameters(APIRequest $request): array
     {
-        self::checkRequestDataIsArray($request);
+        $requestData = $request->getData() ?? [];
+
+        self::checkRequestDataIsArray($requestData);
 
         $queryData = $request->getQueryData();
 
         return array_map(function($data) use ($queryData) {
             $data = array_merge($queryData, $data);
             return $this->createResourceParametersFromArray($data);
-        }, $request->getData());
+        }, $requestData);
     }
 
     /**
-     * @param APIRequest $request
+     * @param array|object|null $requestData
      * @throws UnableToCreateResourceParametersException
      */
-    private static function checkRequestDataIsArray(APIRequest $request): void
+    private static function checkRequestDataIsArray($requestData): void
     {
-        if(!is_array($request->getData())) {
-            throw new UnableToCreateResourceParametersException("Unable to read request as array");
+        if(!is_array($requestData)) {
+            throw new UnableToCreateResourceParametersException("Unable to read request as array or null");
         }
     }
 
