@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
  * An EndpointFactory implementation that sets the LoggerInterface on LoggingEndpoints.
  * Class LoggingEndpointFactory
  * @package LunixREST\Server\Router\EndpointFactory
+ * @deprecated in favor of injecting the LoggerInterface manually in EndpointFactories. This adds no additional value.
  */
 abstract class LoggingEndpointFactory implements EndpointFactory
 {

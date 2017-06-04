@@ -19,12 +19,13 @@ abstract class ArrayResourceParametersFactory implements ResourceParametersFacto
     public function createResourceParameters(APIRequest $request): ResourceParameters
     {
         $requestData = $request->getData() ?? [];
+        $requestElement = $request->getElement();
 
         self::checkRequestDataIsArray($requestData);
 
         $data = array_merge($request->getQueryData(), $requestData);
 
-        return $this->createResourceParametersFromArray($data);
+        return $this->createResourceParametersFromArray($requestElement, $data);
     }
 
     /**
@@ -35,14 +36,15 @@ abstract class ArrayResourceParametersFactory implements ResourceParametersFacto
     public function createMultipleResourceParameters(APIRequest $request): array
     {
         $requestData = $request->getData() ?? [];
+        $requestElement = $request->getElement();
 
         self::checkRequestDataIsArray($requestData);
 
         $queryData = $request->getQueryData();
 
-        return array_map(function($data) use ($queryData) {
+        return array_map(function($data) use ($queryData, $requestElement) {
             $data = array_merge($queryData, $data);
-            return $this->createResourceParametersFromArray($data);
+            return $this->createResourceParametersFromArray($requestElement, $data);
         }, $requestData);
     }
 
@@ -58,9 +60,10 @@ abstract class ArrayResourceParametersFactory implements ResourceParametersFacto
     }
 
     /**
+     * @param string $element
      * @param array $data
      * @return ResourceParameters
      */
-    abstract protected function createResourceParametersFromArray(array $data): ResourceParameters;
+    abstract protected function createResourceParametersFromArray($element, array $data): ResourceParameters;
 
 }

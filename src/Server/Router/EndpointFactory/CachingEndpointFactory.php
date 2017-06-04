@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
  * An EndpointFactory that extends LoggingEndpointFactory, using a CachingEndpoint by setting a CachePoolInterface on the Endpoint.
  * Class CachingEndpointFactory
  * @package LunixREST\Server\Router\EndpointFactory
+ * @deprecated in favor of injecting the CacheItemPoolInterface manually in EndpointFactories. This adds no additional value.
  */
 abstract class CachingEndpointFactory extends LoggingEndpointFactory
 {

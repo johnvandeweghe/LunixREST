@@ -24,6 +24,7 @@ class ArrayResourceParametersFactoryTest extends TestCase
     {
         $requestData = ["b" => "c"];
         $queryData = ["a" => "b"];
+        $element = "123";
         $expectedData = [
             "a" => "b",
             "b" => "c"
@@ -34,8 +35,9 @@ class ArrayResourceParametersFactoryTest extends TestCase
             ->disableOriginalConstructor()->getMock();
         $request->method('getData')->willReturn($requestData);
         $request->method('getQueryData')->willReturn($queryData);
+        $request->method('getElement')->willReturn($element);
 
-        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($expectedData);
+        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($element, $expectedData);
 
         /** @var ResourceParametersFactory $paramsFactory */
         $paramsFactory->createResourceParameters($request);
@@ -45,6 +47,7 @@ class ArrayResourceParametersFactoryTest extends TestCase
     {
         $requestData = ["b" => "c"];
         $queryData = ["b" => "b"];
+        $element = "123";
         $expectedData = [
             "b" => "c"
         ];
@@ -54,8 +57,9 @@ class ArrayResourceParametersFactoryTest extends TestCase
             ->disableOriginalConstructor()->getMock();
         $request->method('getData')->willReturn($requestData);
         $request->method('getQueryData')->willReturn($queryData);
+        $request->method('getElement')->willReturn($element);
 
-        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($expectedData);
+        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($element, $expectedData);
 
         /** @var ResourceParametersFactory $paramsFactory */
         $paramsFactory->createResourceParameters($request);
@@ -65,6 +69,7 @@ class ArrayResourceParametersFactoryTest extends TestCase
     {
         $requestData = null;
         $queryData = ["b" => "b"];
+        $element = "123";
         $expectedData = [
             "b" => "b"
         ];
@@ -74,8 +79,9 @@ class ArrayResourceParametersFactoryTest extends TestCase
             ->disableOriginalConstructor()->getMock();
         $request->method('getData')->willReturn($requestData);
         $request->method('getQueryData')->willReturn($queryData);
+        $request->method('getElement')->willReturn($element);
 
-        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($expectedData);
+        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($element, $expectedData);
 
         /** @var ResourceParametersFactory $paramsFactory */
         $paramsFactory->createResourceParameters($request);
@@ -119,6 +125,7 @@ class ArrayResourceParametersFactoryTest extends TestCase
     {
         $requestData = [["b" => "c"]];
         $queryData = ["a" => "b"];
+        $element = "123";
         $expectedData = [
             "a" => "b",
             "b" => "c"
@@ -129,8 +136,9 @@ class ArrayResourceParametersFactoryTest extends TestCase
             ->disableOriginalConstructor()->getMock();
         $request->method('getData')->willReturn($requestData);
         $request->method('getQueryData')->willReturn($queryData);
+        $request->method('getElement')->willReturn($element);
 
-        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($expectedData);
+        $paramsFactory->expects($this->once())->method('createResourceParametersFromArray')->with($element, $expectedData);
 
         /** @var ResourceParametersFactory $paramsFactory */
         $paramsFactory->createMultipleResourceParameters($request);
@@ -140,6 +148,7 @@ class ArrayResourceParametersFactoryTest extends TestCase
     {
         $requestData = [["b" => "c"], ["d" => "e"]];
         $queryData = ["a" => "b"];
+        $element = "123";
         $expectedData = [
             "a" => "b",
             "b" => "c"
@@ -154,11 +163,12 @@ class ArrayResourceParametersFactoryTest extends TestCase
             ->disableOriginalConstructor()->getMock();
         $request->method('getData')->willReturn($requestData);
         $request->method('getQueryData')->willReturn($queryData);
+        $request->method('getElement')->willReturn($element);
 
         $paramsFactory->expects($this->at(0))->method('createResourceParametersFromArray')
-            ->with($expectedData);
+            ->with($element, $expectedData);
         $paramsFactory->expects($this->at(1))->method('createResourceParametersFromArray')
-            ->with($expectedData2);
+            ->with($element, $expectedData2);
 
         /** @var ResourceParametersFactory $paramsFactory */
         $paramsFactory->createMultipleResourceParameters($request);
